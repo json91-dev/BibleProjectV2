@@ -9,7 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 
-import {getItemFromAsync, setItemToAsync} from '/utils';
+import {getItemFromAsync, setItemToAsync} from '../utils';
 import Toast from 'react-native-easy-toast';
 /**
  * 60분 내외 : n분전
@@ -327,7 +327,7 @@ export default class BibleNoteOption extends Component {
             <View style={styles.headerRightImageWrapper}>
               <Image
                 style={styles.headerRightImage}
-                source={require('/assets/ic_close.png')}
+                source={require('../assets/ic_close.png')}
               />
             </View>
           </TouchableOpacity>

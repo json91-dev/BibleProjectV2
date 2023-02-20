@@ -15,9 +15,9 @@ import Toast, {DURATION} from 'react-native-easy-toast';
 import BibleListOption from '../screen/main/biblescreen/components/biblelistOption/BibleListOption';
 import BibleNoteOption from '../screen/main/biblescreen/components/BibleNoteOption';
 import FontChangeOption from '../screen/main/biblescreen/components/FontChangeOption';
-import {uuidv4, getItemFromAsync, setItemToAsync} from '/utils';
+import {uuidv4, getItemFromAsync, setItemToAsync} from '../utils';
 import {StackActions} from '@react-navigation/native';
-import {getSqliteDatabase, printIsNewOrOldBibleByBookCode} from '/utils';
+import {getSqliteDatabase, printIsNewOrOldBibleByBookCode} from '../utils';
 import LoadingSpinner from '../screen/components/LoadingSpinner';
 
 export default class VerseListScreen extends Component {
@@ -29,9 +29,9 @@ export default class VerseListScreen extends Component {
       modalVisible: false,
       memoModalVisible: false,
       memoModalSaveButtonActive: false,
-      bibleListOptionIconUri: require('assets/ic_option_list_off.png'),
-      bibleNoteOptionIconUri: require('assets/ic_option_note_off.png'),
-      fontChangeOptionIconUri: require('assets/ic_option_font_off.png'),
+      bibleListOptionIconUri: require('../assets/ic_option_list_off.png'),
+      bibleNoteOptionIconUri: require('../assets/ic_option_note_off.png'),
+      fontChangeOptionIconUri: require('../assets/ic_option_font_off.png'),
       optionComponentState: '',
       changeVerse: false,
       bibleType: 0,
@@ -327,23 +327,23 @@ export default class VerseListScreen extends Component {
         break;
       case 'bibleNote':
         this.setState({
-          bibleListOptionIconUri: require('assets/ic_option_list_off.png'),
-          bibleNoteOptionIconUri: require('assets/ic_option_note_on.png'),
-          fontChangeOptionIconUri: require('assets/ic_option_font_off.png'),
+          bibleListOptionIconUri: require('../assets/ic_option_list_off.png'),
+          bibleNoteOptionIconUri: require('../assets/ic_option_note_on.png'),
+          fontChangeOptionIconUri: require('../assets/ic_option_font_off.png'),
           optionComponentState: 'bibleNote',
         });
         break;
       case 'fontChange':
         this.setState({
-          bibleListOptionIconUri: require('assets/ic_option_list_off.png'),
-          bibleNoteOptionIconUri: require('assets/ic_option_note_off.png'),
-          fontChangeOptionIconUri: require('assets/ic_option_font_on.png'),
+          bibleListOptionIconUri: require('../assets/ic_option_list_off.png'),
+          bibleNoteOptionIconUri: require('../assets/ic_option_note_off.png'),
+          fontChangeOptionIconUri: require('../assets/ic_option_font_on.png'),
           optionComponentState: 'fontChange',
         });
         break;
       case 'default':
         this.setState({
-          bibleListOptionIconUri: require('assets/ic_option_list_off.png'),
+          bibleListOptionIconUri: require('../assets/ic_option_list_off.png'),
           bibleNoteOptionIconUri: require('assets/ic_option_note_off.png'),
           fontChangeOptionIconUri: require('assets/ic_option_font_off.png'),
           optionComponentState: 'default',
