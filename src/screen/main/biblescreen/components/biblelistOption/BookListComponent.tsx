@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import React from 'react';
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
-import {FlatGrid, SectionGrid} from 'react-native-super-grid';
+import {SectionGrid} from 'react-native-super-grid';
 
 import {getOldBibleItems, getNewBibleItems} from '../../../../../utils';
 
