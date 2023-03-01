@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 
 const HighlightText = ({item, verseItemFontSize, verseItemFontFamily}) => {
+  console.log(verseItemFontFamily);
   if (item.isHighlight) {
     return (
       <Text

@@ -5,7 +5,7 @@ import QuizScreenNavigator from './quizscreen/QuizScreenNavigator';
 import OptionScreenNavigator from './optionscreen/OptionScreenNavigator';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Button, Image} from 'react-native';
+import {Image} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +38,7 @@ const MainBottomTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="BibleScreen"
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({focused}) => {
           const iconPath = setBottomIconImagePath(route.name, focused);
           // You can return any component that you like here!
           return <Image style={{width: 25, height: 25}} source={iconPath} />;
@@ -47,23 +47,23 @@ const MainBottomTabNavigator = () => {
       <Tab.Screen
         name="BibleScreen"
         component={BibleScreenNavigator}
-        options={({route}) => ({
+        options={() => ({
           tabBarLabel: '성경',
         })}
       />
       <Tab.Screen
         name="QuizScreen"
         component={QuizScreenNavigator}
-        options={({route}) => ({
+        options={() => ({
           tabBarLabel: '세례문답',
         })}
       />
       <Tab.Screen
         name="OptionScreen"
         component={OptionScreenNavigator}
-        options={{
+        options={() => ({
           tabBarLabel: '더보기',
-        }}
+        })}
       />
     </Tab.Navigator>
   );

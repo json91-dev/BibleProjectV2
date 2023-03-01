@@ -8,7 +8,7 @@ import {
   Clipboard,
 } from 'react-native';
 
-import Toast, {DURATION} from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
 import {
   getBibleVerseItems,
   getItemFromAsync,
@@ -102,17 +102,17 @@ const VerseListScreen = ({navigation, route}) => {
       }
 
       case 1: {
-        setVerseItemFontFamily('nanumbrush');
+        setVerseItemFontFamily('NanumBrush');
         break;
       }
 
       case 2: {
-        setVerseItemFontFamily('tmonmonsori');
+        setVerseItemFontFamily('TmonMonsoriBlack');
         break;
       }
 
       case 3: {
-        setVerseItemFontFamily('applemyungjo');
+        setVerseItemFontFamily('KoreanGIR-L');
         break;
       }
     }

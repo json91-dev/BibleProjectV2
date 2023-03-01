@@ -24,7 +24,7 @@ const BookListScreen = props => {
     <SafeAreaView>
       <FlatGrid
         itemDimension={80}
-        items={item}
+        data={item}
         style={styles.gridView}
         renderItem={({item, index}) => (
           <TouchableHighlight

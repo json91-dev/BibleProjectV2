@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Animated, Easing} from 'react-native';
+import {View, StyleSheet, Animated} from 'react-native';
 
 export default class LoadingSpinner extends Component {
   constructor() {
@@ -14,6 +14,7 @@ export default class LoadingSpinner extends Component {
       toValue: 360, // 애니매이션의 100%일때의 값을 추출
       duration: 1000, // 애니메이션이 진행되는 시간
       // easing: Easing.linear // 애니메이션의 easing (매핑되는 패턴을 나타냄)
+      useNativeDriver: false,
     }).start(() => this.startAnimation());
   }
 

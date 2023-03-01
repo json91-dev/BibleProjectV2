@@ -56,13 +56,13 @@ export default class FontChangeOption extends Component {
           changeFontFamilyHandler('system font');
           break;
         case 1:
-          changeFontFamilyHandler('nanumbrush');
+          changeFontFamilyHandler('NanumBrush');
           break;
         case 2:
-          changeFontFamilyHandler('tmonmonsori');
+          changeFontFamilyHandler('TmonMonsoriBlack');
           break;
         case 3:
-          changeFontFamilyHandler('applemyungjo');
+          changeFontFamilyHandler('KoreanGIR-L');
           break;
       }
       this.setState({
