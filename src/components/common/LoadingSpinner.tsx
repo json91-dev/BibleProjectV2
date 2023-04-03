@@ -1,4 +1,3 @@
-/** 추후 삭제 **/
 import React, {Component} from 'react';
 import {View, StyleSheet, Animated} from 'react-native';
 

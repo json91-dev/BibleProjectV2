@@ -9,16 +9,8 @@ const Root = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          options={{headerShown: false}}
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name="Main"
-          options={{headerShown: false}}
-          component={MainBottomTabNavigator}
-        />
+        <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
+        <Stack.Screen name="Main" options={{headerShown: false}} component={MainBottomTabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );

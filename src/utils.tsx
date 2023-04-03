@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
-import firestore from '@react-native-firebase/firestore';
 
 /**
  * 문자열이 특정길이 이상일때 ...으로 출력해주는 메서드
@@ -213,29 +212,6 @@ export const getBibleVerseItems = (bookName, bookCode, chapterCode) => {
       });
     });
   });
-};
-
-// Firebase를 얻기 위해 SingleTon 사용.
-const FireStoreSingleton = function () {
-  let firestoreInstance;
-
-  function init() {
-    return firestore();
-  }
-
-  return {
-    getInstance: function () {
-      if (!firestoreInstance) {
-        firestoreInstance = init();
-      }
-
-      return firestoreInstance;
-    },
-  };
-};
-
-export const getFireStore = () => {
-  return FireStoreSingleton().getInstance();
 };
 
 // 특정 format 형식대로 데이터를 출력시켜주는 모듈

@@ -1,23 +1,11 @@
-import React, {
-  Component,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {getItemFromAsync, setItemToAsync} from '../../../utils';
 import {StyleSheet, View, SafeAreaView} from 'react-native';
 
 import Toast from 'react-native-easy-toast';
-import {getDateStringByFormat, getFireStore} from '../../../utils';
+import firestore from '@react-native-firebase/firestore';
 import MainBibleView from '../../../components/biblemain/MainBibleView';
-import {
-  printIsNewOrOldBibleByBookCode,
-  getOldBibleItems,
-  getNewBibleItems,
-  getSqliteDatabase,
-  getBibleType,
-} from '../../../utils';
+import {printIsNewOrOldBibleByBookCode, getOldBibleItems, getNewBibleItems, getSqliteDatabase, getBibleType} from '../../../utils';
 import {StackActions} from '@react-navigation/native';
 import LatelyReadBibleView from '../../../components/biblemain/LatelyReadBibleView';
 import SearchHeaderView from '../../../components/biblemain/SearchHeaderView';
@@ -25,63 +13,55 @@ import SearchResultView from '../../../components/biblemain/SearchResultView';
 
 const BibleMainScreen = props => {
   const [isOpenSearchMode, setIsOpenSearchMode] = useState(false);
-  const [isOpenSearchWordListView, setIsOpenSearchWordListView] =
-    useState(false);
+  const [isOpenSearchWordListView, setIsOpenSearchWordListView] = useState(false);
   const [searchWordItems, setSearchWordItems] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [searchTextPlaceHolder, setSearchTextPlaceHolder] =
-    useState('다시 읽고 싶은 말씀이 있나요?');
+  const [searchTextPlaceHolder, setSearchTextPlaceHolder] = useState('다시 읽고 싶은 말씀이 있나요?');
   const [searchTextEditable, setSearchTextEditable] = useState(true);
   const [isOpenCurrentWordView, setIsOpenCurrentWordView] = useState(false);
   const [currentWordText, setCurrentWordText] = useState('');
   const [isOpenSearchResultView, setIsOpenSearchResultView] = useState(false);
   const [searchResultItems, setSearchResultItems] = useState([]);
-  const [isOpenLatelyReadBibleView, setIsOpenLatelyReadBibleView] =
-    useState(false);
+  const [isOpenLatelyReadBibleView, setIsOpenLatelyReadBibleView] = useState(false);
   const [latelyReadItem, setLatelyReadItem] = useState({});
-  const [verseSentence, setVerseSentence] = useState(
-    '너는 하나님과 화목하고 평안하라, 그리하면 복이 네게 임하리라.',
-  );
+  const [verseSentence, setVerseSentence] = useState('너는 하나님과 화목하고 평안하라, 그리하면 복이 네게 임하리라.');
   const [verseString, setVerseString] = useState('요한복음 1장 27절');
   const textInputRef = useRef(null);
   const toastRef = useRef(null);
 
-  /** 구약, 신약 성경 '장' 페이지로 이동하는 Link **/
+  // 구약, 신약 성경 '장' 페이지로 이동하는 Link
   const goToBookListScreen = useCallback(
-    type => {
+    (type: 0 | 1) => {
       props.navigation.navigate('BookListScreen', {bibleType: type});
       setIsOpenLatelyReadBibleView(false);
     },
     [isOpenLatelyReadBibleView],
   );
 
-  /** 최근 읽은 성경 가기 Link **/
-  const goToLatestReadScreen = useCallback(
-    (bookName, bookCode, chapterCode) => {
-      const navigation = props.navigation;
-      const bibleType = getBibleType(bookCode);
-      const pushBookList = StackActions.push('BookListScreen', {
-        bibleType,
-      });
-      navigation.dispatch(pushBookList);
+  // 최근 읽은 성경 가기 Link
+  const goToLatestReadScreen = useCallback((bookName, bookCode, chapterCode) => {
+    const navigation = props.navigation;
+    const bibleType = getBibleType(bookCode);
+    const pushBookList = StackActions.push('BookListScreen', {
+      bibleType,
+    });
+    navigation.dispatch(pushBookList);
 
-      const pushChapterList = StackActions.push('ChapterListScreen', {
-        bookCode,
-        bookName,
-      });
-      navigation.dispatch(pushChapterList);
+    const pushChapterList = StackActions.push('ChapterListScreen', {
+      bookCode,
+      bookName,
+    });
+    navigation.dispatch(pushChapterList);
 
-      const pushVerseList = StackActions.push('VerseListScreen', {
-        bookCode,
-        bookName,
-        chapterCode,
-      });
-      navigation.dispatch(pushVerseList);
+    const pushVerseList = StackActions.push('VerseListScreen', {
+      bookCode,
+      bookName,
+      chapterCode,
+    });
+    navigation.dispatch(pushVerseList);
 
-      setIsOpenLatelyReadBibleView(false);
-    },
-    [],
-  );
+    setIsOpenLatelyReadBibleView(false);
+  }, []);
 
   /** 상단 Search Text Focus **/
   const searchHeaderViewTextFocus = useCallback(() => {
@@ -167,8 +147,7 @@ const BibleMainScreen = props => {
         for (let i = 0; i < results.rows.length; i++) {
           const bookCode = results.rows.item(i).book;
           const bibleName = printIsNewOrOldBibleByBookCode(bookCode);
-          const bibleItems =
-            bibleName === '구약' ? getOldBibleItems() : getNewBibleItems();
+          const bibleItems = bibleName === '구약' ? getOldBibleItems() : getNewBibleItems();
           const bookName = bibleItems.find((item, index) => {
             return item.bookCode === bookCode;
           }).bookName;
@@ -230,27 +209,21 @@ const BibleMainScreen = props => {
       }
 
       /** 서버에서 오늘의 성경을 가져와 화면에 출력. **/
-      const todayDateString = getDateStringByFormat(new Date(), 'yyyy-MM-dd');
-      const todayVerseDocument = await getFireStore()
-        .collection('todayVerse')
-        .doc(todayDateString)
-        .get();
-      const todayVerseObject = todayVerseDocument.data();
+      console.log('000000');
+      // const todayDateString = getDateStringByFormat(new Date(), 'yyyy-MM-dd');
+      const todayVerseDocument = await firestore().collection('todayVerse').doc('data').get();
 
-      if (todayVerseObject) {
-        const verseSentence = todayVerseDocument.data().sentence;
-        const verseString = todayVerseDocument.data().verse;
+      const {content, versePath} = todayVerseDocument.data();
 
-        setVerseSentence(verseSentence);
-        setVerseString(verseString);
+      if (content && versePath) {
+        setVerseSentence(content);
+        setVerseString(versePath);
       }
     })();
   }, []);
 
   return (
-    <SafeAreaView
-      style={styles.container}
-      contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
+    <SafeAreaView style={styles.container} contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
       {/*{this.SearchHeaderView()}*/}
       {/* 성경 검색 TextInput에 focus에 따라 View를 다르게 보여줌. */}
 
@@ -267,34 +240,17 @@ const BibleMainScreen = props => {
         />
 
         {!isOpenSearchMode && (
-          <MainBibleView
-            goToBookListScreen={goToBookListScreen}
-            verseSentence={verseSentence}
-            verseString={verseString}
-          />
+          <MainBibleView goToBookListScreen={goToBookListScreen} verseSentence={verseSentence} verseString={verseString} />
         )}
 
         {isOpenLatelyReadBibleView && !isOpenSearchMode && (
-          <LatelyReadBibleView
-            goToLatestReadScreen={goToLatestReadScreen}
-            latelyReadItem={latelyReadItem}
-          />
+          <LatelyReadBibleView goToLatestReadScreen={goToLatestReadScreen} latelyReadItem={latelyReadItem} />
         )}
 
-        {isOpenSearchResultView && (
-          <SearchResultView
-            searchResultItems={searchResultItems}
-            moveToBibleChapter={moveToBibleChapter}
-          />
-        )}
+        {isOpenSearchResultView && <SearchResultView searchResultItems={searchResultItems} moveToBibleChapter={moveToBibleChapter} />}
       </View>
 
-      <Toast
-        ref={toastRef}
-        positionValue={130}
-        fadeInDuration={200}
-        fadeOutDuration={1000}
-      />
+      <Toast ref={toastRef} positionValue={130} fadeInDuration={200} fadeOutDuration={1000} />
     </SafeAreaView>
   );
 };

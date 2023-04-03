@@ -45,5 +45,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     textShadowColor: 'yellow',
     textShadowRadius: 15,
+    fontFamily: 'KoreanGIR-L',
   },
 });

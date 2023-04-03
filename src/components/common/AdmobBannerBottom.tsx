@@ -1,7 +1,5 @@
-/** 추후 삭제 **/
-
 import React from 'react';
-import admob, {MaxAdContentRating, InterstitialAd, RewardedAd, BannerAd, TestIds, BannerAdSize} from '@react-native-firebase/admob';
+import {BannerAd, TestIds, BannerAdSize} from '@react-native-firebase/admob';
 
 const AdmobBannerBottom = () => (
   <BannerAd

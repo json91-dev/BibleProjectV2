@@ -1,20 +1,8 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Clipboard,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Image, Clipboard} from 'react-native';
 
 import Toast from 'react-native-easy-toast';
-import {
-  getBibleVerseItems,
-  getItemFromAsync,
-  printIsNewOrOldBibleByBookCode,
-  setItemToAsync,
-} from '../../../utils';
+import {getBibleVerseItems, getItemFromAsync, printIsNewOrOldBibleByBookCode, setItemToAsync} from '../../../utils';
 import CommandModal from '../../../components/verselist/CommandModal';
 import BibleListOption from './components/biblelistOption/BibleListOption';
 import BibleNoteOption from './components/BibleNoteOption';
@@ -29,34 +17,25 @@ const VerseListScreen = ({navigation, route}) => {
   const [verseItems, setVerseItems] = useState([]);
   const [commandModalVisible, setCommandModalVisible] = useState(false);
   const [memoModalVisible, setMemoModalVisible] = useState(false);
-  const [bibleListOptionIconUri, setBibleListOptionIconUri] = useState(
-    require('../../../assets/ic_option_list_off.png'),
-  );
-  const [bibleNoteOptionIconUri, setBibleNoteOptionIconUri] = useState(
-    require('../../../assets/ic_option_note_off.png'),
-  );
-  const [fontChangeOptionIconUri, setFontChangeOptionIconUri] = useState(
-    require('../../../assets/ic_option_font_off.png'),
-  );
+  const [bibleListOptionIconUri, setBibleListOptionIconUri] = useState(require('../../../assets/ic_option_list_off.png'));
+  const [bibleNoteOptionIconUri, setBibleNoteOptionIconUri] = useState(require('../../../assets/ic_option_note_off.png'));
+  const [fontChangeOptionIconUri, setFontChangeOptionIconUri] = useState(require('../../../assets/ic_option_font_off.png'));
   const [optionComponentState, setOptionComponentState] = useState('');
   const [bibleType, setBibleType] = useState(0);
   const [modalBibleItem, setModalBibleItem] = useState({});
   const [verseItemFontSize, setVerseItemFontSize] = useState(14);
   const [verseItemFontFamily, setVerseItemFontFamily] = useState('system font');
   const toastRef = useRef(null);
-  const saveLatestBibleVerse = useCallback(
-    async (bookName, bookCode, chapterCode) => {
-      const bibleName = printIsNewOrOldBibleByBookCode(bookCode);
-      const readItem = {
-        bibleName,
-        bookName,
-        bookCode,
-        chapterCode,
-      };
-      await setItemToAsync('latelyReadList', readItem);
-    },
-    [],
-  );
+  const saveLatestBibleVerse = useCallback(async (bookName, bookCode, chapterCode) => {
+    const bibleName = printIsNewOrOldBibleByBookCode(bookCode);
+    const readItem = {
+      bibleName,
+      bookName,
+      bookCode,
+      chapterCode,
+    };
+    await setItemToAsync('latelyReadList', readItem);
+  }, []);
 
   const setFontSizeFromStorage = useCallback(async () => {
     const fontSizeOption = await getItemFromAsync('fontSizeOption');
@@ -150,9 +129,7 @@ const VerseListScreen = ({navigation, route}) => {
       items.forEach(verse => {
         const index = memoListItems.findIndex(memoItem => {
           return (
-            memoItem.bookCode === verse.bookCode &&
-            memoItem.chapterCode === verse.chapterCode &&
-            memoItem.verseCode === verse.verseCode
+            memoItem.bookCode === verse.bookCode && memoItem.chapterCode === verse.chapterCode && memoItem.verseCode === verse.verseCode
           );
         });
         if (index > -1) {
@@ -197,8 +174,7 @@ const VerseListScreen = ({navigation, route}) => {
   /** 구 setModalVisible **/
   const actionCommandModal = useCallback(
     async modalAction => {
-      const {bookCode, chapterCode, verseCode, content, isHighlight} =
-        modalBibleItem;
+      const {bookCode, chapterCode, verseCode, content, isHighlight} = modalBibleItem;
       switch (modalAction) {
         case 'copy': {
           Clipboard.setString(content);
@@ -211,11 +187,7 @@ const VerseListScreen = ({navigation, route}) => {
             let highlightItems = await getItemFromAsync('highlightList');
             if (highlightItems === null) highlightItems = [];
             const index = highlightItems.findIndex((item, index) => {
-              return (
-                item.bookCode === bookCode &&
-                item.chapterCode === chapterCode &&
-                item.verseCode === verseCode
-              );
+              return item.bookCode === bookCode && item.chapterCode === chapterCode && item.verseCode === verseCode;
             });
             highlightItems.splice(index, 1);
             await setItemToAsync('highlightList', highlightItems);
@@ -252,76 +224,55 @@ const VerseListScreen = ({navigation, route}) => {
     setCommandModalVisible(false);
     setOptionComponentState('bibleList');
     setBibleListOptionIconUri(require('../../../assets/ic_option_list_on.png'));
-    setBibleNoteOptionIconUri(
-      require('../../../assets/ic_option_note_off.png'),
-    );
-    setFontChangeOptionIconUri(
-      require('../../../assets/ic_option_font_off.png'),
-    );
+    setBibleNoteOptionIconUri(require('../../../assets/ic_option_note_off.png'));
+    setFontChangeOptionIconUri(require('../../../assets/ic_option_font_off.png'));
   }, [commandModalVisible, optionComponentState]);
 
   /** 하단 3개의 옵션 버튼중 성경 노트 열기 **/
   const openBibleNoteOptionModal = useCallback(() => {
     setCommandModalVisible(false);
     setOptionComponentState('bibleNote');
-    setBibleListOptionIconUri(
-      require('../../../assets/ic_option_list_off.png'),
-    );
+    setBibleListOptionIconUri(require('../../../assets/ic_option_list_off.png'));
     setBibleNoteOptionIconUri(require('../../../assets/ic_option_note_on.png'));
-    setFontChangeOptionIconUri(
-      require('../../../assets/ic_option_font_off.png'),
-    );
+    setFontChangeOptionIconUri(require('../../../assets/ic_option_font_off.png'));
   }, [commandModalVisible, optionComponentState]);
 
   /** 하단 3개의 옵션 버튼중 폰트 열기 **/
   const openFontChangeOptionModal = useCallback(() => {
     setCommandModalVisible(false);
     setOptionComponentState('fontChange');
-    setBibleListOptionIconUri(
-      require('../../../assets/ic_option_list_off.png'),
-    );
-    setBibleNoteOptionIconUri(
-      require('../../../assets/ic_option_note_off.png'),
-    );
-    setFontChangeOptionIconUri(
-      require('../../../assets/ic_option_font_on.png'),
-    );
+    setBibleListOptionIconUri(require('../../../assets/ic_option_list_off.png'));
+    setBibleNoteOptionIconUri(require('../../../assets/ic_option_note_off.png'));
+    setFontChangeOptionIconUri(require('../../../assets/ic_option_font_on.png'));
   }, [commandModalVisible, optionComponentState]);
 
   // closeFooterOption (old)
   /** 하단 3개의 옵션 버튼 모두 닫기 **/
   const closeAllOptionModal = useCallback(() => {
     setOptionComponentState('default');
-    setBibleListOptionIconUri(
-      require('../../../assets/ic_option_list_off.png'),
-    );
-    setBibleNoteOptionIconUri(
-      require('../../../assets/ic_option_note_off.png'),
-    );
-    setFontChangeOptionIconUri(
-      require('../../../assets/ic_option_font_off.png'),
-    );
+    setBibleListOptionIconUri(require('../../../assets/ic_option_list_off.png'));
+    setBibleNoteOptionIconUri(require('../../../assets/ic_option_note_off.png'));
+    setFontChangeOptionIconUri(require('../../../assets/ic_option_font_off.png'));
     // this.componentDidMount()
   });
 
-  const changeScreenNavigation =
-    (bookName, bookCode, chapterCode, verseCode) => () => {
-      const popAction = StackActions.pop(2);
-      navigation.dispatch(popAction);
+  const changeScreenNavigation = (bookName, bookCode, chapterCode, verseCode) => () => {
+    const popAction = StackActions.pop(2);
+    navigation.dispatch(popAction);
 
-      const pushChapterList = StackActions.push('ChapterListScreen', {
-        bookCode,
-        bookName,
-      });
-      navigation.dispatch(pushChapterList);
+    const pushChapterList = StackActions.push('ChapterListScreen', {
+      bookCode,
+      bookName,
+    });
+    navigation.dispatch(pushChapterList);
 
-      const pushVerseList = StackActions.push('VerseListScreen', {
-        bookCode,
-        bookName,
-        chapterCode,
-      });
-      navigation.dispatch(pushVerseList);
-    };
+    const pushVerseList = StackActions.push('VerseListScreen', {
+      bookCode,
+      bookName,
+      chapterCode,
+    });
+    navigation.dispatch(pushVerseList);
+  };
 
   // 성경의 아이템을 길게 눌렀을때 모달 화면을 보여주는 메서드.
   // 복사, 형광펜, 메모 기능을 위해 해당 값을 전달받는다.
@@ -363,52 +314,26 @@ const VerseListScreen = ({navigation, route}) => {
         />
 
         {/* 하단 목차, 성경노트, 보기설정에 대한 footer option */}
-        <View
-          keyboardVerticalOffset={10}
-          contentContainerStyle={{borderColor: 'red'}}
-          style={styles.footerOptionContainer}>
-          <TouchableOpacity
-            style={styles.footerOptionContainerItem}
-            onPress={openBibleListOptionModal}>
-            <Image
-              style={styles.footerOptionIcon}
-              source={bibleListOptionIconUri}
-            />
+        <View keyboardVerticalOffset={10} contentContainerStyle={{borderColor: 'red'}} style={styles.footerOptionContainer}>
+          <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleListOptionModal}>
+            <Image style={styles.footerOptionIcon} source={bibleListOptionIconUri} />
             <Text>목차</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerOptionContainerItem}
-            onPress={openBibleNoteOptionModal}>
-            <Image
-              style={styles.footerOptionIcon}
-              source={bibleNoteOptionIconUri}
-            />
+          <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleNoteOptionModal}>
+            <Image style={styles.footerOptionIcon} source={bibleNoteOptionIconUri} />
             <Text>성경노트</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerOptionContainerItem}
-            onPress={openFontChangeOptionModal}>
-            <Image
-              style={styles.footerOptionIcon}
-              source={fontChangeOptionIconUri}
-            />
+          <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openFontChangeOptionModal}>
+            <Image style={styles.footerOptionIcon} source={fontChangeOptionIconUri} />
             <Text>보기설정</Text>
           </TouchableOpacity>
         </View>
 
         {optionComponentState === 'bibleList' && (
-          <BibleListOption
-            changeScreenHandler={changeScreenNavigation}
-            bibleType={bibleType}
-            closeHandler={closeAllOptionModal}
-          />
+          <BibleListOption changeScreenHandler={changeScreenNavigation} bibleType={bibleType} closeHandler={closeAllOptionModal} />
         )}
         {optionComponentState === 'bibleNote' && (
-          <BibleNoteOption
-            toastRef={toastRef}
-            closeHandler={closeAllOptionModal}
-            updateVerseItems={updateVerseItems}
-          />
+          <BibleNoteOption toastRef={toastRef} closeHandler={closeAllOptionModal} updateVerseItems={updateVerseItems} />
         )}
         {optionComponentState === 'fontChange' && (
           <FontChangeOption
@@ -418,12 +343,7 @@ const VerseListScreen = ({navigation, route}) => {
           />
         )}
 
-        <Toast
-          ref={toastRef}
-          positionValue={130}
-          fadeInDuration={200}
-          fadeOutDuration={1000}
-        />
+        <Toast ref={toastRef} positionValue={130} fadeInDuration={200} fadeOutDuration={1000} />
       </View>
     );
   }

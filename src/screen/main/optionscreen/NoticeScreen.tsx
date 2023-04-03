@@ -1,10 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
-
 import {StyleSheet, View, Text} from 'react-native';
-
-import {getFireStore} from '../../../utils';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import firestore from '@react-native-firebase/firestore';
 
 const renderHeader = (section, index) => {
   return (
@@ -21,7 +19,7 @@ const renderHeader = (section, index) => {
 const renderContent = section => {
   return (
     <View style={styles.content}>
-      <Text>{section.content}</Text>
+      <Text style={styles.contentText}>{section.content}</Text>
     </View>
   );
 };
@@ -49,7 +47,7 @@ const NoticeScreen = () => {
   }, []);
 
   const initNotification = useCallback(async () => {
-    const snapshot = await getFireStore().collection('notification').get();
+    const snapshot = await firestore().collection('notification').get();
     const notificationDataArray = [];
 
     snapshot.docs.forEach(doc => {
@@ -84,7 +82,7 @@ const NoticeScreen = () => {
         renderHeader={renderHeader}
         renderContent={renderContent}
         onChange={updateSections}
-        underlayColor="yellow"
+        underlayColor="white"
       />
     );
   }
@@ -93,15 +91,6 @@ const NoticeScreen = () => {
 export default NoticeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
-
   appVersionImage: {
     resizeMode: 'contain',
     width: '60%',
@@ -113,14 +102,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 30,
     paddingBottom: 30,
-    borderTopWidth: 1,
     borderColor: '#EDEDED',
     paddingLeft: 20,
     paddingRight: 20,
+    width: '80%',
+    marginLeft: '10%',
+  },
+
+  headerDate: {
+    color: 'black',
   },
 
   headerText: {
     width: '69%',
+    color: 'black',
   },
 
   headerTextLabel: {
@@ -136,5 +131,10 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 30,
     paddingTop: 10,
+    alignItems: 'center',
+  },
+
+  contentText: {
+    color: 'black',
   },
 });

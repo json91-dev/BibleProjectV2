@@ -15,6 +15,7 @@ const LoginScreen = props => {
   const googleSignIn = useCallback(async () => {
     try {
       /** 로그인 성공시 Storage에 유저 정보 저장 **/
+
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       await setItemToAsync('userInfo', {...userInfo, loggedIn: true});
@@ -30,7 +31,7 @@ const LoginScreen = props => {
       } // some other error happened
       setErrorMessage(error.message);
     }
-  });
+  }, []);
 
   const googleSignOut = async () => {
     try {
@@ -50,8 +51,7 @@ const LoginScreen = props => {
   useEffect(() => {
     /** 구글 로그인 초기 설정 **/
     GoogleSignin.configure({
-      webClientId:
-        '271807854923-f0si6s5dj9urd45nvdpqpeihnc3q8i57.apps.googleusercontent.com',
+      webClientId: '271807854923-f0si6s5dj9urd45nvdpqpeihnc3q8i57.apps.googleusercontent.com',
       offlineAccess: false,
     });
 
@@ -74,24 +74,14 @@ const LoginScreen = props => {
   }, []);
 
   return (
-    <LinearGradient
-      colors={['#F9DA4F', '#F7884F']}
-      style={styles.linearGradient}>
+    <LinearGradient colors={['#F9DA4F', '#F7884F']} style={styles.linearGradient}>
       <View>
-        <Image
-          source={require('../assets/ic_thecross.png')}
-          style={styles.icon}
-        />
+        <Image source={require('../assets/ic_thecross.png')} style={styles.icon} />
         <Text style={styles.titleText}>THE BIBLE</Text>
         <Text style={styles.titleInfo}>로그인해서 성경공부를 해보세요.</Text>
       </View>
-      <TouchableOpacity
-        style={styles.googleLoginButtonContainer}
-        onPress={googleSignIn}>
-        <Image
-          style={styles.googleLoginButton}
-          source={require('../assets/btn_google_login.png')}
-        />
+      <TouchableOpacity style={styles.googleLoginButtonContainer} onPress={googleSignIn}>
+        <Image style={styles.googleLoginButton} source={require('../assets/btn_google_login.png')} />
       </TouchableOpacity>
 
       {errorMessage !== '' && <Text>{errorMessage}</Text>}

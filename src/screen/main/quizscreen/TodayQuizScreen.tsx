@@ -1,22 +1,11 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Keyboard,
-  SafeAreaView,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView} from 'react-native';
 
 import QuizBallComponent from './components/QuizBallComponent';
 import TodayQuizItem from './components/TodayQuizItem';
-import {
-  getFireStore,
-  setItemToAsync,
-  getDateStringByFormat,
-} from '../../../utils';
+import {setItemToAsync, getDateStringByFormat} from '../../../utils';
 import {StackActions} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 export default class TodayQuizScreen extends Component {
   state = {
@@ -35,7 +24,7 @@ export default class TodayQuizScreen extends Component {
     const todayDateString = getDateStringByFormat(new Date(), 'yyyy-MM-dd');
 
     // 오늘의 날짜를 기준으로 데이터를 서버에서 가져옵니다.
-    getFireStore()
+    firestore()
       .collection('todayQuiz')
       .doc('2020-05-05')
       .get()
@@ -53,10 +42,7 @@ export default class TodayQuizScreen extends Component {
         });
       });
 
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide,
-    );
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
   componentWillUnmount() {
@@ -96,8 +82,7 @@ export default class TodayQuizScreen extends Component {
      * 다음 단계로 이동한다.
      */
     const onAnswerSubmit = () => {
-      const {curPageQuizData, pageState, textInputText, currentQuizBallState} =
-        this.state;
+      const {curPageQuizData, pageState, textInputText, currentQuizBallState} = this.state;
 
       // 정답의 진위여부를 판단한다.
       const curPageQuizWord = curPageQuizData.quizWord;
@@ -123,10 +108,7 @@ export default class TodayQuizScreen extends Component {
           currentQuizBallState: updateQuizBallState,
           isOpenAnswer: true,
           isFocusTextInput: false,
-          quizAnswerTextArray: [
-            ...prevState.quizAnswerTextArray,
-            quizInputText,
-          ],
+          quizAnswerTextArray: [...prevState.quizAnswerTextArray, quizInputText],
           checkAnswerText: quizInputText,
           textInputText: '',
         };
@@ -168,27 +150,12 @@ export default class TodayQuizScreen extends Component {
      */
     const onCompleteTodayQuiz = () => {
       const {quizData, quizAnswerTextArray, currentQuizBallState} = this.state;
-      const setReviewQuizDataList = setItemToAsync(
-        'reviewQuizDataList',
-        quizData,
-      );
-      const setIsCompleteTodayQuiz = setItemToAsync(
-        'isCompleteTodayQuiz',
-        true,
-      );
+      const setReviewQuizDataList = setItemToAsync('reviewQuizDataList', quizData);
+      const setIsCompleteTodayQuiz = setItemToAsync('isCompleteTodayQuiz', true);
       const setIsGiveUpTodayQuiz = setItemToAsync('isGiveUpTodayQuiz', false);
-      const setQuizAnswerList = setItemToAsync(
-        'todayQuizAnswerList',
-        quizAnswerTextArray,
-      );
-      const setQuizBallState = setItemToAsync(
-        'todayQuizBallState',
-        currentQuizBallState,
-      );
-      const setQuizDate = setItemToAsync(
-        'quizDate',
-        parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')),
-      );
+      const setQuizAnswerList = setItemToAsync('todayQuizAnswerList', quizAnswerTextArray);
+      const setQuizBallState = setItemToAsync('todayQuizBallState', currentQuizBallState);
+      const setQuizDate = setItemToAsync('quizDate', parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
 
       Promise.all([
         setReviewQuizDataList,
@@ -216,13 +183,7 @@ export default class TodayQuizScreen extends Component {
      */
     const onGiveUpTodayQuiz = () => {
       // TODO : 유저가 빈문자를 입력했을때는 '없음' // 남은문제는 빈공백으로 처리 // 입력했을때는 입력한 값을 처리함
-      const {
-        pageState,
-        currentQuizBallState,
-        quizAnswerTextArray,
-        isOpenAnswer,
-        quizData,
-      } = this.state;
+      const {pageState, currentQuizBallState, quizAnswerTextArray, isOpenAnswer, quizData} = this.state;
       const maxPageCount = 5;
 
       // AsyncStorage에 업데이트할 State를 선언함.
@@ -243,27 +204,12 @@ export default class TodayQuizScreen extends Component {
         updateQuizAnswerTextArray = [...updateQuizAnswerTextArray, '없음'];
       }
 
-      const setReviewQuizDataList = setItemToAsync(
-        'reviewQuizDataList',
-        quizData,
-      );
-      const setIsCompleteTodayQuiz = setItemToAsync(
-        'isCompleteTodayQuiz',
-        false,
-      );
+      const setReviewQuizDataList = setItemToAsync('reviewQuizDataList', quizData);
+      const setIsCompleteTodayQuiz = setItemToAsync('isCompleteTodayQuiz', false);
       const setIsGiveUpTodayQuiz = setItemToAsync('isGiveUpTodayQuiz', true);
-      const setQuizAnswerList = setItemToAsync(
-        'todayQuizAnswerList',
-        updateQuizAnswerTextArray,
-      );
-      const setQuizBallState = setItemToAsync(
-        'todayQuizBallState',
-        updateQuizBallState,
-      );
-      const setQuizDate = setItemToAsync(
-        'quizDate',
-        parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')),
-      );
+      const setQuizAnswerList = setItemToAsync('todayQuizAnswerList', updateQuizAnswerTextArray);
+      const setQuizBallState = setItemToAsync('todayQuizBallState', updateQuizBallState);
+      const setQuizDate = setItemToAsync('quizDate', parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
 
       Promise.all([
         setReviewQuizDataList,
@@ -285,9 +231,7 @@ export default class TodayQuizScreen extends Component {
       if (!isFocusTextInput) {
         return (
           <View style={styles.todayQuizTitleView}>
-            <Text style={styles.todayQuizTitleText}>
-              오늘의 세례문답 {pageState + 1}/5
-            </Text>
+            <Text style={styles.todayQuizTitleText}>오늘의 세례문답 {pageState + 1}/5</Text>
             <QuizBallComponent quizBallState={currentQuizBallState} />
           </View>
         );
@@ -302,12 +246,7 @@ export default class TodayQuizScreen extends Component {
     const ShowTodayQuizItemComponent = () => {
       const {curPageQuizData} = this.state;
       if (curPageQuizData) {
-        return (
-          <TodayQuizItem
-            quizData={this.state.curPageQuizData}
-            isOpened={this.state.isOpenAnswer}
-          />
-        );
+        return <TodayQuizItem quizData={this.state.curPageQuizData} isOpened={this.state.isOpenAnswer} />;
       } else {
         return null;
       }
@@ -344,14 +283,10 @@ export default class TodayQuizScreen extends Component {
       if (!isOpenAnswer) {
         return (
           <View>
-            <TouchableOpacity
-              onPress={passCurrentQuiz}
-              style={styles.passButton}>
+            <TouchableOpacity onPress={passCurrentQuiz} style={styles.passButton}>
               <Text style={styles.passButtonText}>이 문제 패스</Text>
             </TouchableOpacity>
-            <Text style={styles.passButtonLabel}>
-              패스를 하게 되면 틀림으로 간주 합니다.
-            </Text>
+            <Text style={styles.passButtonLabel}>패스를 하게 되면 틀림으로 간주 합니다.</Text>
           </View>
         );
       } else {
@@ -390,25 +325,19 @@ export default class TodayQuizScreen extends Component {
 
       if (!isOpenAnswer) {
         return (
-          <TouchableOpacity
-            style={styles.answerSubmitButton}
-            onPress={onAnswerSubmit}>
+          <TouchableOpacity style={styles.answerSubmitButton} onPress={onAnswerSubmit}>
             <Text style={styles.answerSubmitButtonText}>정답 제출</Text>
           </TouchableOpacity>
         );
       } else if (isOpenAnswer && pageState < 4) {
         return (
-          <TouchableOpacity
-            style={styles.answerSubmitButton}
-            onPress={onMoveNextQuiz}>
+          <TouchableOpacity style={styles.answerSubmitButton} onPress={onMoveNextQuiz}>
             <Text style={styles.answerSubmitButtonText}>다음 문제</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.answerSubmitButton}
-            onPress={onCompleteTodayQuiz}>
+          <TouchableOpacity style={styles.answerSubmitButton} onPress={onCompleteTodayQuiz}>
             <Text style={styles.answerSubmitButtonText}>완료</Text>
           </TouchableOpacity>
         );
@@ -419,9 +348,7 @@ export default class TodayQuizScreen extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.giveUpView}>
-            <TouchableOpacity
-              style={styles.giveUpButton}
-              onPress={onGiveUpTodayQuiz}>
+            <TouchableOpacity style={styles.giveUpButton} onPress={onGiveUpTodayQuiz}>
               <Text style={styles.giveUpButtonText}>포기하기</Text>
             </TouchableOpacity>
           </View>
