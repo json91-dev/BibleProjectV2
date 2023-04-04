@@ -2,7 +2,7 @@ import React, {Component, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View} from 'react-native';
 import ReviewQuizItem from './components/ReviewQuizItem';
 import {getDateStringByFormat, getItemFromAsync, setItemToAsync} from '../../../utils';
-import QuizBallComponent from './components/QuizBallComponent';
+import QuizBall from './components/QuizBall';
 import QuizTimer from './components/QuizTimer';
 let timer = null; // 전역 타이머 설정
 
@@ -133,7 +133,7 @@ const QuizScreen = ({navigation}) => {
             </TouchableOpacity>
             <Image style={styles.quizResultJesusImage} source={require('../../../assets/ic_jesus_weird.png')} />
             <Text style={styles.titleText}>오늘의 세례문답 성적은</Text>
-            <QuizBallComponent quizBallState={currentQuizBallState} />
+            <QuizBall quizBallState={currentQuizBallState} />
             <Text style={[styles.titleText, {marginTop: 80}]}>내일의 세례문답까지.</Text>
             <QuizTimer timerText={timerText} />
           </View>

@@ -1,15 +1,7 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Keyboard,
-  SafeAreaView,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView} from 'react-native';
 
-import QuizBallComponent from './components/QuizBallComponent';
+import QuizBall from './components/QuizBall';
 import TodayQuizItem from './components/TodayQuizItem';
 import {getItemFromAsync, setItemToAsync} from '../../../utils';
 
@@ -60,20 +52,13 @@ export default class TodayQuizCheckScreen extends Component {
     //   quizData: data,
     //   curPageQuizData: data[0],
     // });
-
     // 추가적으로 quizBallState 등의 값들을 가져와서 설정
-
     const getIsCompleteTodayQuiz = getItemFromAsync('isCompleteTodayQuiz');
     const getReviewQuizDataList = getItemFromAsync('reviewQuizDataList');
     const getTodayQuizAnswerList = getItemFromAsync('todayQuizAnswerList');
     const getTodayQuizBallState = getItemFromAsync('todayQuizBallState');
 
-    Promise.all([
-      getIsCompleteTodayQuiz,
-      getReviewQuizDataList,
-      getTodayQuizAnswerList,
-      getTodayQuizBallState,
-    ]).then(result => {
+    Promise.all([getIsCompleteTodayQuiz, getReviewQuizDataList, getTodayQuizAnswerList, getTodayQuizBallState]).then(result => {
       // let isCompleteTodayQuiz = result[0];
       // reviewQuizDataList를 재사용
       const checkQuizDataList = result[1];
@@ -129,9 +114,7 @@ export default class TodayQuizCheckScreen extends Component {
       const setReviewItem = setItemToAsync('reviewQuizDataList', quizData);
       const setTodayQuizComplete = setItemToAsync('isCompleteTodayQuiz', true);
 
-      Promise.all([setReviewItem, setTodayQuizComplete]).then(function (
-        result,
-      ) {
+      Promise.all([setReviewItem, setTodayQuizComplete]).then(function (result) {
         console.log(result);
       });
     };
@@ -144,10 +127,8 @@ export default class TodayQuizCheckScreen extends Component {
       if (!isFocusTextInput) {
         return (
           <View style={styles.todayQuizTitleView}>
-            <Text style={styles.todayQuizTitleText}>
-              오늘의 세례문답 {pageState + 1}/5
-            </Text>
-            <QuizBallComponent quizBallState={currentQuizBallState} />
+            <Text style={styles.todayQuizTitleText}>오늘의 세례문답 {pageState + 1}/5</Text>
+            <QuizBall quizBallState={currentQuizBallState} />
           </View>
         );
       } else {
@@ -161,13 +142,7 @@ export default class TodayQuizCheckScreen extends Component {
     const ShowTodayQuizItemComponent = () => {
       const {curPageQuizData} = this.state;
       if (curPageQuizData) {
-        return (
-          <TodayQuizItem
-            quizData={this.state.curPageQuizData}
-            isOpened={true}
-            isOpenedCheck={true}
-          />
-        );
+        return <TodayQuizItem quizData={this.state.curPageQuizData} isOpened={true} isOpenedCheck={true} />;
       } else {
         return null;
       }
@@ -202,9 +177,7 @@ export default class TodayQuizCheckScreen extends Component {
         return (
           <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={[styles.answerSubmitButton, {width: '100%'}]}
-                onPress={onMoveNextQuiz}>
+              <TouchableOpacity style={[styles.answerSubmitButton, {width: '100%'}]} onPress={onMoveNextQuiz}>
                 <Text style={styles.answerSubmitButtonText}>다음문제</Text>
               </TouchableOpacity>
             </View>
@@ -214,14 +187,10 @@ export default class TodayQuizCheckScreen extends Component {
         return (
           <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={[styles.answerSubmitButton, {width: '50%'}]}
-                onPress={onMovePrevQuiz}>
+              <TouchableOpacity style={[styles.answerSubmitButton, {width: '50%'}]} onPress={onMovePrevQuiz}>
                 <Text style={styles.answerSubmitButtonText}>이전문제</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.answerSubmitButton, {width: '50%'}]}
-                onPress={onMoveNextQuiz}>
+              <TouchableOpacity style={[styles.answerSubmitButton, {width: '50%'}]} onPress={onMoveNextQuiz}>
                 <Text style={styles.answerSubmitButtonText}>다음문제</Text>
               </TouchableOpacity>
             </View>
@@ -231,9 +200,7 @@ export default class TodayQuizCheckScreen extends Component {
         return (
           <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={[styles.answerSubmitButton, {width: '100%'}]}
-                onPress={onMovePrevQuiz}>
+              <TouchableOpacity style={[styles.answerSubmitButton, {width: '100%'}]} onPress={onMovePrevQuiz}>
                 <Text style={styles.answerSubmitButtonText}>이전문제</Text>
               </TouchableOpacity>
             </View>
@@ -243,14 +210,10 @@ export default class TodayQuizCheckScreen extends Component {
     };
 
     return (
-      <SafeAreaView
-        style={styles.container}
-        contentContainerStyle={{justifyContent: 'center'}}>
+      <SafeAreaView style={styles.container} contentContainerStyle={{justifyContent: 'center'}}>
         <View style={styles.contentContainer}>
           <View style={styles.closeView}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={this.props.navigation.goBack}>
+            <TouchableOpacity style={styles.closeButton} onPress={this.props.navigation.goBack}>
               <Text style={styles.closeButtonText}>닫기</Text>
             </TouchableOpacity>
           </View>

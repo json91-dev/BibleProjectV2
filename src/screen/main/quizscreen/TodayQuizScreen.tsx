@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView} from 'react-native';
 
-import QuizBallComponent from './components/QuizBallComponent';
+import QuizBall from './components/QuizBall';
 import TodayQuizItem from './components/TodayQuizItem';
 import {setItemToAsync, getDateStringByFormat} from '../../../utils';
 import {StackActions} from '@react-navigation/native';
@@ -232,7 +232,7 @@ export default class TodayQuizScreen extends Component {
         return (
           <View style={styles.todayQuizTitleView}>
             <Text style={styles.todayQuizTitleText}>오늘의 세례문답 {pageState + 1}/5</Text>
-            <QuizBallComponent quizBallState={currentQuizBallState} />
+            <QuizBall quizBallState={currentQuizBallState} />
           </View>
         );
       } else {
