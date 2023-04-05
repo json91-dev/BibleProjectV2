@@ -1,9 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 
-/**
- * 문자열이 특정길이 이상일때 ...으로 출력해주는 메서드
- */
+// 문자열이 특정길이 이상일때 ...으로 출력해주는 메서드
 export const textLengthOverCut = (txt, len, lastTxt) => {
   if (len == '' || len == null) {
     // 기본값
@@ -19,9 +17,7 @@ export const textLengthOverCut = (txt, len, lastTxt) => {
   return txt;
 };
 
-/**
- * bookCode에 따라 '구약' || '신약' 문자열 출력
- */
+// bookCode에 따라 '구약' || '신약' 문자열 출력
 export const printIsNewOrOldBibleByBookCode = bookCode => {
   if (bookCode >= 1 && bookCode < 40) {
     return '구약';
@@ -162,11 +158,7 @@ export const getNewBibleItems = () => {
 const errorCallback = e => {};
 const okCallback = result => {};
 
-let bibleDB = SQLite.openDatabase(
-  {name: 'BibleDB.db', createFromLocation: 1},
-  okCallback,
-  errorCallback,
-);
+let bibleDB = SQLite.openDatabase({name: 'BibleDB.db', createFromLocation: 1}, okCallback, errorCallback);
 export const getSqliteDatabase = () => {
   return bibleDB;
 };
@@ -283,4 +275,9 @@ export const getPassTimeText = oldDateString => {
   }
 
   return month_gap + '달전';
+};
+
+// 문자열 replace all
+export const replaceAll = (str, searchStr, replaceStr) => {
+  return str.split(searchStr).join(replaceStr);
 };
