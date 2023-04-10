@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 function replaceAll(str, searchStr, replaceStr) {
   return str.split(searchStr).join(replaceStr);
@@ -35,12 +35,12 @@ export default class ReviewQuizItem extends Component {
       return;
     }
     return (
-      <Text style={{marginTop: 5}}>
+      <Text style={{ marginTop: 5 }}>
         {resultTextArray.map(item => {
           if (item === quizWord) {
-            return <Text style={{color: '#F9DA4F'}}>{item}</Text>;
+            return <Text style={{ color: '#F9DA4F' }}>{item}</Text>;
           } else {
-            return <Text style={{color: 'white'}}>{item}</Text>;
+            return <Text style={{ color: 'white' }}>{item}</Text>;
           }
         })}
       </Text>
@@ -55,7 +55,7 @@ export default class ReviewQuizItem extends Component {
 
   render() {
     // const {index, quizVerse, quizWord, quizSentence} = this.props;
-    const {index, quizVerse, quizWord, quizSentence} = this.props;
+    const { index, quizVerse, quizWord, quizSentence } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.quizHeaderContainer}>
@@ -66,16 +66,12 @@ export default class ReviewQuizItem extends Component {
           {this.state.isOpenAnswer ? (
             this.highlightText(quizSentence, quizWord)
           ) : (
-            <Text style={styles.quizSentenceText}>
-              {this.makeBlankQuizSentence(quizSentence, quizWord)}
-            </Text>
+            <Text style={styles.quizSentenceText}>{this.makeBlankQuizSentence(quizSentence, quizWord)}</Text>
           )}
           {this.state.isOpenAnswer ? (
             <Text style={styles.answerText}>정답은 "{quizWord}" 입니다.</Text>
           ) : (
-            <TouchableOpacity
-              style={styles.answerButton}
-              onPress={this.showBlankQuiz.bind(this)}>
+            <TouchableOpacity style={styles.answerButton} onPress={this.showBlankQuiz.bind(this)}>
               <Text>정답보기</Text>
             </TouchableOpacity>
           )}

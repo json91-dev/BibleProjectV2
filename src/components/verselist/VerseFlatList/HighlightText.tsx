@@ -1,28 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
-const HighlightText = ({item, verseItemFontSize, verseItemFontFamily}) => {
+const HighlightText = ({ item, verseItemFontSize, verseItemFontFamily }) => {
   console.log(verseItemFontFamily);
   if (item.isHighlight) {
     return (
-      <Text
-        style={[
-          styles.flatListItemTextHighlight,
-          {fontSize: verseItemFontSize, fontFamily: verseItemFontFamily},
-        ]}>
+      <Text style={[styles.flatListItemTextHighlight, { fontSize: verseItemFontSize, fontFamily: verseItemFontFamily }]}>
         {item.content}
       </Text>
     );
   } else {
-    return (
-      <Text
-        style={[
-          styles.flatListItemText,
-          {fontSize: verseItemFontSize, fontFamily: verseItemFontFamily},
-        ]}>
-        {item.content}
-      </Text>
-    );
+    return <Text style={[styles.flatListItemText, { fontSize: verseItemFontSize, fontFamily: verseItemFontFamily }]}>{item.content}</Text>;
   }
 };
 

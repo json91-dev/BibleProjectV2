@@ -1,7 +1,7 @@
-import {Text} from 'react-native';
+import { Text } from 'react-native';
 import React from 'react';
 
-const QuizTimer = ({timerText}) => {
+const QuizTimer = ({ timerText }) => {
   return (
     <Text
       style={{

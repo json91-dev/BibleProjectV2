@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight,
-  SafeAreaView,
-} from 'react-native';
+import { StyleSheet, View, Text, TouchableHighlight, SafeAreaView } from 'react-native';
 
-import {FlatGrid} from 'react-native-super-grid';
-import AdmobBannerBottom from '../../components/AdmobBannerBottom';
-import {getOldBibleItems, getNewBibleItems} from '../../../utils';
+import { FlatGrid } from 'react-native-super-grid';
+import AdmobBannerBottom from '../../../components/common/AdmobBannerBottom';
+import { getOldBibleItems, getNewBibleItems } from '../../../utils';
 
 const BookListScreen = props => {
-  const {route, navigation} = props;
+  const { route, navigation } = props;
 
   const oldBibleItems = getOldBibleItems();
   const newBibleItems = getNewBibleItems();
@@ -26,9 +20,9 @@ const BookListScreen = props => {
         itemDimension={80}
         data={item}
         style={styles.gridView}
-        renderItem={({item, index}) => (
+        renderItem={({ item, index }) => (
           <TouchableHighlight
-            style={[styles.itemContainer, {backgroundColor: '#F3F4F9'}]}
+            style={[styles.itemContainer, { backgroundColor: '#F3F4F9' }]}
             activeOpacity={0.8}
             underlayColor={activeItemColor}
             // sqlite조회를 위한 bookId를 넘겨줍니다.

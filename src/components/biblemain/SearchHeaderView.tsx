@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 const SearchHeaderView = props => {
   const {
@@ -21,13 +15,8 @@ const SearchHeaderView = props => {
 
   return (
     <View style={styles.searchView}>
-      <TouchableOpacity
-        style={styles.searchIcon}
-        onPress={searchHeaderViewSearchPress}>
-        <Image
-          style={styles.searchIconImage}
-          source={require('../../assets/ic_search.png')}
-        />
+      <TouchableOpacity style={styles.searchIcon} onPress={searchHeaderViewSearchPress}>
+        <Image style={styles.searchIconImage} source={require('../../assets/ic_search.png')} />
       </TouchableOpacity>
       <View style={styles.searchViewInput}>
         <TextInput
@@ -39,19 +28,11 @@ const SearchHeaderView = props => {
           onChangeText={value => searchHeaderViewTextOnChange(value)}
           ref={textInputRef}></TextInput>
       </View>
-      <TouchableOpacity
-        style={styles.searchCancel}
-        onPress={searchHeaderViewCancelPress}>
-        <Image
-          style={styles.searchCancelImage}
-          source={require('../../assets/ic_close.png')}
-        />
+      <TouchableOpacity style={styles.searchCancel} onPress={searchHeaderViewCancelPress}>
+        <Image style={styles.searchCancelImage} source={require('../../assets/ic_close.png')} />
       </TouchableOpacity>
 
-      <Image
-        style={styles.searchViewBottom}
-        source={require('../../assets/ic_search_bottom.png')}
-      />
+      <Image style={styles.searchViewBottom} source={require('../../assets/ic_search_bottom.png')} />
     </View>
   );
 };

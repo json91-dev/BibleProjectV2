@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import { Component } from 'react';
 import React from 'react';
 import SQLite from 'react-native-sqlite-storage';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // SQLITE 성공/실패 예외처리
 const errorCallback = e => {
   console.log('DB connection fail');
@@ -19,12 +19,8 @@ export default class VerseListComponent extends Component {
   }
 
   componentDidMount() {
-    const {bookName, bookCode, chapterCode} = this.props;
-    let bibleDB = SQLite.openDatabase(
-      {name: 'BibleDB.db', createFromLocation: 1},
-      okCallback,
-      errorCallback,
-    );
+    const { bookName, bookCode, chapterCode } = this.props;
+    let bibleDB = SQLite.openDatabase({ name: 'BibleDB.db', createFromLocation: 1 }, okCallback, errorCallback);
     bibleDB.transaction(tx => {
       //성경의 절과 내용을 모두 가져오는 쿼리를 선언
       const query = `SELECT verse, content FROM bible_korHRV where book = ${bookCode} and chapter = ${chapterCode}`;
@@ -42,7 +38,7 @@ export default class VerseListComponent extends Component {
             verseCode,
           });
         }
-        this.setState({verseItems});
+        this.setState({ verseItems });
       });
     });
   }
@@ -57,16 +53,11 @@ export default class VerseListComponent extends Component {
           ref={ref => {
             this.flatListRef = ref;
           }}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             let verseCode = index + 1;
             return (
               <TouchableOpacity
-                onPress={this.props.changeScreenHandler(
-                  item.bookName,
-                  item.bookCode,
-                  item.chapterCode,
-                  item.verseCode,
-                )}
+                onPress={this.props.changeScreenHandler(item.bookName, item.bookCode, item.chapterCode, item.verseCode)}
                 style={styles.flatListItem}>
                 <Text style={styles.flatListItemTextLabel}> {verseCode}.</Text>
                 <Text style={styles.flatListItemText}>{item.content}</Text>

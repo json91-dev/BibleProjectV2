@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 /**
  * LongClick 시에 중앙에 있는 (복사, 형광펜, 메모)의 전체 모달 화면
@@ -14,14 +7,8 @@ import {
  * @returns {JSX.Element}
  * @constructor
  */
-const CommandModal = ({
-  modalBibleItem,
-  setCommandModalVisible,
-  openBibleNoteOptionModal,
-  actionCommandModal,
-  commandModalVisible,
-}) => {
-  const {isHighlight, isMemo} = modalBibleItem;
+const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOptionModal, actionCommandModal, commandModalVisible }) => {
+  const { isHighlight, isMemo } = modalBibleItem;
 
   return (
     <Modal
@@ -34,8 +21,7 @@ const CommandModal = ({
       <View style={styles.modalContainer}>
         <View style={styles.modalView}>
           <Text style={styles.modalHeader}>
-            {modalBibleItem.bookName} {modalBibleItem.chapterCode}장{' '}
-            {modalBibleItem.verseCode}절
+            {modalBibleItem.bookName} {modalBibleItem.chapterCode}장 {modalBibleItem.verseCode}절
           </Text>
           <View style={styles.modalViewItems}>
             {/*Copy 버튼*/}
@@ -45,10 +31,7 @@ const CommandModal = ({
                 setCommandModalVisible(false);
                 actionCommandModal('copy');
               }}>
-              <Image
-                style={[styles.modalItemImage, {marginRight: 2}]}
-                source={require('../../assets/ic_copy.png')}
-              />
+              <Image style={[styles.modalItemImage, { marginRight: 2 }]} source={require('../../assets/ic_copy.png')} />
               <Text style={styles.modalItemText}>복사</Text>
             </TouchableOpacity>
 
@@ -60,10 +43,7 @@ const CommandModal = ({
                   setCommandModalVisible(false);
                   actionCommandModal('highlight');
                 }}>
-                <Image
-                  style={styles.modalItemImage}
-                  source={require('../../assets/ic_color_pen.png')}
-                />
+                <Image style={styles.modalItemImage} source={require('../../assets/ic_color_pen.png')} />
                 <Text style={styles.modalItemText}>형광펜</Text>
               </TouchableOpacity>
             ) : (
@@ -73,23 +53,15 @@ const CommandModal = ({
                   setCommandModalVisible(false);
                   actionCommandModal('highlight');
                 }}>
-                <Image
-                  style={styles.modalItemImage}
-                  source={require('../../assets/ic_color_pen.png')}
-                />
+                <Image style={styles.modalItemImage} source={require('../../assets/ic_color_pen.png')} />
                 <Text style={styles.modalItemText}>형광펜</Text>
               </TouchableOpacity>
             )}
 
             {/*메모 버튼*/}
             {isMemo ? (
-              <TouchableOpacity
-                style={styles.memoButtonChecked}
-                onPress={openBibleNoteOptionModal}>
-                <Image
-                  style={[styles.modalItemImage, {marginLeft: 3}]}
-                  source={require('../../assets/ic_memo.png')}
-                />
+              <TouchableOpacity style={styles.memoButtonChecked} onPress={openBibleNoteOptionModal}>
+                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../assets/ic_memo.png')} />
                 <Text style={styles.modalItemText}>메모</Text>
               </TouchableOpacity>
             ) : (
@@ -99,10 +71,7 @@ const CommandModal = ({
                   setCommandModalVisible(false);
                   actionCommandModal('memo');
                 }}>
-                <Image
-                  style={[styles.modalItemImage, {marginLeft: 3}]}
-                  source={require('../../assets/ic_memo.png')}
-                />
+                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../assets/ic_memo.png')} />
                 <Text style={styles.modalItemText}>메모</Text>
               </TouchableOpacity>
             )}

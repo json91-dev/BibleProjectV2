@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-import {getItemFromAsync, setItemToAsync} from '../../../../utils';
+import { getItemFromAsync, setItemToAsync } from '../../utils';
 
 export default class FontChangeOption extends Component {
   state = {
@@ -49,7 +49,7 @@ export default class FontChangeOption extends Component {
   // 3: 기린체 applemyungjo-regular.ttf
   FontFamilyButtonComponent = () => {
     const onChangeFontFamily = option => () => {
-      const {changeFontFamilyHandler} = this.props;
+      const { changeFontFamilyHandler } = this.props;
 
       switch (option) {
         case 0:
@@ -73,22 +73,18 @@ export default class FontChangeOption extends Component {
     };
 
     const FontFamilyButtonNormal = () => {
-      const {fontFamilyOption} = this.state;
+      const { fontFamilyOption } = this.state;
 
       if (fontFamilyOption === 0) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontFamily(0)}>
-            <Text style={{fontSize: 12}}>기본</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontFamily(0)}>
+            <Text style={{ fontSize: 12 }}>기본</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontFamily(0)}>
-            <Text style={{fontSize: 12}}>기본</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontFamily(0)}>
+            <Text style={{ fontSize: 12 }}>기본</Text>
           </TouchableOpacity>
         );
       }
@@ -96,22 +92,18 @@ export default class FontChangeOption extends Component {
 
     // 맑은체
     const FontFamilyButtonBrush = () => {
-      const {fontFamilyOption} = this.state;
+      const { fontFamilyOption } = this.state;
 
       if (fontFamilyOption === 1) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontFamily(1)}>
-            <Text style={{fontSize: 12}}>맑은체</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontFamily(1)}>
+            <Text style={{ fontSize: 12 }}>맑은체</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontFamily(1)}>
-            <Text style={{fontSize: 12}}>맑은체</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontFamily(1)}>
+            <Text style={{ fontSize: 12 }}>맑은체</Text>
           </TouchableOpacity>
         );
       }
@@ -119,22 +111,18 @@ export default class FontChangeOption extends Component {
 
     // 명조체
     const FontFamilyButtonTmon = () => {
-      const {fontFamilyOption} = this.state;
+      const { fontFamilyOption } = this.state;
 
       if (fontFamilyOption === 2) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontFamily(2)}>
-            <Text style={{fontSize: 12}}>명조체</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontFamily(2)}>
+            <Text style={{ fontSize: 12 }}>명조체</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontFamily(2)}>
-            <Text style={{fontSize: 12}}>명조체</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontFamily(2)}>
+            <Text style={{ fontSize: 12 }}>명조체</Text>
           </TouchableOpacity>
         );
       }
@@ -142,22 +130,18 @@ export default class FontChangeOption extends Component {
 
     // 기린체
     const FontFamilyButtonApple = () => {
-      const {fontFamilyOption} = this.state;
+      const { fontFamilyOption } = this.state;
 
       if (fontFamilyOption === 3) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontFamily(3)}>
-            <Text style={{fontSize: 12}}>기린체</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontFamily(3)}>
+            <Text style={{ fontSize: 12 }}>기린체</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontFamily(3)}>
-            <Text style={{fontSize: 12}}>기린체</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontFamily(3)}>
+            <Text style={{ fontSize: 12 }}>기린체</Text>
           </TouchableOpacity>
         );
       }
@@ -182,7 +166,7 @@ export default class FontChangeOption extends Component {
     // 폰트변경 버튼이 눌렸을시 폰트사이즈를 바꿔줍니다.
     // 부모 컴포넌트인 VerseListScreen으로 부터 changeFontHandler를 넘겨받아 바뀔 폰트 사이즈를 전달.
     const onChangeFontSize = option => () => {
-      const {changeFontSizeHandler} = this.props;
+      const { changeFontSizeHandler } = this.props;
 
       switch (option) {
         case 0:
@@ -206,88 +190,72 @@ export default class FontChangeOption extends Component {
     };
 
     const FontSizeButton12 = () => {
-      const {fontSizeOption} = this.state;
+      const { fontSizeOption } = this.state;
 
       if (fontSizeOption === 0) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontSize(0)}>
-            <Text style={{fontSize: 12}}>12pt</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontSize(0)}>
+            <Text style={{ fontSize: 12 }}>12pt</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontSize(0)}>
-            <Text style={{fontSize: 12}}>12pt</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontSize(0)}>
+            <Text style={{ fontSize: 12 }}>12pt</Text>
           </TouchableOpacity>
         );
       }
     };
 
     const FontSizeButton14 = () => {
-      const {fontSizeOption} = this.state;
+      const { fontSizeOption } = this.state;
 
       if (fontSizeOption === 1) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontSize(1)}>
-            <Text style={{fontSize: 14}}>14pt</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontSize(1)}>
+            <Text style={{ fontSize: 14 }}>14pt</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontSize(1)}>
-            <Text style={{fontSize: 14}}>14pt</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontSize(1)}>
+            <Text style={{ fontSize: 14 }}>14pt</Text>
           </TouchableOpacity>
         );
       }
     };
 
     const FontSizeButton16 = () => {
-      const {fontSizeOption} = this.state;
+      const { fontSizeOption } = this.state;
 
       if (fontSizeOption === 2) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontSize(2)}>
-            <Text style={{fontSize: 16}}>16pt</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontSize(2)}>
+            <Text style={{ fontSize: 16 }}>16pt</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontSize(2)}>
-            <Text style={{fontSize: 16}}>16pt</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontSize(2)}>
+            <Text style={{ fontSize: 16 }}>16pt</Text>
           </TouchableOpacity>
         );
       }
     };
 
     const FontSizeButton18 = () => {
-      const {fontSizeOption} = this.state;
+      const { fontSizeOption } = this.state;
 
       if (fontSizeOption === 3) {
         return (
-          <TouchableOpacity
-            style={styles.fontButtonChecked}
-            onPress={onChangeFontSize(3)}>
-            <Text style={{fontSize: 18}}>18pt</Text>
+          <TouchableOpacity style={styles.fontButtonChecked} onPress={onChangeFontSize(3)}>
+            <Text style={{ fontSize: 18 }}>18pt</Text>
           </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            style={styles.fontButton}
-            onPress={onChangeFontSize(3)}>
-            <Text style={{fontSize: 18}}>18pt</Text>
+          <TouchableOpacity style={styles.fontButton} onPress={onChangeFontSize(3)}>
+            <Text style={{ fontSize: 18 }}>18pt</Text>
           </TouchableOpacity>
         );
       }
@@ -304,25 +272,23 @@ export default class FontChangeOption extends Component {
   };
 
   render() {
-    const {closeHandler} = this.props;
+    const { closeHandler } = this.props;
 
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={{width: 60}}></View>
+          <View style={{ width: 60 }}></View>
           <Text style={styles.headerTitle}>보기 설정</Text>
           <TouchableOpacity onPress={closeHandler}>
             <View style={styles.headerImageWrapper}>
-              <Image
-                style={styles.headerImage}
-                source={require('../../../../assets/ic_close.png')}></Image>
+              <Image style={styles.headerImage} source={require('../../assets/ic_close.png')}></Image>
             </View>
           </TouchableOpacity>
         </View>
         <Text style={styles.fontFamily}>글꼴</Text>
         {this.FontFamilyButtonComponent()}
 
-        <Text style={[styles.fontSize, {marginTop: 20}]}>글짜크기</Text>
+        <Text style={[styles.fontSize, { marginTop: 20 }]}>글짜크기</Text>
         {this.FontSizeButtonComponent()}
       </View>
     );

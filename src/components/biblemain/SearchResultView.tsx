@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const SearchResultView = props => {
-  const {searchResultItems, moveToBibleChapter} = props;
+  const { searchResultItems, moveToBibleChapter } = props;
 
   return (
     <View style={styles.searchResultView}>
@@ -17,24 +10,16 @@ const SearchResultView = props => {
         style={styles.searchResultFlat}
         data={searchResultItems}
         keyExtractor={(item, index) => item + index}
-        renderItem={({item, index}) => {
+        renderItem={({ item }) => {
           return (
-            <TouchableOpacity
-              style={styles.searchResultFlatItem}
-              onPress={() => moveToBibleChapter(item)}>
-              <View style={{width: '90%'}}>
+            <TouchableOpacity style={styles.searchResultFlatItem} onPress={() => moveToBibleChapter(item)}>
+              <View style={{ width: '90%' }}>
                 <Text style={styles.searchResultFlatItemTitle}>
-                  {item.bibleName}-{item.bookName} {item.chapterCode}장{' '}
-                  {item.verseCode}절
+                  {item.bibleName}-{item.bookName} {item.chapterCode}장 {item.verseCode}절
                 </Text>
-                <Text style={styles.searchResultFlatItemContent}>
-                  {item.content}
-                </Text>
+                <Text style={styles.searchResultFlatItemContent}>{item.content}</Text>
               </View>
-              <Image
-                style={styles.searchResultFlatItemImage}
-                source={require('../../assets/ic_arrow.png')}
-              />
+              <Image style={styles.searchResultFlatItemImage} source={require('../../assets/ic_arrow.png')} />
             </TouchableOpacity>
           );
         }}

@@ -1,26 +1,13 @@
-import {StackActions} from '@react-navigation/native';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useCallback} from 'react';
+import { StackActions } from '@react-navigation/native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback } from 'react';
 import MemoIndicator from './MemoIndicator';
 import HighlightText from './HighlightText';
 import NextButton from './NextButton';
 import PrevButton from './PrevButton';
 
 const VerseFlatList = props => {
-  const {
-    navigation,
-    verseItems,
-    verseItemFontSize,
-    verseItemFontFamily,
-    onLongPressButton,
-  } = props;
+  const { navigation, verseItems, verseItemFontSize, verseItemFontFamily, onLongPressButton } = props;
 
   /** 하단(이전,다음) 버튼에 대한 이벤트 처리 메서드 **/
   const moveChapter = useCallback((item, index) => {
@@ -35,52 +22,28 @@ const VerseFlatList = props => {
     navigation.dispatch(pushChapterList);
   }, []);
 
-  const VerseItemContainer = ({item, index}) => {
+  const VerseItemContainer = ({ item, index }) => {
     let verseCodeLabel = index + 1;
-    const {chapterCode, maxChapterCode} = verseItems[0];
+    const { chapterCode, maxChapterCode } = verseItems[0];
 
     return (
       <View>
         {index < verseItems.length - 1 ? (
-          <TouchableOpacity
-            style={styles.flatList}
-            onLongPress={() => onLongPressButton(item)}>
+          <TouchableOpacity style={styles.flatList} onLongPress={() => onLongPressButton(item)}>
             <View style={styles.flatListVerseItem}>
-              <MemoIndicator
-                item={item}
-                verseItemFontSize={verseItemFontSize}
-              />
-              <Text
-                style={[
-                  styles.flatListItemTextLabel,
-                  {fontSize: verseItemFontSize},
-                ]}>
-                {verseCodeLabel}.{' '}
-              </Text>
-              <HighlightText
-                item={item}
-                verseItemFontSize={verseItemFontSize}
-                verseItemFontFamily={verseItemFontFamily}
-              />
+              <MemoIndicator item={item} verseItemFontSize={verseItemFontSize} />
+              <Text style={[styles.flatListItemTextLabel, { fontSize: verseItemFontSize }]}>{verseCodeLabel}. </Text>
+              <HighlightText item={item} verseItemFontSize={verseItemFontSize} verseItemFontFamily={verseItemFontFamily} />
             </View>
           </TouchableOpacity>
         ) : (
           <View style={styles.moveChapter}>
             {index >= verseItems.length - 1 && chapterCode > 1 && (
-              <PrevButton
-                moveChapter={moveChapter}
-                chapterCode={chapterCode}
-                item={item}
-              />
+              <PrevButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} />
             )}
 
             {index >= verseItems.length - 1 && chapterCode < maxChapterCode && (
-              <NextButton
-                moveChapter={moveChapter}
-                chapterCode={chapterCode}
-                item={item}
-                maxChapterCode={maxChapterCode}
-              />
+              <NextButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} maxChapterCode={maxChapterCode} />
             )}
           </View>
         )}
@@ -91,7 +54,7 @@ const VerseFlatList = props => {
   return (
     <FlatList
       style={styles.flatList}
-      contentContainerStyle={{alignItems: 'center'}}
+      contentContainerStyle={{ alignItems: 'center' }}
       data={verseItems}
       keyExtractor={(item, index) => index.toString()}
       // ref={(ref) => {this.flatListRef = ref;}}

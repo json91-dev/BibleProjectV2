@@ -1,35 +1,22 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
 const MainBibleView = props => {
-  const {goToBookListScreen, verseSentence, verseString} = props;
+  const { goToBookListScreen, verseSentence, verseString } = props;
 
   return (
     <>
       <View style={styles.mainView}>
-        <Image
-          style={styles.todayImage}
-          source={require('../../assets/ic_today_title.png')}
-        />
+        <Image style={styles.todayImage} source={require('../../assets/ic_today_title.png')} />
         <Text style={styles.todayWord}>{verseSentence}</Text>
         <Text style={styles.todayWordDetail}>{verseString}</Text>
         <Text style={styles.linkLabel}>성경책 읽기</Text>
-        <TouchableOpacity
-          style={styles.bibleLink}
-          onPress={() => goToBookListScreen(0)}>
-          <Image
-            style={styles.bibleLinkImage}
-            source={require('../../assets/btn_old_bible.png')}
-          />
+        <TouchableOpacity style={styles.bibleLink} onPress={() => goToBookListScreen(0)}>
+          <Image style={styles.bibleLinkImage} source={require('../../assets/btn_old_bible.png')} />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.bibleLink}
-          onPress={() => goToBookListScreen(1)}>
-          <Image
-            style={styles.bibleLinkImage}
-            source={require('../../assets/btn_new_bible.png')}
-          />
+        <TouchableOpacity style={styles.bibleLink} onPress={() => goToBookListScreen(1)}>
+          <Image style={styles.bibleLinkImage} source={require('../../assets/btn_new_bible.png')} />
         </TouchableOpacity>
       </View>
     </>

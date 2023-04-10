@@ -1,18 +1,18 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image, Clipboard} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
 
 import Toast from 'react-native-easy-toast';
-import {getBibleVerseItems, getItemFromAsync, printIsNewOrOldBibleByBookCode, setItemToAsync} from '../../../utils';
+import { getBibleVerseItems, getItemFromAsync, printIsNewOrOldBibleByBookCode, setItemToAsync } from '../../../utils';
 import CommandModal from '../../../components/verselist/CommandModal';
-import BibleListOption from './components/biblelistOption/BibleListOption';
-import BibleNoteOption from './components/BibleNoteOption';
-import FontChangeOption from './components/FontChangeOption';
-import {StackActions} from '@react-navigation/native';
+import BibleListOption from '../../../components/verselist/biblelistOption/BibleListOption';
+import BibleNoteOption from '../../../components/verselist/BibleNoteOption';
+import FontChangeOption from '../../../components/verselist/FontChangeOption';
+import { StackActions } from '@react-navigation/native';
 import MemoModal from '../../../components/verselist/MemoModal';
 import VerseFlatList from '../../../components/verselist/VerseFlatList/VerseFlatList';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../../../components/common/LoadingSpinner';
 
-const VerseListScreen = ({navigation, route}) => {
+const VerseListScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [verseItems, setVerseItems] = useState([]);
   const [commandModalVisible, setCommandModalVisible] = useState(false);
@@ -146,7 +146,7 @@ const VerseListScreen = ({navigation, route}) => {
 
   const updateVerseItems = useCallback(async () => {
     /** 1. 최근 읽은 성경 주소 저장 **/
-    const {bookName, bookCode, chapterCode} = route.params;
+    const { bookName, bookCode, chapterCode } = route.params;
     await saveLatestBibleVerse(bookName, bookCode, chapterCode);
 
     /** 2. 로컬 스토리지에 저장된 폰트 사이즈와 폰트 패밀리를 불러옴. **/
@@ -174,7 +174,7 @@ const VerseListScreen = ({navigation, route}) => {
   /** 구 setModalVisible **/
   const actionCommandModal = useCallback(
     async modalAction => {
-      const {bookCode, chapterCode, verseCode, content, isHighlight} = modalBibleItem;
+      const { bookCode, chapterCode, verseCode, content, isHighlight } = modalBibleItem;
       switch (modalAction) {
         case 'copy': {
           Clipboard.setString(content);
@@ -199,7 +199,7 @@ const VerseListScreen = ({navigation, route}) => {
             if (highlightItems === null) {
               highlightItems = [];
             }
-            highlightItems.push({bookCode, chapterCode, verseCode});
+            highlightItems.push({ bookCode, chapterCode, verseCode });
             console.log(highlightItems);
 
             await setItemToAsync('highlightList', highlightItems);
@@ -314,7 +314,7 @@ const VerseListScreen = ({navigation, route}) => {
         />
 
         {/* 하단 목차, 성경노트, 보기설정에 대한 footer option */}
-        <View keyboardVerticalOffset={10} contentContainerStyle={{borderColor: 'red'}} style={styles.footerOptionContainer}>
+        <View keyboardVerticalOffset={10} contentContainerStyle={{ borderColor: 'red' }} style={styles.footerOptionContainer}>
           <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleListOptionModal}>
             <Image style={styles.footerOptionIcon} source={bibleListOptionIconUri} />
             <Text>목차</Text>

@@ -1,13 +1,6 @@
-import {Component} from 'react';
+import { Component } from 'react';
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  FlatList,
-} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 
 // SQLITE 성공/실패 예외처리
@@ -26,13 +19,9 @@ export default class ChapterListComponent extends Component {
   };
 
   componentDidMount() {
-    const {bookName, bookCode} = this.props;
+    const { bookName, bookCode } = this.props;
     // 성경의 장을 모두 가져오는 쿼리를 수행.
-    let bibleDB = SQLite.openDatabase(
-      {name: 'BibleDB.db', createFromLocation: 1},
-      okCallback,
-      errorCallback,
-    );
+    let bibleDB = SQLite.openDatabase({ name: 'BibleDB.db', createFromLocation: 1 }, okCallback, errorCallback);
     bibleDB.transaction(tx => {
       const query = `SELECT max(chapter) as count FROM bible_korHRV where book = ${bookCode}`;
       tx.executeSql(query, [], (tx, results) => {
@@ -47,7 +36,7 @@ export default class ChapterListComponent extends Component {
             bookName,
           });
         }
-        this.setState({chapterItems});
+        this.setState({ chapterItems });
       });
     });
   }
@@ -67,17 +56,12 @@ export default class ChapterListComponent extends Component {
           style={styles.flatList}
           data={this.state.chapterItems}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             let chapterCode = index + 1;
             return (
               <TouchableOpacity
                 style={styles.flatListItem}
-                onPress={this.props.changePageHandler(
-                  2,
-                  item.bookName,
-                  item.bookCode,
-                  chapterCode,
-                )}>
+                onPress={this.props.changePageHandler(2, item.bookName, item.bookCode, chapterCode)}>
                 <Text style={styles.flatListItemText}>
                   {chapterCode}. {item.bookName}
                   {chapterCode}장

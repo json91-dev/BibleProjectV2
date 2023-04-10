@@ -1,9 +1,9 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 
-import QuizMainScreen from './QuizMainScreenBackup';
-import TodayQuizScreen from './TodayQuizScreen';
-import TodayQuizCheckScreen from './TodayQuizCheckScreen';
+import QuizMainScreen from './QuizMainScreen';
+import TodayQuizScreen from './TodayQuizScreenBackup';
+import TodayQuizCheckScreen from './TodayQuizCheckScreenBackup';
 
 const Stack = createStackNavigator();
 

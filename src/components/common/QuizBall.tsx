@@ -1,11 +1,8 @@
 import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
+import { QUIZ_BEFORE, QUIZ_FAIL, QUIZ_SUCCESS } from '../../constraints';
 
-const QUIZ_BEFORE = -1;
-const QUIZ_SUCCESS = 1;
-const QUIZ_FAIL = 0;
-
-const QuizBall = ({quizBallState}) => {
+const QuizBall = ({ quizBallState }) => {
   return (
     <View style={styles.container}>
       {quizBallState.map((num, index) => {
@@ -15,28 +12,20 @@ const QuizBall = ({quizBallState}) => {
               <Image
                 key={num.toString() + index.toString()}
                 style={styles.ballImage}
-                source={require('../../../../assets/ic_quizball_none.png')}
+                source={require('../../assets/ic_quizball_none.png')}
               />
             );
           }
 
           case QUIZ_FAIL: {
             return (
-              <Image
-                key={num.toString() + index.toString()}
-                style={styles.ballImage}
-                source={require('../../../../assets/ic_quizball_x.png')}
-              />
+              <Image key={num.toString() + index.toString()} style={styles.ballImage} source={require('../../assets/ic_quizball_x.png')} />
             );
           }
 
           case QUIZ_SUCCESS: {
             return (
-              <Image
-                key={num.toString() + index.toString()}
-                style={styles.ballImage}
-                source={require('../../../../assets/ic_quizball_o.png')}
-              />
+              <Image key={num.toString() + index.toString()} style={styles.ballImage} source={require('../../assets/ic_quizball_o.png')} />
             );
           }
 

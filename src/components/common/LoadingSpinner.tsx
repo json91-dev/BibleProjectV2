@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, Animated} from 'react-native';
+/** 추후 삭제 **/
+import React, { Component } from 'react';
+import { View, StyleSheet, Animated } from 'react-native';
 
 export default class LoadingSpinner extends Component {
   constructor() {
@@ -34,7 +35,7 @@ export default class LoadingSpinner extends Component {
       <View style={styles.container}>
         <Animated.Image
           style={{
-            transform: [{rotate: RotateData}],
+            transform: [{ rotate: RotateData }],
             width: 50,
             height: 50,
           }}

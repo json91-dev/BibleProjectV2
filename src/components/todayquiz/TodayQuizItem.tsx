@@ -1,6 +1,6 @@
-import React, {useMemo, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {replaceAll} from '../../../../utils';
+import React, { useMemo, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { replaceAll } from '../../utils';
 import TodayQuizItemHighlightText from './TodayQuizItemHighlightText';
 
 type TodayQuizItemType = {
@@ -9,9 +9,9 @@ type TodayQuizItemType = {
   quizData: any;
 };
 
-const TodayQuizItem = ({quizData, isOpened}) => {
+const TodayQuizItem = ({ quizData, isOpened }) => {
   const [isOpenAnswer, setIsOpenAnswer] = useState(false);
-  const {quizVerse, quizWord, quizSentence} = quizData;
+  const { quizVerse, quizWord, quizSentence } = quizData;
 
   // 퀴즈의 정답제출이 끝나거나 퀴즈 화면이 이동할때를 위해
   // 넘어온 isOpened props 를 현재 isOpenAnswer state 로 동기화 (ex: getDerivedStateFromProps)

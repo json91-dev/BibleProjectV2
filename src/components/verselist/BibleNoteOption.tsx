@@ -1,19 +1,11 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  TextInput,
-} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, TextInput } from 'react-native';
 
-import {getItemFromAsync, setItemToAsync} from '../../../../utils';
+import { getItemFromAsync, setItemToAsync } from '../../utils';
 import Toast from 'react-native-easy-toast';
-import {getPassTimeText} from '../../../../utils';
+import { getPassTimeText } from '../../utils';
 
-const BibleNoteOption = ({closeHandler, updateVerseItems}) => {
+const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
   const [noteItems, setNoteItems] = useState([]);
   const [isNoteItemUpdate, setIsNoteItemUpdate] = useState(false);
   const [isOpenMemoEdit, setIsOpenMemoEdit] = useState(false);
@@ -67,13 +59,7 @@ const BibleNoteOption = ({closeHandler, updateVerseItems}) => {
       setMemoEditTextInput(memo);
       setIsOpenMemoEdit(true);
     },
-    [
-      memoEditObjectId,
-      memoEditVerseText,
-      memoEditMemo,
-      memoEditContent,
-      isOpenMemoEdit,
-    ],
+    [memoEditObjectId, memoEditVerseText, memoEditMemo, memoEditContent, isOpenMemoEdit],
   );
 
   /**
@@ -165,11 +151,7 @@ const BibleNoteOption = ({closeHandler, updateVerseItems}) => {
         memoList.sort((a, b) => {
           const timestamp_a = new Date(a.date).getTime();
           const timestamp_b = new Date(b.date).getTime();
-          return timestamp_a < timestamp_b
-            ? -1
-            : timestamp_a > timestamp_b
-            ? 1
-            : 0;
+          return timestamp_a < timestamp_b ? -1 : timestamp_a > timestamp_b ? 1 : 0;
         });
 
         toastRef.current.show('노트가 수정되었습니다 :)');
@@ -187,39 +169,24 @@ const BibleNoteOption = ({closeHandler, updateVerseItems}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={{position: 'absolute', left: 5}}
-          onPress={backToMemoList}>
+        <TouchableOpacity style={{ position: 'absolute', left: 5 }} onPress={backToMemoList}>
           {isOpenMemoEdit ? (
             <View style={styles.headerLeftImageWrapper}>
-              <Image
-                style={styles.headerLeftImage}
-                source={require('../../../../assets/ic_left_arrow.png')}
-              />
+              <Image style={styles.headerLeftImage} source={require('../../assets/ic_left_arrow.png')} />
             </View>
           ) : null}
         </TouchableOpacity>
         <Text style={styles.headerText}>성경노트</Text>
-        <TouchableOpacity
-          style={{position: 'absolute', right: 5}}
-          onPress={closeMemoComponent}>
+        <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={closeMemoComponent}>
           <View style={styles.headerRightImageWrapper}>
-            <Image
-              style={styles.headerRightImage}
-              source={require('../../../../assets/ic_close.png')}
-            />
+            <Image style={styles.headerRightImage} source={require('../../assets/ic_close.png')} />
           </View>
         </TouchableOpacity>
       </View>
       {noteItems.length === 0 && isNoteItemUpdate && (
         <View style={styles.memoNone}>
-          <Image
-            style={styles.memoNoneImage}
-            source={require('../../../../assets/ic_note.png')}
-          />
-          <Text style={styles.memoNoneText}>
-            메모한 흔적이 없어요.{'\n'}너무 소홀하셨던거 아닐까요?
-          </Text>
+          <Image style={styles.memoNoneImage} source={require('../../assets/ic_note.png')} />
+          <Text style={styles.memoNoneText}>메모한 흔적이 없어요.{'\n'}너무 소홀하셨던거 아닐까요?</Text>
         </View>
       )}
 
@@ -227,38 +194,19 @@ const BibleNoteOption = ({closeHandler, updateVerseItems}) => {
         <FlatList
           style={styles.flatList}
           data={noteItems}
-          keyExtractor={(item, index) =>
-            item.toString() + index.toString() + item.content
-          }
-          renderItem={({item, index}) => {
-            const {
-              objectId,
-              bookName,
-              chapterCode,
-              verseCode,
-              content,
-              memo,
-              passTimeText,
-            } = item;
+          keyExtractor={(item, index) => item.toString() + index.toString() + item.content}
+          renderItem={({ item, index }) => {
+            const { objectId, bookName, chapterCode, verseCode, content, memo, passTimeText } = item;
             const verseText = `${bookName} ${chapterCode}장 ${verseCode}절`;
             return (
               <View>
-                <TouchableOpacity
-                  onPress={() =>
-                    openMemoEdit(objectId, verseText, content, memo)
-                  }>
+                <TouchableOpacity onPress={() => openMemoEdit(objectId, verseText, content, memo)}>
                   <View style={styles.memoItem}>
                     <Text style={styles.memoItemIndex}>{index + 1}.</Text>
                     <View style={styles.memoItemContent}>
-                      <Text style={styles.memoItemContentVerseText}>
-                        {verseText}
-                      </Text>
-                      <Text style={styles.memoItemContentMemo}>
-                        {memo.toString()}
-                      </Text>
-                      <Text style={styles.memoItemContentDate}>
-                        {passTimeText}
-                      </Text>
+                      <Text style={styles.memoItemContentVerseText}>{verseText}</Text>
+                      <Text style={styles.memoItemContentMemo}>{memo.toString()}</Text>
+                      <Text style={styles.memoItemContentDate}>{passTimeText}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -283,12 +231,7 @@ const BibleNoteOption = ({closeHandler, updateVerseItems}) => {
         </View>
       )}
 
-      <Toast
-        ref={toastRef}
-        positionValue={160}
-        fadeInDuration={200}
-        fadeOutDuration={1000}
-      />
+      <Toast ref={toastRef} positionValue={160} fadeInDuration={200} fadeOutDuration={1000} />
     </View>
   );
 };

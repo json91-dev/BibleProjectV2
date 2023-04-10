@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
-import {StyleSheet, View, Text} from 'react-native';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import { StyleSheet, View, Text } from 'react-native';
+import LoadingSpinner from '../../../components/common/LoadingSpinner';
 import firestore from '@react-native-firebase/firestore';
 
 const renderHeader = (section, index) => {
@@ -76,7 +76,7 @@ const NoticeScreen = () => {
   } else {
     return (
       <Accordion
-        containerStyle={{backgroundColor: 'white', height: '100%'}}
+        containerStyle={{ backgroundColor: 'white', height: '100%' }}
         sections={notificationDataArray}
         activeSections={activeSections}
         renderHeader={renderHeader}

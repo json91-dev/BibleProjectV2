@@ -1,9 +1,9 @@
-import {Component} from 'react';
+import { Component } from 'react';
 import React from 'react';
-import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
-import {SectionGrid} from 'react-native-super-grid';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { SectionGrid } from 'react-native-super-grid';
 
-import {getOldBibleItems, getNewBibleItems} from '../../../../../utils';
+import { getOldBibleItems, getNewBibleItems } from '../../../utils';
 
 export default class BookListComponent extends Component {
   render() {
@@ -25,27 +25,21 @@ export default class BookListComponent extends Component {
             },
           ]}
           style={styles.gridView}
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             <TouchableHighlight
-              style={[styles.itemContainer, {backgroundColor: '#F3F4F9'}]}
+              style={[styles.itemContainer, { backgroundColor: '#F3F4F9' }]}
               activeOpacity={0.8}
               underlayColor={activeItemColor}
               // sqlite조회를 위한 bookId를 넘겨줍니다.
               //onPress={() => this.props.navigation.navigate('ChapterListScreen',{bookName: item.bookName, bookCode: item.bookCode})}
-              onPress={this.props.changePageHandler(
-                1,
-                item.bookName,
-                item.bookCode,
-              )}>
+              onPress={this.props.changePageHandler(1, item.bookName, item.bookCode)}>
               <View>
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemCode}>{item.bookName}</Text>
               </View>
             </TouchableHighlight>
           )}
-          renderSectionHeader={({section}) => (
-            <Text style={styles.titleText}>{section.title}</Text>
-          )}
+          renderSectionHeader={({ section }) => <Text style={styles.titleText}>{section.title}</Text>}
         />
       </View>
     );

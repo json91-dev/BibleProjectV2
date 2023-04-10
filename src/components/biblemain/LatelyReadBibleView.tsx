@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const LatelyReadBibleView = props => {
-  const {goToLatestReadScreen, latelyReadItem} = props;
-  const {bibleName, bookName, bookCode, chapterCode} = latelyReadItem;
+  const { goToLatestReadScreen, latelyReadItem } = props;
+  const { bibleName, bookName, bookCode, chapterCode } = latelyReadItem;
 
   return (
     <View style={styles.latelyReadBibleView}>
@@ -13,8 +13,7 @@ const LatelyReadBibleView = props => {
           {bibleName} - {bookName} {chapterCode}장
         </Text>
       </View>
-      <TouchableOpacity
-        onPress={() => goToLatestReadScreen(bookName, bookCode, chapterCode)}>
+      <TouchableOpacity onPress={() => goToLatestReadScreen(bookName, bookCode, chapterCode)}>
         <Text style={styles.latelyReadBibleViewButton}>이어보기</Text>
       </TouchableOpacity>
     </View>

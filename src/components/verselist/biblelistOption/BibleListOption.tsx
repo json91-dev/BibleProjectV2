@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
 import BookListComponent from './BookListComponent';
 import ChapterListComponent from './ChapterListComponent';
@@ -23,38 +23,24 @@ export default class BibleListOption extends Component {
     const headerBackButton = () => {
       return pageStack === 0 ? null : (
         <View style={styles.headerLeftImageWrapper}>
-          <Image
-            style={styles.headerLeftImage}
-            source={require('../../../../../assets/ic_left_arrow.png')}
-          />
+          <Image style={styles.headerLeftImage} source={require('../../../assets/ic_left_arrow.png')} />
         </View>
       );
     };
 
     const headerText = () => {
-      return pageStack === 0 ? (
-        <Text style={styles.headerText}>목차</Text>
-      ) : (
-        <Text style={styles.headerText}>{this.state.verseText}</Text>
-      );
+      return pageStack === 0 ? <Text style={styles.headerText}>목차</Text> : <Text style={styles.headerText}>{this.state.verseText}</Text>;
     };
 
     return (
       <View style={styles.header}>
-        <TouchableOpacity
-          style={{position: 'absolute', left: 5}}
-          onPress={this.backToMemoList}>
+        <TouchableOpacity style={{ position: 'absolute', left: 5 }} onPress={this.backToMemoList}>
           {headerBackButton()}
         </TouchableOpacity>
         {headerText()}
-        <TouchableOpacity
-          style={{position: 'absolute', right: 5}}
-          onPress={this.closeMemoComponent}>
+        <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={this.closeMemoComponent}>
           <View style={styles.headerRightImageWrapper}>
-            <Image
-              style={styles.headerRightImage}
-              source={require('../../../../../assets/ic_close.png')}
-            />
+            <Image style={styles.headerRightImage} source={require('../../../assets/ic_close.png')} />
           </View>
         </TouchableOpacity>
       </View>
@@ -66,21 +52,10 @@ export default class BibleListOption extends Component {
     switch (pageStack) {
       case 0:
         const bibleType = this.props.bibleType;
-        return (
-          <BookListComponent
-            bibleType={bibleType}
-            changePageHandler={this.changePage}
-          />
-        );
+        return <BookListComponent bibleType={bibleType} changePageHandler={this.changePage} />;
         break;
       case 1:
-        return (
-          <ChapterListComponent
-            changePageHandler={this.changePage}
-            bookName={this.state.bookName}
-            bookCode={this.state.bookCode}
-          />
-        );
+        return <ChapterListComponent changePageHandler={this.changePage} bookName={this.state.bookName} bookCode={this.state.bookCode} />;
         break;
       case 2:
         return (

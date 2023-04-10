@@ -1,12 +1,12 @@
-import React, {Component, useCallback, useEffect, useState} from 'react';
-import {StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View} from 'react-native';
-import ReviewQuizItem from './components/ReviewQuizItem';
-import {getDateStringByFormat, getItemFromAsync, setItemToAsync} from '../../../utils';
-import QuizBall from './components/QuizBall';
-import QuizTimer from './components/QuizTimer';
+import React, { Component, useCallback, useEffect, useState } from 'react';
+import { StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View } from 'react-native';
+import ReviewQuizItem from '../../../components/reviewquiz/ReviewQuizItem';
+import { getDateStringByFormat, getItemFromAsync, setItemToAsync } from '../../../utils';
+import QuizBall from '../../../components/common/QuizBall';
+import QuizTimer from '../../../components/quizmain/QuizTimer';
 let timer = null; // 전역 타이머 설정
 
-const QuizScreen = ({navigation}) => {
+const QuizScreen = ({ navigation }) => {
   const [isCompleteTodayQuiz, setIsCompleteTodayQuiz] = useState(false); // 오늘의 퀴즈를 풀었으면 true
   const [isGiveUpTodayQuiz, setIsGiveUpTodayQuiz] = useState(false); // 오늘의 퀴즈를 포기하였다면 true
   const [reviewQuizData, setReviewQuizData] = useState([]); // 오늘의 푼 퀴즈에 대한 복습문제
@@ -126,7 +126,7 @@ const QuizScreen = ({navigation}) => {
   return (
     <>
       {isCompleteTodayQuiz && (
-        <SafeAreaView style={styles.completeQuizContainer} contentContainerStyle={{justifyContent: 'center'}}>
+        <SafeAreaView style={styles.completeQuizContainer} contentContainerStyle={{ justifyContent: 'center' }}>
           <View>
             <TouchableOpacity onPress={() => navigation.navigate('TodayQuizCheckScreen')}>
               <Image style={styles.quizResultQuestionImage} source={require('../../../assets/ic_question_quiz_result.png')} />
@@ -134,14 +134,14 @@ const QuizScreen = ({navigation}) => {
             <Image style={styles.quizResultJesusImage} source={require('../../../assets/ic_jesus_weird.png')} />
             <Text style={styles.titleText}>오늘의 세례문답 성적은</Text>
             <QuizBall quizBallState={currentQuizBallState} />
-            <Text style={[styles.titleText, {marginTop: 80}]}>내일의 세례문답까지.</Text>
+            <Text style={[styles.titleText, { marginTop: 80 }]}>내일의 세례문답까지.</Text>
             <QuizTimer timerText={timerText} />
           </View>
         </SafeAreaView>
       )}
 
       {isGiveUpTodayQuiz && (
-        <SafeAreaView style={styles.completeQuizContainer} contentContainerStyle={{justifyContent: 'center'}}>
+        <SafeAreaView style={styles.completeQuizContainer} contentContainerStyle={{ justifyContent: 'center' }}>
           <View>
             <TouchableOpacity onPress={() => navigation.navigate('TodayQuizCheckScreen')}>
               <Image style={styles.quizResultQuestionImage} source={require('../../../assets/ic_question_quiz_result.png')} />
@@ -157,7 +157,7 @@ const QuizScreen = ({navigation}) => {
 
       {!isCompleteTodayQuiz && !isGiveUpTodayQuiz && reviewQuizData === null && (
         <SafeAreaView style={styles.container}>
-          <View style={{borderWidth: 1}}>
+          <View style={{ borderWidth: 1 }}>
             <Image style={styles.titleImage} source={require('../../../assets/ic_jesus.png')} />
             <Text style={styles.titleText}>
               오늘의 세례문답{'\n'}퀴즈를 시작할 준비가{'\n'}되셨나요?
@@ -182,7 +182,7 @@ const QuizScreen = ({navigation}) => {
                 borderBottomColor: '#CCCCCC',
               }}>
               <TouchableOpacity onPress={() => navigation.navigate('TodayQuizScreen')}>
-                <Text style={{fontSize: 16}}>건너뛰기</Text>
+                <Text style={{ fontSize: 16 }}>건너뛰기</Text>
               </TouchableOpacity>
             </View>
 

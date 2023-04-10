@@ -1,14 +1,6 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {getItemFromAsync, setItemToAsync, uuidv4} from '../../utils';
+import React, { useCallback, useRef, useState } from 'react';
+import { Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getItemFromAsync, setItemToAsync, uuidv4 } from '../../utils';
 
 /**
  * Memo를 입력하는 Modal 창
@@ -16,16 +8,9 @@ import {getItemFromAsync, setItemToAsync, uuidv4} from '../../utils';
  * @returns {JSX.Element}
  * @constructor
  */
-const MemoModal = ({
-  memoModalVisible,
-  modalBibleItem,
-  setMemoModalVisible,
-  updateVerseItems,
-  toastRef,
-}) => {
-  const [memoModalSaveButtonActive, setMemoModalSaveButtonActive] =
-    useState(false);
-  const {bookName, bookCode, chapterCode, verseCode, content} = modalBibleItem;
+const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, updateVerseItems, toastRef }) => {
+  const [memoModalSaveButtonActive, setMemoModalSaveButtonActive] = useState(false);
+  const { bookName, bookCode, chapterCode, verseCode, content } = modalBibleItem;
   let memo = useRef('');
 
   const onChangeText = useCallback(
@@ -76,9 +61,7 @@ const MemoModal = ({
           <View style={styles.memoModalHeader}>
             <TouchableOpacity style={styles.memoModalHeaderSave}>
               {memoModalSaveButtonActive ? (
-                <Text
-                  style={styles.memoModalHeaderSaveTextActive}
-                  onPress={onPressSaveButton}>
+                <Text style={styles.memoModalHeaderSaveTextActive} onPress={onPressSaveButton}>
                   저장
                 </Text>
               ) : (
@@ -86,13 +69,8 @@ const MemoModal = ({
               )}
             </TouchableOpacity>
             <Text style={styles.memoModalHeaderText}>메모</Text>
-            <TouchableOpacity
-              style={styles.memoModalHeaderCancel}
-              onPress={() => setMemoModalVisible(false)}>
-              <Image
-                style={styles.memoModalHeaderCancelImage}
-                source={require('../../assets/ic_close.png')}
-              />
+            <TouchableOpacity style={styles.memoModalHeaderCancel} onPress={() => setMemoModalVisible(false)}>
+              <Image style={styles.memoModalHeaderCancelImage} source={require('../../assets/ic_close.png')} />
             </TouchableOpacity>
           </View>
           <View style={styles.memoModalBible}>
