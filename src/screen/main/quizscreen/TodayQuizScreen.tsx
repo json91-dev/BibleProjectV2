@@ -1,4 +1,4 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
+import React, { Component, useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView } from 'react-native';
 import { QUIZ_BEFORE, QUIZ_FAIL, QUIZ_SUCCESS } from '../../../constraints';
 
@@ -7,28 +7,22 @@ import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
 import { setItemToAsync, getDateStringByFormat } from '../../../utils';
 import { StackActions } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import TodayQuizTitleView from '../../../components/todayquiz/TodayQuizTitleView';
+import useTextInput from '../../../hooks/useTextInput';
 let keyboardDidHideListener = null;
 
 const TodayQuizScreen = ({ navigation }) => {
   const [currentQuizBallState, setCurrentQuizBallState] = useState([QUIZ_BEFORE, QUIZ_BEFORE, QUIZ_BEFORE, QUIZ_BEFORE, QUIZ_BEFORE]);
   const [quizAnswerTextArray, setQuizAnswerTextArray] = useState([]);
   const [pageState, setPageState] = useState(0);
-  const [isFocusTextInput, setIsFocusTextInput] = useState(false);
-  const [textInputText, setTextInputText] = useState('');
   const [checkAnswerText, setCheckAnswerText] = useState('');
   const [isOpenAnswer, setIsOpenAnswer] = useState(false);
   const [quizData, setQuizData] = useState(null);
   const [curPageQuizData, setCurPageQuizData] = useState(null);
+  const [textInputText, isFocusTextInput, onChangeText, clearTextInput, onEndEdition, onFocus, onBlur, setIsFocusTextInput] =
+    useTextInput();
 
-  // 버튼이 포커스되면 searchView를 보여줌
-  const onFocus = useCallback(() => {
-    setIsFocusTextInput(true);
-  }, []);
-
-  // 버튼의 Focus가 풀렸을 시 동작함.
-  const onBlur = useCallback(() => {
-    setIsFocusTextInput(false);
-  }, []);
+  const textInputRef = useRef(null);
 
   // 퀴즈의 정답 여부를 체크한다.
   // 1. 현재 입력된 Text가 현재 퀴즈의 정답과 일치하는지 여부를 판단하여 quizBallState값을 바꿔줌
@@ -56,15 +50,16 @@ const TodayQuizScreen = ({ navigation }) => {
 
     setCurrentQuizBallState(updateQuizBallState);
     setIsOpenAnswer(true);
-    setIsFocusTextInput(false);
     setQuizAnswerTextArray([...quizAnswerTextArray, quizInputText]);
+
     setCheckAnswerText(quizInputText);
-    setTextInputText('');
+    setIsFocusTextInput(false);
+    clearTextInput();
 
     // 에외처리 해주지 않으면 오류 발생
-    if (this.refs.textInputRef) {
-      this.refs.textInputRef.blur();
-      this.refs.textInputRef.clear();
+    if (textInputRef.current) {
+      textInputRef.current.blur();
+      textInputRef.current.clear();
     }
   }, []);
 
@@ -173,6 +168,7 @@ const TodayQuizScreen = ({ navigation }) => {
     };
   }, []);
 
+  // @ts-ignore
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
@@ -181,10 +177,22 @@ const TodayQuizScreen = ({ navigation }) => {
             <Text style={styles.giveUpButtonText}>포기하기</Text>
           </TouchableOpacity>
         </View>
-        {/*{isFocusTextInput}*/}
-        {/*{TodayQuizTitleView()}*/}
-        {/*{ShowTodayQuizItemComponent()}*/}
-        {/*{QuizTextInput()}*/}
+
+        {!isFocusTextInput && <TodayQuizTitleView pageState={pageState} quizBallState={currentQuizBallState} />}
+        {curPageQuizData && <TodayQuizItem quizData={curPageQuizData} isOpened={isOpenAnswer} />}
+        {!isOpenAnswer && (
+          <TextInput
+            onFocus={onFocus}
+            onBlur={onBlur}
+            ref={textInputRef}
+            style={styles.answerInputText}
+            placeholder="정답을 입력하세요"
+            onEndEditing={onEndEdition}
+            blurOnSubmit={true}
+            onChangeText={onChangeText}
+          />
+        )}
+
         {/*{PassCurrentQuiz()}*/}
         {/*{ConfirmCurrentQuizAnswer()}*/}
         {/*{AnswerButton()}*/}

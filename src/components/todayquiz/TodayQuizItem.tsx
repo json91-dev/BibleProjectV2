@@ -5,8 +5,8 @@ import TodayQuizItemHighlightText from './TodayQuizItemHighlightText';
 
 type TodayQuizItemType = {
   isOpened: boolean;
-  isOpenedCheck: boolean;
   quizData: any;
+  isOpenedCheck?: boolean;
 };
 
 const TodayQuizItem = ({ quizData, isOpened }) => {
