@@ -15,10 +15,12 @@ const useTextInput = (): UserInputProps => {
   }, []);
 
   const onFocus = useCallback(() => {
+    console.log('focus');
     setIsFocusTextInput(true);
   }, []);
 
   const onBlur = useCallback(() => {
+    console.log('Blur');
     setIsFocusTextInput(false);
   }, []);
 

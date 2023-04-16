@@ -1,14 +1,14 @@
-import React, { Component, useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 import { QUIZ_BEFORE, QUIZ_FAIL, QUIZ_SUCCESS } from '../../../constraints';
 
-import QuizBall from '../../../components/common/QuizBall';
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
 import { setItemToAsync, getDateStringByFormat } from '../../../utils';
 import { StackActions } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
-import TodayQuizTitleView from '../../../components/todayquiz/TodayQuizTitleView';
+import QuizScore from '../../../components/todayquiz/QuizScore';
 import useTextInput from '../../../hooks/useTextInput';
+import AnswerButton from '../../../components/todayquiz/AnswerButton';
 let keyboardDidHideListener = null;
 
 const TodayQuizScreen = ({ navigation }) => {
@@ -28,7 +28,7 @@ const TodayQuizScreen = ({ navigation }) => {
   // 1. 현재 입력된 Text가 현재 퀴즈의 정답과 일치하는지 여부를 판단하여 quizBallState값을 바꿔줌
   // 2. 현재 입력한 textInput을 quizAnswerTextArray 배열에 저장함
   // 3. 다음 단계로 이동
-  const onAnswerSubmit = useCallback(() => {
+  const submitAnswer = useCallback(() => {
     // 정답의 진위여부를 판단한다.
     const curPageQuizWord = curPageQuizData.quizWord;
     let updateQuizBallState;
@@ -51,7 +51,6 @@ const TodayQuizScreen = ({ navigation }) => {
     setCurrentQuizBallState(updateQuizBallState);
     setIsOpenAnswer(true);
     setQuizAnswerTextArray([...quizAnswerTextArray, quizInputText]);
-
     setCheckAnswerText(quizInputText);
     setIsFocusTextInput(false);
     clearTextInput();
@@ -61,9 +60,9 @@ const TodayQuizScreen = ({ navigation }) => {
       textInputRef.current.blur();
       textInputRef.current.clear();
     }
-  }, []);
+  }, [textInputText, curPageQuizData, quizAnswerTextArray, currentQuizBallState, pageState, clearTextInput, setIsFocusTextInput]);
 
-  const onMoveNextQuiz = useCallback(() => {
+  const moveToNextQuiz = useCallback(() => {
     setIsOpenAnswer(false);
     setCurPageQuizData(quizData[pageState + 1]);
     setPageState(pageState + 1);
@@ -81,7 +80,7 @@ const TodayQuizScreen = ({ navigation }) => {
   // todayQuizBallState => 오늘의 퀴즈에 대한 정답 볼 상태 저장
   // 모두 풀었을때 => 결과창 + 타이머 + 푼 문제 복습 링크
   // 안풀었을때 => 퀴즈 시작 링크 + 이전문제 복습
-  const onCompleteTodayQuiz = useCallback(() => {
+  const completeQuizAndSave = useCallback(() => {
     const setReviewQuizDataList = setItemToAsync('reviewQuizDataList', quizData);
     const setIsCompleteTodayQuiz = setItemToAsync('isCompleteTodayQuiz', true);
     const setIsGiveUpTodayQuiz = setItemToAsync('isGiveUpTodayQuiz', false);
@@ -100,11 +99,6 @@ const TodayQuizScreen = ({ navigation }) => {
       backToQuizMainScreen();
     });
   }, [quizData, quizAnswerTextArray, currentQuizBallState, backToQuizMainScreen]);
-
-  // 현재 퀴즈를 패스하는 함수.
-  const passCurrentQuiz = useCallback(() => {
-    onAnswerSubmit();
-  }, [onAnswerSubmit]);
 
   // 오늘의 퀴즈를 포기하는 함수이다.
   // 현재 볼의 상태(맞춘 문제)와 정답에 대해서 AsyncStorage에 갱신.
@@ -129,7 +123,7 @@ const TodayQuizScreen = ({ navigation }) => {
 
     // quizBallState => -1: 기본 , 0: 틀림, 1: 맞음
     for (page; page < maxPageCount; page++) {
-      updateQuizBallState[page] = 0;
+      updateQuizBallState[page] = QUIZ_FAIL;
       updateQuizAnswerTextArray = [...updateQuizAnswerTextArray, '없음'];
     }
 
@@ -154,9 +148,10 @@ const TodayQuizScreen = ({ navigation }) => {
 
   useEffect(() => {
     const fetchTodayQuiz = async () => {
-      const doc = await firestore().collection('todayQuiz').doc().get();
+      const doc = await firestore().collection('todayQuiz').doc('2020-05-05').get();
       const quizDocData = doc.data().quizData;
       setQuizData(quizDocData);
+      console.log(quizDocData);
       setCurPageQuizData(quizDocData[0]);
     };
 
@@ -168,38 +163,58 @@ const TodayQuizScreen = ({ navigation }) => {
     };
   }, []);
 
-  // @ts-ignore
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.contentContainer}>
-        <View style={styles.giveUpView}>
-          <TouchableOpacity style={styles.giveUpButton} onPress={onGiveUpTodayQuiz}>
-            <Text style={styles.giveUpButtonText}>포기하기</Text>
-          </TouchableOpacity>
-        </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.contentContainer}>
+          <View style={styles.giveUpView}>
+            <TouchableOpacity style={styles.giveUpButton} onPress={onGiveUpTodayQuiz}>
+              <Text style={styles.giveUpButtonText}>포기하기</Text>
+            </TouchableOpacity>
+          </View>
 
-        {!isFocusTextInput && <TodayQuizTitleView pageState={pageState} quizBallState={currentQuizBallState} />}
-        {curPageQuizData && <TodayQuizItem quizData={curPageQuizData} isOpened={isOpenAnswer} />}
-        {!isOpenAnswer && (
-          <TextInput
-            onFocus={onFocus}
-            onBlur={onBlur}
-            ref={textInputRef}
-            style={styles.answerInputText}
-            placeholder="정답을 입력하세요"
-            onEndEditing={onEndEdition}
-            blurOnSubmit={true}
-            onChangeText={onChangeText}
+          {!isFocusTextInput && <QuizScore pageState={pageState} quizBallState={currentQuizBallState} />}
+          {curPageQuizData && <TodayQuizItem quizData={curPageQuizData} isOpened={isOpenAnswer} />}
+          {isOpenAnswer ? (
+            <View style={styles.confirmAnswerView}>
+              <Text style={styles.confirmAnswerLabel}>입력하신 정답은</Text>
+              <Text style={styles.confirmAnswerText}>{checkAnswerText}</Text>
+            </View>
+          ) : (
+            <>
+              <TextInput
+                onFocus={onFocus}
+                onBlur={onBlur}
+                ref={textInputRef}
+                style={styles.answerInputText}
+                placeholder="정답을 입력하세요"
+                onEndEditing={onEndEdition}
+                blurOnSubmit={true}
+                onChangeText={onChangeText}
+              />
+              <View style={styles.passView}>
+                <TouchableOpacity onPress={submitAnswer}>
+                  <Text style={styles.passButtonText}>이 문제 패스</Text>
+                </TouchableOpacity>
+                <Text style={styles.passButtonLabel}>패스를 하게 되면 틀림으로 간주 합니다.</Text>
+              </View>
+            </>
+          )}
+
+          <AnswerButton
+            isOpenAnswer={isOpenAnswer}
+            pageState={pageState}
+            moveToNextQuiz={moveToNextQuiz}
+            submitAnswer={submitAnswer}
+            completeQuizAndSave={completeQuizAndSave}
           />
-        )}
-
-        {/*{PassCurrentQuiz()}*/}
-        {/*{ConfirmCurrentQuizAnswer()}*/}
-        {/*{AnswerButton()}*/}
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
+
+export default TodayQuizScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -258,18 +273,23 @@ const styles = StyleSheet.create({
   },
 
   passButton: {
+    marginTop: 40,
+    borderWidth: 1,
+  },
+
+  passView: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
   },
 
   passButtonText: {
     borderWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
+    marginTop: 30,
+    textAlign: 'center',
     paddingTop: 8,
     paddingBottom: 8,
     borderRadius: 5,
+    width: 100,
   },
 
   passButtonLabel: {
@@ -277,21 +297,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#828282',
     marginTop: 15,
-  },
-
-  answerSubmitButton: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F9DA4F',
-  },
-
-  answerSubmitButtonText: {
-    fontWeight: 'bold',
-    fontSize: 14,
   },
 
   confirmAnswerView: {
