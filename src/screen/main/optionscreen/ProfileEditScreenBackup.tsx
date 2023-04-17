@@ -1,16 +1,9 @@
-import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {getItemFromAsync, setItemToAsync} from '../../../utils';
+import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import Toast from 'react-native-easy-toast';
-import {StackActions} from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 
 export default class ContentScreen extends Component {
   state = {
@@ -50,7 +43,7 @@ export default class ContentScreen extends Component {
   getProfileImage = () => {
     const options = {
       title: 'Select Avatar',
-      customButtons: [{name: 'fb', title: 'Choose Photo from Facebook'}],
+      customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
       storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -65,7 +58,7 @@ export default class ContentScreen extends Component {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.uri};
+        const source = { uri: response.uri };
 
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -89,7 +82,7 @@ export default class ContentScreen extends Component {
   // 닉네임과 프로필 사진에 대한 url을 저장하고 Toast메세지를 날려준다.
   // 프로필 사진이 없어도 닉네임은 바꿀수 있지만 닉네임이 없으면 프로필 정보 변경은 할 수 없음.
   completeProfileEdit = () => {
-    const {profilePic} = this.state;
+    const { profilePic } = this.state;
     const nickname = this.state.textInput;
     if (nickname.length === 0) {
       console.log('닉네임을 입력하지 않음.');
@@ -121,14 +114,9 @@ export default class ContentScreen extends Component {
         {this.state.isImageAvailable ? (
           <Image style={styles.nicknameImage} source={this.state.profilePic} />
         ) : (
-          <Image
-            style={styles.nicknameImage}
-            source={require('../../../assets/ic_jesus_nickname.png')}
-          />
+          <Image style={styles.nicknameImage} source={require('../../../assets/ic_jesus_nickname.png')} />
         )}
-        <TouchableOpacity
-          onPress={this.getProfileImage}
-          style={styles.profilePhotoButton}>
+        <TouchableOpacity onPress={this.getProfileImage} style={styles.profilePhotoButton}>
           <Text style={styles.profilePhotoButtonText}>프로필 사진 변경</Text>
         </TouchableOpacity>
 
@@ -139,23 +127,14 @@ export default class ContentScreen extends Component {
           placeholder="프로필 입력"
           style={styles.nickname}
           value={this.state.textInput}
-          onChangeText={text => this.setState({textInput: text})}
+          onChangeText={text => this.setState({ textInput: text })}
         />
 
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={this.completeProfileEdit}
-          onFocus={() => {}}
-          onBlur={() => {}}>
+        <TouchableOpacity style={styles.editButton} onPress={this.completeProfileEdit} onFocus={() => {}} onBlur={() => {}}>
           <Text style={styles.editButtonText}>프로필 수정 완료</Text>
         </TouchableOpacity>
 
-        <Toast
-          ref="toast"
-          positionValue={200}
-          fadeInDuration={200}
-          fadeOutDuration={600}
-        />
+        <Toast ref="toast" positionValue={200} fadeInDuration={200} fadeOutDuration={600} />
       </View>
     );
   }

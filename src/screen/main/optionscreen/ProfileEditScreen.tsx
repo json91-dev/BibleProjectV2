@@ -1,19 +1,12 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {getItemFromAsync, setItemToAsync} from '../../../utils';
+import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import Toast from 'react-native-easy-toast';
-import {StackActions} from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 
 const ProfileEditScreen = props => {
-  const {navigation} = props;
+  const { navigation } = props;
   const [profilePic, setProfilePic] = useState(null);
   const [profileNickText, setProfileNickText] = useState('');
   const [isImageAvailable, setIsImageAvailable] = useState(false);
@@ -30,15 +23,15 @@ const ProfileEditScreen = props => {
       setIsImageAvailable(false);
     }
 
-    if (profileNickSource) {
+    if (typeof profileNickSource === 'string') {
       setProfileNickText(profileNickSource);
     }
-  }, []);
+  }, [profilePic]);
 
   const saveProfileImageByGallery = useCallback(() => {
     const options = {
       title: 'Select Avatar',
-      customButtons: [{name: 'fb', title: 'Choose Photo from Facebook'}],
+      customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
       storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -53,7 +46,7 @@ const ProfileEditScreen = props => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.uri};
+        const source = { uri: response.uri };
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
         setProfilePic(source);
@@ -98,14 +91,9 @@ const ProfileEditScreen = props => {
       {isImageAvailable ? (
         <Image style={styles.nicknameImage} source={profilePic} />
       ) : (
-        <Image
-          style={styles.nicknameImage}
-          source={require('../../../assets/ic_jesus_nickname.png')}
-        />
+        <Image style={styles.nicknameImage} source={require('../../../assets/ic_jesus_nickname.png')} />
       )}
-      <TouchableOpacity
-        onPress={saveProfileImageByGallery}
-        style={styles.profilePhotoButton}>
+      <TouchableOpacity onPress={saveProfileImageByGallery} style={styles.profilePhotoButton}>
         <Text style={styles.profilePhotoButtonText}>프로필 사진 변경</Text>
       </TouchableOpacity>
 
@@ -129,12 +117,7 @@ const ProfileEditScreen = props => {
         <Text style={styles.editButtonText}>프로필 수정 완료</Text>
       </TouchableOpacity>
 
-      <Toast
-        ref={toastRef}
-        positionValue={200}
-        fadeInDuration={200}
-        fadeOutDuration={600}
-      />
+      <Toast ref={toastRef} positionValue={200} fadeInDuration={200} fadeOutDuration={600} />
     </View>
   );
 };

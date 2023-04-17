@@ -254,7 +254,7 @@ const VerseListScreen = ({ navigation, route }) => {
     setBibleNoteOptionIconUri(require('../../../assets/ic_option_note_off.png'));
     setFontChangeOptionIconUri(require('../../../assets/ic_option_font_off.png'));
     // this.componentDidMount()
-  });
+  }, []);
 
   const changeScreenNavigation = (bookName, bookCode, chapterCode, verseCode) => () => {
     const popAction = StackActions.pop(2);
