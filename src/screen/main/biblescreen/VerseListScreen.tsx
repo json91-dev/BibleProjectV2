@@ -65,7 +65,7 @@ const VerseListScreen = ({ navigation, route }) => {
         break;
       }
     }
-  }, [verseItemFontSize]);
+  }, []);
 
   const setFontFamilyFromStorage = useCallback(async () => {
     const fontFamilyOption = await getItemFromAsync('fontFamilyOption');
@@ -95,32 +95,29 @@ const VerseListScreen = ({ navigation, route }) => {
         break;
       }
     }
-  }, [verseItemFontFamily]);
+  }, []);
 
-  const getUpdatedHighlightVerseItems = useCallback(
-    async items => {
-      let highlightsItems = await getItemFromAsync('highlightList');
-      highlightsItems = highlightsItems ? highlightsItems : [];
+  const getUpdatedHighlightVerseItems = useCallback(async items => {
+    let highlightsItems = await getItemFromAsync('highlightList');
+    highlightsItems = highlightsItems ? highlightsItems : [];
 
-      items.forEach(verse => {
-        const index = highlightsItems.findIndex(highlightItem => {
-          return (
-            highlightItem.bookCode === verse.bookCode &&
-            highlightItem.chapterCode === verse.chapterCode &&
-            highlightItem.verseCode === verse.verseCode
-          );
-        });
-        if (index > -1) {
-          verse.isHighlight = true;
-        } else {
-          verse.isHighlight = false;
-        }
+    items.forEach(verse => {
+      const index = highlightsItems.findIndex(highlightItem => {
+        return (
+          highlightItem.bookCode === verse.bookCode &&
+          highlightItem.chapterCode === verse.chapterCode &&
+          highlightItem.verseCode === verse.verseCode
+        );
       });
+      if (index > -1) {
+        verse.isHighlight = true;
+      } else {
+        verse.isHighlight = false;
+      }
+    });
 
-      return items;
-    },
-    [verseItems],
-  );
+    return items;
+  }, []);
 
   const getUpdatedMemoVerseItems = useCallback(
     async items => {

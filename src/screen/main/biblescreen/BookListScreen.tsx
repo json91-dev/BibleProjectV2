@@ -20,7 +20,7 @@ const BookListScreen = props => {
         itemDimension={80}
         data={item}
         style={styles.gridView}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <TouchableHighlight
             style={[styles.itemContainer, { backgroundColor: '#F3F4F9' }]}
             activeOpacity={0.8}

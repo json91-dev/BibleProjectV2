@@ -663,7 +663,7 @@ PODS:
   - React-jsinspector (0.71.2)
   - React-logger (0.71.2):
     - glog
-  - react-native-image-picker (5.1.0):
+  - react-native-image-picker (2.3.4):
     - React-Core
   - react-native-pager-view (6.1.4):
     - React-Core
@@ -1083,7 +1083,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c7e028406112db456ac3cf5720d266bc7bc20938
   React-jsinspector: ea8101acf525ec08b2d87ddf0637d45f8e3b4148
   React-logger: 97987f46779d8dd24656474ad0c43a5b459f31d6
-  react-native-image-picker: 851e615e9dff17baf3db0a5f870a44d6da2abd03
+  react-native-image-picker: 32d1ad2c0024ca36161ae0d5c2117e2d6c441f11
   react-native-pager-view: ee9e3322d5ca46d00e8219acbba133c215faf243
   react-native-safe-area-context: 366f55da044348b534b54cedbfa8df2e79394131
   react-native-sqlite-storage: 6df009b8b67fe34c57c5fd06ee8fff7669fece6d

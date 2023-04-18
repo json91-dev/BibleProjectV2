@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker/lib/commonjs';
 import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import Toast from 'react-native-easy-toast';
 import { StackActions } from '@react-navigation/native';
@@ -53,7 +53,7 @@ const ProfileEditScreen = props => {
         setIsImageAvailable(true);
       }
     });
-  }, [profileNickText, profilePic]);
+  }, []);
 
   const completeProfileEdit = useCallback(async () => {
     try {
@@ -74,7 +74,7 @@ const ProfileEditScreen = props => {
     } catch (err) {
       console.log(err);
     }
-  }, [profileNickText, profilePic]);
+  }, [navigation, profileNickText, profilePic]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -84,7 +84,7 @@ const ProfileEditScreen = props => {
     return () => {
       unsubscribe();
     };
-  }, [navigation]);
+  }, [navigation, getProfileFromLocalStorage]);
 
   return (
     <View style={styles.container}>

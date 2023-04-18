@@ -29,15 +29,18 @@ const ChapterListScreen = props => {
         setChapterItems(chapterItems);
       });
     });
-  }, []);
+  }, [route.params]);
 
-  const goToChapterListScreen = useCallback(bookInfo => {
-    navigation.navigate('VerseListScreen', {
-      bookName: bookInfo.bookName,
-      bookCode: bookInfo.bookCode,
-      chapterCode: bookInfo.chapterCode,
-    });
-  }, []);
+  const goToChapterListScreen = useCallback(
+    bookInfo => {
+      navigation.navigate('VerseListScreen', {
+        bookName: bookInfo.bookName,
+        bookCode: bookInfo.bookCode,
+        chapterCode: bookInfo.chapterCode,
+      });
+    },
+    [navigation],
+  );
 
   return (
     <View style={styles.container}>
