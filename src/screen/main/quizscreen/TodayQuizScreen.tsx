@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView, TouchableWithoutFeedback, Image } from 'react-native';
 import { QUIZ_BEFORE, QUIZ_FAIL, QUIZ_SUCCESS } from '../../../constraints';
 
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
@@ -167,7 +167,10 @@ const TodayQuizScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.contentContainer}>
-          <View style={styles.giveUpView}>
+          <View style={styles.headerView}>
+            <TouchableOpacity onPress={backToQuizMainScreen}>
+              <Image style={styles.goBackButton} source={require('../../../assets/ic_left_arrow.png')} />
+            </TouchableOpacity>
             <TouchableOpacity style={styles.giveUpButton} onPress={onGiveUpTodayQuiz}>
               <Text style={styles.giveUpButtonText}>포기하기</Text>
             </TouchableOpacity>
@@ -229,13 +232,22 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
 
-  giveUpView: {
-    flexDirection: 'row-reverse',
+  headerView: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
     width: '100%',
     borderBottomWidth: 1,
     borderColor: '#EDEDED',
     position: 'absolute',
     top: 0,
+  },
+
+  goBackButton: {
+    width: 30,
+    height: 30,
+    marginLeft: 10,
+    resizeMode: 'contain',
   },
 
   giveUpButton: {

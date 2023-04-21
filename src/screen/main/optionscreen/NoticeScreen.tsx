@@ -1,15 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import LoadingSpinner from '../../../components/common/LoadingSpinner';
 import firestore from '@react-native-firebase/firestore';
 
 const renderHeader = (section, index) => {
   return (
     <View style={styles.header}>
-      <Text style={styles.headerTextLabel}>{index + 1}. </Text>
-      <Text style={styles.headerText}>{section.title} </Text>
-      <View style={styles.headerDateContainer}>
+      <View style={styles.headerNumberView}>
+        <Text style={styles.headerNumberText}>{index + 1}. </Text>
+      </View>
+      <View style={styles.headerTextView}>
+        <Text style={styles.headerText}>{section.title} </Text>
+      </View>
+      <View style={styles.headerDateView}>
         <Text style={styles.headerDate}>{section.dateString}</Text>
       </View>
     </View>
@@ -65,18 +69,18 @@ const NoticeScreen = () => {
 
     setNotificationDataArray(notificationDataArray);
     setIsLoading(false);
-  }, []);
+  }, [getDateString]);
 
   useEffect(() => {
     initNotification().then();
-  }, []);
+  }, [initNotification]);
 
   if (isLoading) {
     return <LoadingSpinner />;
   } else {
     return (
       <Accordion
-        containerStyle={{ backgroundColor: 'white', height: '100%' }}
+        containerStyle={styles.container}
         sections={notificationDataArray}
         activeSections={activeSections}
         renderHeader={renderHeader}
@@ -91,6 +95,12 @@ const NoticeScreen = () => {
 export default NoticeScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    height: '100%',
+    paddingTop: '5%',
+    alignItems: 'center',
+  },
   appVersionImage: {
     resizeMode: 'contain',
     width: '60%',
@@ -98,40 +108,45 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    paddingTop: 30,
-    paddingBottom: 30,
     borderColor: '#EDEDED',
-    paddingLeft: 20,
-    paddingRight: 20,
-    width: '80%',
-    marginLeft: '10%',
+    width: '100%',
+    alignItems: 'center',
+    marginTop: '3%',
+    marginBottom: '5%',
+  },
+
+  headerTextView: {
+    width: '67%',
+  },
+
+  headerText: {
+    color: 'black',
+  },
+
+  headerNumberView: {
+    width: '10%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  headerNumberText: {},
+
+  headerDateView: {
+    marginRight: 10,
   },
 
   headerDate: {
     color: 'black',
   },
 
-  headerText: {
-    width: '69%',
-    color: 'black',
-  },
-
-  headerTextLabel: {
-    width: '5%',
-  },
-
-  headerDateContainer: {
-    width: '20%',
-  },
-
   content: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 30,
-    paddingTop: 10,
+    flexWrap: 'nowrap',
     alignItems: 'center',
+    paddingLeft: '10%',
+    paddingRight: '15%',
+    marginBottom: 20,
   },
 
   contentText: {
