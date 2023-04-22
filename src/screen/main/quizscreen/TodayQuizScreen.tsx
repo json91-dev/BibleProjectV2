@@ -151,7 +151,6 @@ const TodayQuizScreen = ({ navigation }) => {
       const doc = await firestore().collection('todayQuiz').doc('2020-05-05').get();
       const quizDocData = doc.data().quizData;
       setQuizData(quizDocData);
-      console.log(quizDocData);
       setCurPageQuizData(quizDocData[0]);
     };
 
@@ -162,6 +161,7 @@ const TodayQuizScreen = ({ navigation }) => {
       keyboardDidHideListener.remove();
     };
   }, []);
+  console.log('부모', isOpenAnswer);
 
   return (
     <SafeAreaView style={styles.container}>

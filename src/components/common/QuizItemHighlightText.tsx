@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 
-const TodayQuizItemHighlightText = ({ quizSentence, quizWord }) => {
+const QuizItemHighlightText = ({ quizSentence, quizWord }) => {
   const [resultTextArray, setResultTextArray] = useState([]);
 
+  console.log('111');
+  console.log(quizSentence, quizWord);
   useEffect(() => {
     let splitTextArray;
     let result = [];
@@ -43,4 +45,4 @@ const TodayQuizItemHighlightText = ({ quizSentence, quizWord }) => {
   );
 };
 
-export default React.memo(TodayQuizItemHighlightText);
+export default React.memo(QuizItemHighlightText);

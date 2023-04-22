@@ -1,4 +1,4 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View } from 'react-native';
 import ReviewQuizItem from '../../../components/reviewquiz/ReviewQuizItem';
 import { getDateStringByFormat, getItemFromAsync, setItemToAsync } from '../../../utils';

@@ -1,85 +1,41 @@
-import React, { Component } from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import QuizItemHighlightText from '../common/QuizItemHighlightText';
+import { makeBlankQuizSentence } from '../../utils';
 
-function replaceAll(str, searchStr, replaceStr) {
-  return str.split(searchStr).join(replaceStr);
-}
+const ReviewQuizItem = ({ index, quizVerse, quizWord, quizSentence }) => {
+  const [isOpenAnswer, setIsOpenAnswer] = useState<boolean>(false);
 
-export default class ReviewQuizItem extends Component {
-  state = {
-    isOpenAnswer: false,
-  };
+  const showBlankQuiz = useCallback(() => {
+    setIsOpenAnswer(true);
+  }, []);
 
-  // 성경 텍스트 문장에 공백을 만들어 반환하는 메서드
-  makeBlankQuizSentence = (quizSentence, quizWord) => {
-    let dummy = '____________________________________________________';
-    let blank = dummy.substr(dummy.length - quizWord.length * 2);
-    let blankQuizSentence = replaceAll(quizSentence, quizWord, blank);
-    return blankQuizSentence;
-  };
-
-  // 정답을 눌렀을때 공백을 없애주고 정답 문장 <Text>를 반환하는 메서드
-  highlightText = (quizSentence, quizWord) => {
-    let splitTextArray;
-    let resultTextArray = [];
-    try {
-      splitTextArray = quizSentence.split(quizWord);
-      splitTextArray.map((item, index) => {
-        if (index > 0 && index < splitTextArray.length) {
-          resultTextArray.push(quizWord);
-        }
-        resultTextArray.push(item);
-      });
-    } catch (err) {
-      console.log(err);
-      return;
-    }
-    return (
-      <Text style={{ marginTop: 5 }}>
-        {resultTextArray.map(item => {
-          if (item === quizWord) {
-            return <Text style={{ color: '#F9DA4F' }}>{item}</Text>;
-          } else {
-            return <Text style={{ color: 'white' }}>{item}</Text>;
-          }
-        })}
-      </Text>
-    );
-  };
-
-  showBlankQuiz() {
-    this.setState({
-      isOpenAnswer: true,
-    });
-  }
-
-  render() {
-    // const {index, quizVerse, quizWord, quizSentence} = this.props;
-    const { index, quizVerse, quizWord, quizSentence } = this.props;
-    return (
-      <View style={styles.container}>
-        <View style={styles.quizHeaderContainer}>
-          <Text style={styles.quizIndexText}>세례문답 복습 {index}/5</Text>
-          <Text style={styles.quizVerseText}>{quizVerse}</Text>
-        </View>
-        <View style={styles.quizMainContainer}>
-          {this.state.isOpenAnswer ? (
-            this.highlightText(quizSentence, quizWord)
-          ) : (
-            <Text style={styles.quizSentenceText}>{this.makeBlankQuizSentence(quizSentence, quizWord)}</Text>
-          )}
-          {this.state.isOpenAnswer ? (
-            <Text style={styles.answerText}>정답은 "{quizWord}" 입니다.</Text>
-          ) : (
-            <TouchableOpacity style={styles.answerButton} onPress={this.showBlankQuiz.bind(this)}>
-              <Text>정답보기</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.quizHeaderContainer}>
+        <Text style={styles.quizIndexText}>세례문답 복습 {index}/5</Text>
+        <Text style={styles.quizVerseText}>{quizVerse}</Text>
       </View>
-    );
-  }
-}
+      <View style={styles.quizMainContainer}>
+        {isOpenAnswer ? (
+          <QuizItemHighlightText quizSentence={quizSentence} quizWord={quizWord} />
+        ) : (
+          <Text style={styles.quizSentenceText}>{makeBlankQuizSentence(quizSentence, quizWord)}</Text>
+        )}
+
+        {isOpenAnswer ? (
+          <Text style={styles.answerText}>정답은 "{quizWord}" 입니다.</Text>
+        ) : (
+          <TouchableOpacity style={styles.answerButton} onPress={showBlankQuiz}>
+            <Text>정답보기</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
+
+export default ReviewQuizItem;
 
 const styles = StyleSheet.create({
   container: {

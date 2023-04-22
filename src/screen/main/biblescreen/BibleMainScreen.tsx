@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {getItemFromAsync, setItemToAsync} from '../../../utils';
-import {StyleSheet, View, SafeAreaView} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { getItemFromAsync, setItemToAsync } from '../../../utils';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 
 import Toast from 'react-native-easy-toast';
 import firestore from '@react-native-firebase/firestore';
 import MainBibleView from '../../../components/biblemain/MainBibleView';
-import {printIsNewOrOldBibleByBookCode, getOldBibleItems, getNewBibleItems, getSqliteDatabase, getBibleType} from '../../../utils';
-import {StackActions} from '@react-navigation/native';
+import { getBibleTypeString, getOldBibleItems, getNewBibleItems, getSqliteDatabase, getBibleType } from '../../../utils';
+import { StackActions } from '@react-navigation/native';
 import LatelyReadBibleView from '../../../components/biblemain/LatelyReadBibleView';
 import SearchHeaderView from '../../../components/biblemain/SearchHeaderView';
 import SearchResultView from '../../../components/biblemain/SearchResultView';
@@ -32,7 +32,7 @@ const BibleMainScreen = props => {
   // 구약, 신약 성경 '장' 페이지로 이동하는 Link
   const goToBookListScreen = useCallback(
     (type: 0 | 1) => {
-      props.navigation.navigate('BookListScreen', {bibleType: type});
+      props.navigation.navigate('BookListScreen', { bibleType: type });
       setIsOpenLatelyReadBibleView(false);
     },
     [isOpenLatelyReadBibleView],
@@ -146,7 +146,7 @@ const BibleMainScreen = props => {
         const searchResultItems = [];
         for (let i = 0; i < results.rows.length; i++) {
           const bookCode = results.rows.item(i).book;
-          const bibleName = printIsNewOrOldBibleByBookCode(bookCode);
+          const bibleName = getBibleTypeString(bookCode);
           const bibleItems = bibleName === '구약' ? getOldBibleItems() : getNewBibleItems();
           const bookName = bibleItems.find((item, index) => {
             return item.bookCode === bookCode;
@@ -177,7 +177,7 @@ const BibleMainScreen = props => {
   }, []);
 
   const moveToBibleChapter = useCallback(item => {
-    const {bookCode, bookName, chapterCode, VerseCode} = item;
+    const { bookCode, bookName, chapterCode, VerseCode } = item;
 
     const pushVerseList = StackActions.push('VerseListScreen', {
       bookCode,
@@ -203,8 +203,8 @@ const BibleMainScreen = props => {
         setIsOpenLatelyReadBibleView(false);
       } else {
         /** 만약 최근 읽은 성경구절 정보가 있다면, 이어보기 화면을 출력 **/
-        const {bibleName, bookName, bookCode, chapterCode} = latelyReadList;
-        setLatelyReadItem({bibleName, bookName, bookCode, chapterCode});
+        const { bibleName, bookName, bookCode, chapterCode } = latelyReadList;
+        setLatelyReadItem({ bibleName, bookName, bookCode, chapterCode });
         setIsOpenLatelyReadBibleView(true);
       }
 
@@ -213,7 +213,7 @@ const BibleMainScreen = props => {
       // const todayDateString = getDateStringByFormat(new Date(), 'yyyy-MM-dd');
       const todayVerseDocument = await firestore().collection('todayVerse').doc('data').get();
 
-      const {content, versePath} = todayVerseDocument.data();
+      const { content, versePath } = todayVerseDocument.data();
 
       if (content && versePath) {
         setVerseSentence(content);
@@ -223,7 +223,7 @@ const BibleMainScreen = props => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container} contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
+    <SafeAreaView style={styles.container} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
       {/*{this.SearchHeaderView()}*/}
       {/* 성경 검색 TextInput에 focus에 따라 View를 다르게 보여줌. */}
 

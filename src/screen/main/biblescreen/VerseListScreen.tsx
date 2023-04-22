@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
 
 import Toast from 'react-native-easy-toast';
-import { getBibleVerseItems, getItemFromAsync, printIsNewOrOldBibleByBookCode, setItemToAsync } from '../../../utils';
+import { getBibleVerseItems, getItemFromAsync, getBibleTypeString, setItemToAsync } from '../../../utils';
 import CommandModal from '../../../components/verselist/CommandModal';
 import BibleListOption from '../../../components/verselist/biblelistOption/BibleListOption';
 import BibleNoteOption from '../../../components/verselist/BibleNoteOption';
@@ -27,7 +27,7 @@ const VerseListScreen = ({ navigation, route }) => {
   const [verseItemFontFamily, setVerseItemFontFamily] = useState('system font');
   const toastRef = useRef(null);
   const saveLatestBibleVerse = useCallback(async (bookName, bookCode, chapterCode) => {
-    const bibleName = printIsNewOrOldBibleByBookCode(bookCode);
+    const bibleName = getBibleTypeString(bookCode);
     const readItem = {
       bibleName,
       bookName,
