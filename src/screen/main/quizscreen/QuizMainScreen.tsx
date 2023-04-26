@@ -14,10 +14,10 @@ const QuizScreen = ({ navigation }) => {
   const [currentQuizBallState, setCurrentQuizBallState] = useState([-1, -1, -1, -1, -1]); // 유저가 입력한 정답의 상태볼에 대한 배열값.
   const [todayQuizAnswerList, setTodayQuizAnswerList] = useState(null); // 유저가 입력한 퀴즈의 정답 목록.
 
-  // 현재 날짜를 확인한뒤 새로운 날짜일때 퀴즈화면의 상태를 아래처럼 바꿔준다.
-  // - 오늘의 퀴즈를 풀었는지 : false례
+  // 현재 날짜를 확인한뒤 새로운 날짜일때 퀴즈 상태를 초기화한다.
+  // - 오늘의 퀴즈를 풀었는지 : false
   // - 오늘의 퀴즈의 포기를 눌렀는지 : false
-  const initialQuizState = useCallback(async () => {
+  const initializeQuizState = useCallback(async () => {
     // 현재 날짜가 바뀌었는지(어제날짜와 다른지) 확인한 뒤 새로운 날짜일때 퀴즈화면의 상태를 바꿔준다.
     // 간단하게 여기서는 날짜의 형식을 yyyyMMdd 의 정수로만 표시한뒤 크기를 비교하는 방법으로 날짜를 비교한다.
     const quizDate = await getItemFromAsync('quizDate');
@@ -36,6 +36,7 @@ const QuizScreen = ({ navigation }) => {
       }
     }
 
+    /** TODO: quizState의 상태를 JSON으로 저장하는게 좋음 => 추후 리펙토링 **/
     const isCompleteTodayQuiz = await getItemFromAsync('isCompleteTodayQuiz');
     const isGiveUpTodayQuiz = await getItemFromAsync('isGiveUpTodayQuiz');
     const reviewQuizDataList = await getItemFromAsync('reviewQuizDataList');
@@ -87,7 +88,7 @@ const QuizScreen = ({ navigation }) => {
         clearInterval(timer);
         // 종류 문구 선언
         // 이곳에 다음 퀴즈를 푸는 버튼을 만들어준다. 해당버튼을 눌렀을시 오늘의 퀴즈(다음날)로 이동한다.
-        initialQuizState().then();
+        initializeQuizState().then();
         return;
       }
 
@@ -113,7 +114,7 @@ const QuizScreen = ({ navigation }) => {
 
     // 현재 Screen이 화면에서 보일때 (focus) 실행될수 있도록 이벤트를 등록하는 과정
     const unsubscribe = navigation.addListener('focus', () => {
-      initialQuizState().then();
+      initializeQuizState().then();
     });
 
     return () => {

@@ -40,6 +40,8 @@ export default class FontChangeOption extends Component {
     });
   }
 
+  //////////////////////////// 컴포넌트 ///////////////////////////////////
+
   // 폰트패밀리 변경 버튼 컴포넌트
   // 0: 기본
   // 1: 맑은체 NanumBrushScript-Regular.ttf

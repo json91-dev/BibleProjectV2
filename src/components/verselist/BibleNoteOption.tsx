@@ -45,11 +45,9 @@ const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
     getBibleNotes().then();
   }, []);
 
-  /**
-   * 메모 수정 화면을 열어줌.
-   * 메모 수정화면에 전달할 값들을 setState를 통해 지정
-   * isOpenMemoEdit을 true로 만들어줌. (해당 값을 기준으로 화면 렌더링)
-   */
+  /** 메모 수정 화면을 열어줌.*/
+  // (1) 메모 수정화면에 전달할 값들을 setState를 통해 지정
+  // (2) isOpenMemoEdit을 true로 만들어줌. (해당 값을 기준으로 화면 렌더링)
   const openMemoEdit = useCallback(
     (objectId, verseText, content, memo) => {
       setMemoEditObjectId(objectId);
