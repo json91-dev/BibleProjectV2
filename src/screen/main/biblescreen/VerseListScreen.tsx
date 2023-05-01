@@ -5,7 +5,7 @@ import { getBibleVerseItems, getItemFromAsync, getBibleTypeString, setItemToAsyn
 import CommandModal from '../../../components/verselist/CommandModal';
 import BibleListOption from '../../../components/verselist/biblelistOption/BibleListOption';
 import BibleNoteOption from '../../../components/verselist/BibleNoteOption';
-import FontChangeOption from '../../../components/verselist/FontChangeOptionBackup';
+import FontChangeOption from '../../../components/verselist/FontChangeOption';
 import { StackActions } from '@react-navigation/native';
 import MemoModal from '../../../components/verselist/MemoModal';
 import VerseFlatList from '../../../components/verselist/VerseFlatList/VerseFlatList';
