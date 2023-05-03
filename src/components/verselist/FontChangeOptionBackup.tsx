@@ -13,7 +13,7 @@ export default class FontChangeOption extends Component {
 
   componentDidMount() {
     // 로컬 스토리지로부터 폰트 사이즈를 가져옵니다.
-    getItemFromAsync('fontSizeOption').then(item => {
+    getItemFromAsync<number>('fontSizeOption').then(item => {
       if (item === null) {
         // 기본 폰트 사이즈 16px
         this.setState({
@@ -27,7 +27,7 @@ export default class FontChangeOption extends Component {
     });
 
     // 로컬 스토리지로부터 폰트 패밀리를 가져옵니다.
-    getItemFromAsync('fontFamilyOption').then(item => {
+    getItemFromAsync<number>('fontFamilyOption').then(item => {
       if (item === null) {
         this.setState({
           fontFamilyOption: 0,

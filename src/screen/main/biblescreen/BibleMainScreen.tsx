@@ -120,7 +120,7 @@ const BibleMainScreen = props => {
     }
 
     /** pushSearchTextToSearchWordList **/
-    getItemFromAsync('searchWordList').then(items => {
+    getItemFromAsync<any[]>('searchWordList').then(items => {
       let searchWordItems = items;
       if (searchWordItems === null) searchWordItems = [];
 
@@ -190,7 +190,7 @@ const BibleMainScreen = props => {
   useEffect(() => {
     (async () => {
       /** 검색했던 단어들에 대한 List를 Local DB에서 불러옴 **/
-      let searchWordList = await getItemFromAsync('searchWordList');
+      let searchWordList = await getItemFromAsync<any[]>('searchWordList');
       if (searchWordList === null) {
         setSearchWordItems([]);
       } else {
@@ -198,7 +198,7 @@ const BibleMainScreen = props => {
       }
 
       /** 최근 읽은 성경구절 정보를 LocalDB에서 가져옴 **/
-      let latelyReadList = await getItemFromAsync('latelyReadList');
+      let latelyReadList = await getItemFromAsync<Record<string, any>>('latelyReadList');
       if (latelyReadList === null) {
         setIsOpenLatelyReadBibleView(false);
       } else {

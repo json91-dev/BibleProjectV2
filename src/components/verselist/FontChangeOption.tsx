@@ -20,14 +20,14 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
   // 로컬스토리지에서 FontSize 및 FontFamily 를 불러온뒤 초기화 진행
   useEffect(() => {
     const initializeFontOption = async () => {
-      let item = await getItemFromAsync('fontSizeOption');
+      let item = await getItemFromAsync<number>('fontSizeOption');
       if (item === null) {
         setFontSizeOption(1);
       } else {
         setFontSizeOption(item);
       }
 
-      item = await getItemFromAsync('fontFamilyOption');
+      item = await getItemFromAsync<number>('fontFamilyOption');
       if (item === null) {
         setFontFamilyOption(0);
       } else {

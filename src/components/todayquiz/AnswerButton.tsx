@@ -2,8 +2,6 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 
 const AnswerButton = ({ isOpenAnswer, pageState, moveToNextQuiz, submitAnswer, completeQuizAndSave }) => {
-  // 정답 확인 전, 정답확인 버튼, 이후 다음문제 버튼 출력
-  // pageState가 4이상일경우 모든 문제를 푼 상태이므로 확인버튼을 눌렀을때 오늘의 퀴즈 컴포넌트에서 빠져나가야 한다.
   if (!isOpenAnswer) {
     return (
       <TouchableOpacity style={styles.answerSubmitButton} onPress={submitAnswer}>
@@ -17,6 +15,7 @@ const AnswerButton = ({ isOpenAnswer, pageState, moveToNextQuiz, submitAnswer, c
       </TouchableOpacity>
     );
   } else {
+    // 마지막 문제일경우 `완료` 버튼 표시
     return (
       <TouchableOpacity style={styles.answerSubmitButton} onPress={completeQuizAndSave}>
         <Text style={styles.answerSubmitButtonText}>완료</Text>

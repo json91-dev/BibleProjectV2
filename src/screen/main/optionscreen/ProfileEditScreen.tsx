@@ -13,8 +13,8 @@ const ProfileEditScreen = props => {
   const toastRef = useRef(null);
 
   const getProfileFromLocalStorage = useCallback(async () => {
-    const profilePicSource = await getItemFromAsync('profilePic');
-    const profileNickSource = await getItemFromAsync('profileNick');
+    const profilePicSource = await getItemFromAsync<any>('profilePic');
+    const profileNickSource = await getItemFromAsync<any>('profileNick');
 
     if (profilePic) {
       setProfilePic(profilePicSource);

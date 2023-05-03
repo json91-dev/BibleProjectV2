@@ -11,9 +11,21 @@ import MemoModal from '../../../components/verselist/MemoModal';
 import VerseFlatList from '../../../components/verselist/VerseFlatList/VerseFlatList';
 import LoadingSpinner from '../../../components/common/LoadingSpinner';
 
+interface VerseItemType {
+  isButton: boolean;
+  bookName: number;
+  bookCode: number;
+  chapterCode: number;
+  content: string;
+  verseCode: string;
+  maxChapterCode: string;
+  isHighlight?: boolean;
+  isMemo?: boolean;
+}
+
 const VerseListScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [verseItems, setVerseItems] = useState([]);
+  const [verseItems, setVerseItems] = useState<VerseItemType[]>([]);
   const [commandModalVisible, setCommandModalVisible] = useState(false);
   const [memoModalVisible, setMemoModalVisible] = useState(false);
   const [bibleListOptionIconUri, setBibleListOptionIconUri] = useState(require('../../../assets/ic_option_list_off.png'));
@@ -38,7 +50,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const setFontSizeFromStorage = useCallback(async () => {
-    const fontSizeOption = await getItemFromAsync('fontSizeOption');
+    const fontSizeOption = await getItemFromAsync<number>('fontSizeOption');
     switch (fontSizeOption) {
       case null: {
         setVerseItemFontSize(14);
@@ -68,7 +80,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const setFontFamilyFromStorage = useCallback(async () => {
-    const fontFamilyOption = await getItemFromAsync('fontFamilyOption');
+    const fontFamilyOption = await getItemFromAsync<number>('fontFamilyOption');
     switch (fontFamilyOption) {
       case null: {
         setVerseItemFontFamily('system font');
@@ -98,7 +110,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const getUpdatedHighlightVerseItems = useCallback(async items => {
-    let highlightsItems = await getItemFromAsync('highlightList');
+    let highlightsItems = await getItemFromAsync<any[]>('highlightList');
     highlightsItems = highlightsItems ? highlightsItems : [];
 
     items.forEach(verse => {
@@ -121,7 +133,7 @@ const VerseListScreen = ({ navigation, route }) => {
 
   const getUpdatedMemoVerseItems = useCallback(
     async items => {
-      let memoListItems = await getItemFromAsync('memoList');
+      let memoListItems = await getItemFromAsync<any[]>('memoList');
       if (memoListItems === null) memoListItems = [];
       items.forEach(verse => {
         const index = memoListItems.findIndex(memoItem => {
@@ -171,7 +183,7 @@ const VerseListScreen = ({ navigation, route }) => {
     async modalAction => {
       const { bookCode, chapterCode, verseCode, content, isHighlight } = modalBibleItem;
       const removeHighlight = async () => {
-        let highlightItems = await getItemFromAsync('highlightList');
+        let highlightItems = await getItemFromAsync<any[]>('highlightList');
         if (highlightItems === null) {
           highlightItems = [];
         }
@@ -185,7 +197,7 @@ const VerseListScreen = ({ navigation, route }) => {
       };
 
       const addHighlight = async () => {
-        let highlightItems = await getItemFromAsync('highlightList');
+        let highlightItems = await getItemFromAsync<any[]>('highlightList');
 
         if (highlightItems === null) {
           highlightItems = [];

@@ -1,15 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-import {getItemFromAsync, setItemToAsync} from '../utils';
-
-const LoginScreen = props => {
+import { getItemFromAsync, setItemToAsync } from '../utils';
+const LoginScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const goToMainBible = useCallback(() => {
-    props.navigation.replace('Main');
+    navigation.replace('Main');
   }, []);
 
   const googleSignIn = useCallback(async () => {
@@ -18,7 +17,7 @@ const LoginScreen = props => {
 
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      await setItemToAsync('userInfo', {...userInfo, loggedIn: true});
+      await setItemToAsync('userInfo', { ...userInfo, loggedIn: true });
       goToMainBible();
     } catch (error) {
       /** 에러 핸들링 : https://www.npmjs.com/package/@react-native-google-signin/google-signin 참고 */
@@ -37,7 +36,7 @@ const LoginScreen = props => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      const userInfo = await getItemFromAsync('userInfo');
+      const userInfo = await getItemFromAsync<Record<string, any>>('userInfo');
 
       await setItemToAsync('userInfo', {
         ...userInfo,
@@ -56,7 +55,7 @@ const LoginScreen = props => {
     });
 
     /** localStorage에서 로그인 정보를 읽은 뒤, 자동 로그인을 수행함. **/
-    getItemFromAsync('userInfo').then(userInfo => {
+    getItemFromAsync<Record<string, any>>('userInfo').then(userInfo => {
       // 유저 정보가 없는경우
       if (userInfo === null) {
         return null;

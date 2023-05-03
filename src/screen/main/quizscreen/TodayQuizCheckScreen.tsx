@@ -19,10 +19,10 @@ const TodayQuizCheckScreen = () => {
     // 해당 부분을 서버에서 전달받도록 수정..
     // 여기서는 reviewQuizData로 전달받음.
     // 추가적으로 quizBallState 등의 값들을 가져와서 설정
-    const getIsCompleteTodayQuiz = getItemFromAsync('isCompleteTodayQuiz');
-    const getReviewQuizDataList = getItemFromAsync('reviewQuizDataList');
-    const getTodayQuizAnswerList = getItemFromAsync('todayQuizAnswerList');
-    const getTodayQuizBallState = getItemFromAsync('todayQuizBallState');
+    const getIsCompleteTodayQuiz = getItemFromAsync<boolean>('isCompleteTodayQuiz');
+    const getReviewQuizDataList = getItemFromAsync<any[]>('reviewQuizDataList');
+    const getTodayQuizAnswerList = getItemFromAsync<any[]>('todayQuizAnswerList');
+    const getTodayQuizBallState = getItemFromAsync<any[]>('todayQuizBallState');
 
     Promise.all([getIsCompleteTodayQuiz, getReviewQuizDataList, getTodayQuizAnswerList, getTodayQuizBallState]).then(result => {
       // let isCompleteTodayQuiz = result[0];

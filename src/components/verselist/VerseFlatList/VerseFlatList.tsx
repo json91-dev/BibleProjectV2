@@ -6,9 +6,9 @@ import HighlightText from './HighlightText';
 import NextButton from './NextButton';
 import PrevButton from './PrevButton';
 
-const VerseFlatList = props => {
-  const { navigation, verseItems, verseItemFontSize, verseItemFontFamily, onLongPressButton } = props;
+// interface verseItemType {}
 
+const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFontFamily, onLongPressButton }) => {
   /** 하단(이전,다음) 버튼에 대한 이벤트 처리 메서드 **/
   const moveChapter = useCallback((item, index) => {
     console.log(item, index);

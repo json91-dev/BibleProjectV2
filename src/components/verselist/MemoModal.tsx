@@ -2,6 +2,17 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getItemFromAsync, setItemToAsync, uuidv4 } from '../../utils';
 
+interface MemoListItemType {
+  objectId: any;
+  bookName: any;
+  bookCode: any;
+  chapterCode: any;
+  verseCode: any;
+  memo: any;
+  date: any;
+  content: any;
+}
+
 /**
  * Memo를 입력하는 Modal 창
  * @param props
@@ -28,13 +39,13 @@ const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, upda
   );
 
   const onPressSaveButton = useCallback(async () => {
-    let memoListItems = await getItemFromAsync('memoList');
+    let memoListItems = await getItemFromAsync<MemoListItemType[]>('memoList');
     if (memoListItems === null) {
       memoListItems = [];
     }
+
     const objectId = uuidv4();
     const date = new Date();
-    console.log(bookName, bookCode, chapterCode, verseCode, memo, date);
     memoListItems.push({
       objectId,
       bookName,

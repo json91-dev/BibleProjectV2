@@ -20,7 +20,7 @@ const QuizScreen = ({ navigation }) => {
   const initializeQuizState = useCallback(async () => {
     // 현재 날짜가 바뀌었는지(어제날짜와 다른지) 확인한 뒤 새로운 날짜일때 퀴즈화면의 상태를 바꿔준다.
     // 간단하게 여기서는 날짜의 형식을 yyyyMMdd 의 정수로만 표시한뒤 크기를 비교하는 방법으로 날짜를 비교한다.
-    const quizDate = await getItemFromAsync('quizDate');
+    const quizDate = await getItemFromAsync<number>('quizDate');
     if (quizDate !== null) {
       const nowDate = parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd'));
 
@@ -37,11 +37,11 @@ const QuizScreen = ({ navigation }) => {
     }
 
     /** TODO: quizState의 상태를 JSON으로 저장하는게 좋음 => 추후 리펙토링 **/
-    const isCompleteTodayQuiz = await getItemFromAsync('isCompleteTodayQuiz');
-    const isGiveUpTodayQuiz = await getItemFromAsync('isGiveUpTodayQuiz');
-    const reviewQuizDataList = await getItemFromAsync('reviewQuizDataList');
-    const getTodayQuizAnswerList = await getItemFromAsync('todayQuizAnswerList');
-    const todayQuizBallState = await getItemFromAsync('todayQuizBallState');
+    const isCompleteTodayQuiz = await getItemFromAsync<boolean>('isCompleteTodayQuiz');
+    const isGiveUpTodayQuiz = await getItemFromAsync<boolean>('isGiveUpTodayQuiz');
+    const reviewQuizDataList = await getItemFromAsync<any[]>('reviewQuizDataList');
+    const getTodayQuizAnswerList = await getItemFromAsync<any[]>('todayQuizAnswerList');
+    const todayQuizBallState = await getItemFromAsync<any[]>('todayQuizBallState');
 
     // 문제를 한번도 풀지 않았거나, 다음날이 되었을때
     if (isCompleteTodayQuiz === null && isGiveUpTodayQuiz === null) {

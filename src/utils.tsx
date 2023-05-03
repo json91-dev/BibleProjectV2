@@ -48,13 +48,13 @@ export const uuidv4 = () => {
 };
 
 // 아무값도 들어있지 않으면 빈 배열을 반환합니다.
-export const getItemFromAsync = arrayName => {
-  return new Promise((resolve, reject) => {
-    if (arrayName === null || arrayName === undefined) {
-      resolve(null);
+export const getItemFromAsync = <T,>(key: string) => {
+  return new Promise<T>((resolve, reject) => {
+    if (key === null || key === undefined) {
+      reject(new Error('key is not exist.'));
     }
 
-    AsyncStorage.getItem(arrayName, (err, result) => {
+    AsyncStorage.getItem(key, (err, result) => {
       if (err) {
         reject(err);
       }
@@ -67,10 +67,12 @@ export const getItemFromAsync = arrayName => {
   });
 };
 
-export const setItemToAsync = (arrayName, arrayItems) => {
-  if (arrayName === null || arrayName === undefined) return null;
+export const setItemToAsync = (key: string, value: any) => {
   return new Promise((resolve, reject) => {
-    AsyncStorage.setItem(arrayName, JSON.stringify(arrayItems), error => {
+    if (key === null || key === undefined) {
+      reject(new Error('key is not exist.'));
+    }
+    AsyncStorage.setItem(key, JSON.stringify(value), error => {
       if (error) {
         reject(error);
       }
@@ -194,6 +196,7 @@ export const getBibleVerseItems = (bookName, bookCode, chapterCode) => {
           const verseCode = results.rows.item(i).verse;
           const maxChapterCode = results.rows.item(i).maxChapter;
           verseItems.push({
+            isButton: false,
             bookName,
             bookCode,
             chapterCode,
