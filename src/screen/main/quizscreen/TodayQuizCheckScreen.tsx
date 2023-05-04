@@ -1,19 +1,30 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView } from 'react-native';
 
 import QuizBall from '../../../components/common/QuizBall';
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
 import { getItemFromAsync, setItemToAsync } from '../../../utils';
+import AnswerButton from '../../../components/todayquizcheck/AnswerButton';
 
-const TodayQuizCheckScreen = () => {
+const TodayQuizCheckScreen = ({ navigation }) => {
   const [currentQuizBallState, setCurrentQuizBallState] = useState([-1, -1, -1, -1, -1]);
   const [quizAnswerTextArray, setQuizAnswerTextArray] = useState([]);
   const [pageState, setPageState] = useState(0);
-  const [isFocusTextInput, setIsFocusTextInput] = useState(false);
-  const [textInputText, setTextInputText] = useState('');
   const [isOpenAnswer, setIsOpenAnswer] = useState(true);
   const [quizData, setQuizData] = useState(null);
   const [curPageQuizData, setCurPageQuizData] = useState(null);
+
+  const onMoveNextQuiz = useCallback(() => {
+    setIsOpenAnswer(true);
+    setCurPageQuizData(quizData[pageState + 1]);
+    setPageState(pageState + 1);
+  }, [quizData, pageState]);
+
+  const onMovePrevQuiz = useCallback(() => {
+    setIsOpenAnswer(true);
+    setCurPageQuizData(quizData[pageState - 1]);
+    setPageState(pageState - 1);
+  }, [quizData, pageState]);
 
   useEffect(() => {
     // 해당 부분을 서버에서 전달받도록 수정..
@@ -33,15 +44,42 @@ const TodayQuizCheckScreen = () => {
 
       // quizData를 reviewQuizDataList를 사용함.
       // 다음날이 되어 오늘의 퀴즈를 풀기전에 쓰이는 데이터도 reviewQuizList를 사용한다.
-      this.setState({
-        quizData: checkQuizDataList,
-        curPageQuizData: checkQuizDataList[0],
-        currentQuizBallState: todayQuizBallState,
-        quizAnswerTextArray: todayQuizAnswerList,
-      });
+      setQuizData(checkQuizDataList);
+      setCurPageQuizData(checkQuizDataList[0]);
+      setCurrentQuizBallState(todayQuizBallState);
+      setQuizAnswerTextArray(todayQuizAnswerList);
     });
   }, []);
+
+  return (
+    <SafeAreaView style={styles.container} contentContainerStyle={{ justifyContent: 'center' }}>
+      <View style={styles.contentContainer}>
+        <View style={styles.closeView}>
+          <TouchableOpacity style={styles.closeButton} onPress={navigation.goBack}>
+            <Text style={styles.closeButtonText}>닫기</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.todayQuizTitleView}>
+          <Text style={styles.todayQuizTitleText}>오늘의 세례문답 {pageState + 1}/5</Text>
+          <QuizBall quizBallState={currentQuizBallState} />
+        </View>
+
+        {curPageQuizData && <TodayQuizItem quizData={curPageQuizData} isOpened={true} isOpenedCheck={true} />}
+        {isOpenAnswer && (
+          <View style={styles.confirmAnswerView}>
+            <Text style={styles.confirmAnswerLabel}>입력하신 정답은</Text>
+            <Text style={styles.confirmAnswerText}>{quizAnswerTextArray[pageState]}</Text>
+          </View>
+        )}
+
+        <AnswerButton pageState={pageState} onMovePrevQuiz={onMovePrevQuiz} onMoveNextQuiz={onMoveNextQuiz} />
+      </View>
+    </SafeAreaView>
+  );
 };
+
+export default TodayQuizCheckScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -118,21 +156,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#828282',
     marginTop: 15,
-  },
-
-  answerSubmitButton: {
-    bottom: 0,
-    width: '100%',
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F9DA4F',
-    flexDirection: 'row',
-  },
-
-  answerSubmitButtonText: {
-    fontWeight: 'bold',
-    fontSize: 14,
   },
 
   confirmAnswerView: {

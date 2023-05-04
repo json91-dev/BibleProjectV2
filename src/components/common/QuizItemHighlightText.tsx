@@ -3,9 +3,6 @@ import { Text } from 'react-native';
 
 const QuizItemHighlightText = ({ quizSentence, quizWord }) => {
   const [resultTextArray, setResultTextArray] = useState([]);
-
-  console.log('111');
-  console.log(quizSentence, quizWord);
   useEffect(() => {
     let splitTextArray;
     let result = [];

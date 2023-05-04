@@ -3,7 +3,7 @@ import React from 'react';
 
 import QuizMainScreen from './QuizMainScreen';
 import TodayQuizScreen from './TodayQuizScreen';
-import TodayQuizCheckScreen from './TodayQuizCheckScreenBackup';
+import TodayQuizCheckScreen from './TodayQuizCheckScreen';
 
 const Stack = createStackNavigator();
 

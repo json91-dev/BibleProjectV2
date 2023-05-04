@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View } from 'react-native';
-import ReviewQuizItem from '../../../components/reviewquiz/ReviewQuizItem';
+import ReviewQuizItem from '../../../components/quizmain/ReviewQuizItem';
 import { getDateStringByFormat, getItemFromAsync, setItemToAsync } from '../../../utils';
 import QuizBall from '../../../components/common/QuizBall';
 import QuizTimer from '../../../components/quizmain/QuizTimer';
