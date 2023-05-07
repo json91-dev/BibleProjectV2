@@ -92,25 +92,25 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         <TouchableOpacity
           style={[fontFamilyOption === FONT_FAMILY_BASIC ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontFamily(FONT_FAMILY_BASIC)}>
-          <Text style={{ fontSize: 12 }}>기본</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'system font' }}>기본</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[fontFamilyOption === FONT_FAMILY_NANUM_BRUSH ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontFamily(FONT_FAMILY_NANUM_BRUSH)}>
-          <Text style={{ fontSize: 12 }}>맑은체</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'NanumBrush' }}>맑은체</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[fontFamilyOption === FONT_FAMILY_TMON_SORI_BLACK ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontFamily(FONT_FAMILY_TMON_SORI_BLACK)}>
-          <Text style={{ fontSize: 12 }}>명조체</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'TmonMonsoriBlack' }}>명조체</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[fontFamilyOption === FONT_FAMILY_KOREAN_GIR ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontFamily(FONT_FAMILY_KOREAN_GIR)}>
-          <Text style={{ fontSize: 12 }}>기린체</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'KoreanGIR-L' }}>기린체</Text>
         </TouchableOpacity>
       </View>
 
@@ -125,19 +125,19 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         <TouchableOpacity
           style={[fontSizeOption === FONT_SIZE_14 ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontSize(FONT_SIZE_14)}>
-          <Text style={{ fontSize: 12 }}>14pt</Text>
+          <Text style={{ fontSize: 14 }}>14pt</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[fontSizeOption === FONT_SIZE_16 ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontSize(FONT_SIZE_16)}>
-          <Text style={{ fontSize: 12 }}>16pt</Text>
+          <Text style={{ fontSize: 16 }}>16pt</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[fontSizeOption === FONT_SIZE_18 ? styles.fontButtonChecked : styles.fontButton]}
           onPress={() => onChangeFontSize(FONT_SIZE_18)}>
-          <Text style={{ fontSize: 12 }}>18pt</Text>
+          <Text style={{ fontSize: 18 }}>18pt</Text>
         </TouchableOpacity>
       </View>
     </View>
