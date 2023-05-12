@@ -1,79 +1,56 @@
-import { Component } from 'react';
+import { Component, useEffect, useState } from 'react';
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 
-// SQLITE 성공/실패 예외처리
-const errorCallback = e => {
-  console.log('DB connection fail');
-  // console.log(e.message);
-};
-const okCallback = result => {
-  console.log('DB connection success');
-  // console.log(result);
-};
+/** 장 선택 컴포넌트 **/
+const ChapterListComponent = ({ bookName, bookCode, changePageHandler }) => {
+  const [chapterItems, setChapterItems] = useState([]);
+  console.log(bookName, bookCode);
 
-export default class ChapterListComponent extends Component {
-  state = {
-    chapterItems: [],
-  };
-
-  componentDidMount() {
-    const { bookName, bookCode } = this.props;
+  useEffect(() => {
     // 성경의 장을 모두 가져오는 쿼리를 수행.
-    let bibleDB = SQLite.openDatabase({ name: 'BibleDB.db', createFromLocation: 1 }, okCallback, errorCallback);
+    let bibleDB = SQLite.openDatabase({ name: 'BibleDB.db', createFromLocation: 1 });
     bibleDB.transaction(tx => {
       const query = `SELECT max(chapter) as count FROM bible_korHRV where book = ${bookCode}`;
       tx.executeSql(query, [], (tx, results) => {
         let chapterItemsLength = results.rows.item(0).count;
         const chapterItems = [];
-        /**
-         * Item insert
-         */
         for (let i = 0; i < chapterItemsLength; i++) {
           chapterItems.push({
             bookCode,
             bookName,
           });
         }
-        this.setState({ chapterItems });
+        setChapterItems(chapterItems);
       });
     });
-  }
+  }, [bookName, bookCode]);
 
-  // onPress={this.goToChapterListScreen.bind(this,
-  //   {
-  //     bookName: item.bookName,
-  //     bookCode: item.bookCode,
-  //     chapterCode: chapterCode,
-  //   })}>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.titleText}>장을 선택해주세요.</Text>
+      <FlatList
+        style={styles.flatList}
+        data={chapterItems}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => {
+          let chapterCode = index + 1;
+          return (
+            <TouchableOpacity style={styles.flatListItem} onPress={changePageHandler(2, item.bookName, item.bookCode, chapterCode)}>
+              <Text style={styles.flatListItemText}>
+                {chapterCode}. {item.bookName}
+                {chapterCode}장
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
+      />
+    </View>
+  );
+};
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.titleText}>장을 선택해주세요.</Text>
-        <FlatList
-          style={styles.flatList}
-          data={this.state.chapterItems}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item, index }) => {
-            let chapterCode = index + 1;
-            return (
-              <TouchableOpacity
-                style={styles.flatListItem}
-                onPress={this.props.changePageHandler(2, item.bookName, item.bookCode, chapterCode)}>
-                <Text style={styles.flatListItemText}>
-                  {chapterCode}. {item.bookName}
-                  {chapterCode}장
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
-    );
-  }
-}
+export default ChapterListComponent;
 
 const styles = StyleSheet.create({
   container: {
