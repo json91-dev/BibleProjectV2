@@ -4,9 +4,8 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, FlatList } from 'react
 import SQLite from 'react-native-sqlite-storage';
 
 /** 장 선택 컴포넌트 **/
-const ChapterListComponent = ({ bookName, bookCode, changePageHandler }) => {
+const ChapterListComponent = ({ bookName, bookCode, changePage }) => {
   const [chapterItems, setChapterItems] = useState([]);
-  console.log(bookName, bookCode);
 
   useEffect(() => {
     // 성경의 장을 모두 가져오는 쿼리를 수행.
@@ -37,10 +36,9 @@ const ChapterListComponent = ({ bookName, bookCode, changePageHandler }) => {
         renderItem={({ item, index }) => {
           let chapterCode = index + 1;
           return (
-            <TouchableOpacity style={styles.flatListItem} onPress={changePageHandler(2, item.bookName, item.bookCode, chapterCode)}>
+            <TouchableOpacity style={styles.flatListItem} onPress={changePage(2, item.bookName, item.bookCode, chapterCode)}>
               <Text style={styles.flatListItemText}>
-                {chapterCode}. {item.bookName}
-                {chapterCode}장
+                {item.bookName} {chapterCode}장
               </Text>
             </TouchableOpacity>
           );
@@ -73,8 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     flexDirection: 'column',
-    paddingTop: 30,
-    paddingBottom: 30,
+
     paddingLeft: 2,
     paddingRight: 2,
     borderBottomColor: '#AABBCC',

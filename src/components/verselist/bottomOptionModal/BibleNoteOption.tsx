@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, TextInput } from 'react-native';
 
-import { getItemFromAsync, setItemToAsync } from '../../utils';
+import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import Toast from 'react-native-easy-toast';
-import { getPassTimeText } from '../../utils';
+import { getPassTimeText } from '../../../utils';
 
 const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
   const [noteItems, setNoteItems] = useState([]);
@@ -170,20 +170,20 @@ const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
         <TouchableOpacity style={{ position: 'absolute', left: 5 }} onPress={backToMemoList}>
           {isOpenMemoEdit ? (
             <View style={styles.headerLeftImageWrapper}>
-              <Image style={styles.headerLeftImage} source={require('../../assets/ic_left_arrow.png')} />
+              <Image style={styles.headerLeftImage} source={require('../../../assets/ic_left_arrow.png')} />
             </View>
           ) : null}
         </TouchableOpacity>
         <Text style={styles.headerText}>성경노트</Text>
         <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={closeMemoComponent}>
           <View style={styles.headerRightImageWrapper}>
-            <Image style={styles.headerRightImage} source={require('../../assets/ic_close.png')} />
+            <Image style={styles.headerRightImage} source={require('../../../assets/ic_close.png')} />
           </View>
         </TouchableOpacity>
       </View>
       {noteItems.length === 0 && isNoteItemUpdate && (
         <View style={styles.memoNone}>
-          <Image style={styles.memoNoneImage} source={require('../../assets/ic_note.png')} />
+          <Image style={styles.memoNoneImage} source={require('../../../assets/ic_note.png')} />
           <Text style={styles.memoNoneText}>메모한 흔적이 없어요.{'\n'}너무 소홀하셨던거 아닐까요?</Text>
         </View>
       )}

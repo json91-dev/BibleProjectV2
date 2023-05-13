@@ -8,7 +8,7 @@ const newBibleItems = getNewBibleItems();
 const activeItemColor = '#F9DA4F';
 
 /** 목차 선택 컴포넌트 **/
-const BookListComponent = ({ bibleType, changePageHandler }) => {
+const BookListComponent = ({ bibleType, changePage }) => {
   return (
     <View style={styles.container}>
       <SectionGrid
@@ -26,7 +26,7 @@ const BookListComponent = ({ bibleType, changePageHandler }) => {
             style={[styles.itemContainer, { backgroundColor: '#F3F4F9' }]}
             activeOpacity={0.8}
             underlayColor={activeItemColor}
-            onPress={changePageHandler(1, item.bookName, item.bookCode)}>
+            onPress={changePage(1, item.bookName, item.bookCode)}>
             <View>
               <Text style={styles.itemName}>{item.name}</Text>
               <Text style={styles.itemCode}>{item.bookName}</Text>

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-import { getItemFromAsync, setItemToAsync } from '../../utils';
+import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import {
   FONT_FAMILY_BASIC,
   FONT_FAMILY_KOREAN_GIR,
@@ -11,7 +11,7 @@ import {
   FONT_SIZE_14,
   FONT_SIZE_16,
   FONT_SIZE_18,
-} from '../../constraints';
+} from '../../../constraints';
 
 const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSizeHandler }) => {
   const [fontSizeOption, setFontSizeOption] = useState(FONT_SIZE_12);
@@ -83,7 +83,7 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         <Text style={styles.headerTitle}>보기 설정</Text>
         <TouchableOpacity onPress={closeHandler}>
           <View style={styles.headerImageWrapper}>
-            <Image style={styles.headerImage} source={require('../../assets/ic_close.png')}></Image>
+            <Image style={styles.headerImage} source={require('../../../assets/ic_close.png')}></Image>
           </View>
         </TouchableOpacity>
       </View>

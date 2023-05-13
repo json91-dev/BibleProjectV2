@@ -31,7 +31,7 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
                 setCommandModalVisible(false);
                 actionCommandModal('copy');
               }}>
-              <Image style={[styles.modalItemImage, { marginRight: 2 }]} source={require('../../assets/ic_copy.png')} />
+              <Image style={[styles.modalItemImage, { marginRight: 2 }]} source={require('../../../assets/ic_copy.png')} />
               <Text style={styles.modalItemText}>복사</Text>
             </TouchableOpacity>
 
@@ -43,7 +43,7 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
                   setCommandModalVisible(false);
                   actionCommandModal('highlight');
                 }}>
-                <Image style={styles.modalItemImage} source={require('../../assets/ic_color_pen.png')} />
+                <Image style={styles.modalItemImage} source={require('../../../assets/ic_color_pen.png')} />
                 <Text style={styles.modalItemText}>형광펜</Text>
               </TouchableOpacity>
             ) : (
@@ -53,7 +53,7 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
                   setCommandModalVisible(false);
                   actionCommandModal('highlight');
                 }}>
-                <Image style={styles.modalItemImage} source={require('../../assets/ic_color_pen.png')} />
+                <Image style={styles.modalItemImage} source={require('../../../assets/ic_color_pen.png')} />
                 <Text style={styles.modalItemText}>형광펜</Text>
               </TouchableOpacity>
             )}
@@ -61,7 +61,7 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
             {/*메모 버튼*/}
             {isMemo ? (
               <TouchableOpacity style={styles.memoButtonChecked} onPress={openBibleNoteOptionModal}>
-                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../assets/ic_memo.png')} />
+                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
                 <Text style={styles.modalItemText}>메모</Text>
               </TouchableOpacity>
             ) : (
@@ -71,7 +71,7 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
                   setCommandModalVisible(false);
                   actionCommandModal('memo');
                 }}>
-                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../assets/ic_memo.png')} />
+                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
                 <Text style={styles.modalItemText}>메모</Text>
               </TouchableOpacity>
             )}

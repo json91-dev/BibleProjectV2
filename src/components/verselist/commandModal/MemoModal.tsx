@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { getItemFromAsync, setItemToAsync, uuidv4 } from '../../utils';
+import { getItemFromAsync, setItemToAsync, uuidv4 } from '../../../utils';
 
 interface MemoListItemType {
   objectId: any;
@@ -81,7 +81,7 @@ const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, upda
             </TouchableOpacity>
             <Text style={styles.memoModalHeaderText}>메모</Text>
             <TouchableOpacity style={styles.memoModalHeaderCancel} onPress={() => setMemoModalVisible(false)}>
-              <Image style={styles.memoModalHeaderCancelImage} source={require('../../assets/ic_close.png')} />
+              <Image style={styles.memoModalHeaderCancelImage} source={require('../../../assets/ic_close.png')} />
             </TouchableOpacity>
           </View>
           <View style={styles.memoModalBible}>

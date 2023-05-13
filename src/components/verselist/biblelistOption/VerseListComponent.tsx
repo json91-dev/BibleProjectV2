@@ -3,7 +3,7 @@ import React from 'react';
 import SQLite from 'react-native-sqlite-storage';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const VerseListComponent = ({ bookName, bookCode, chapterCode, changeScreenHandler }) => {
+const VerseListComponent = ({ bookName, bookCode, chapterCode, changeScreenTargetVerse }) => {
   const [verseItems, setVerseItems] = useState([]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const VerseListComponent = ({ bookName, bookCode, chapterCode, changeScreenHandl
           let verseCode = index + 1;
           return (
             <TouchableOpacity
-              onPress={changeScreenHandler(item.bookName, item.bookCode, item.chapterCode, item.verseCode)}
+              onPress={() => changeScreenTargetVerse(item.bookName, item.bookCode, item.chapterCode, item.verseCode)}
               style={styles.flatListItem}>
               <Text style={styles.flatListItemTextLabel}> {verseCode}.</Text>
               <Text style={styles.flatListItemText}>{item.content}</Text>

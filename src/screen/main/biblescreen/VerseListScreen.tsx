@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
 import Toast from 'react-native-easy-toast';
 import { getBibleVerseItems, getItemFromAsync, getBibleTypeString, setItemToAsync } from '../../../utils';
-import CommandModal from '../../../components/verselist/CommandModal';
+import CommandModal from '../../../components/verselist/commandModal/CommandModal';
 import BibleListOption from '../../../components/verselist/biblelistOption/BibleListOption';
-import BibleNoteOption from '../../../components/verselist/BibleNoteOption';
-import FontChangeOption from '../../../components/verselist/FontChangeOption';
+import BibleNoteOption from '../../../components/verselist/bottomOptionModal/BibleNoteOption';
+import FontChangeOption from '../../../components/verselist/bottomOptionModal/FontChangeOption';
 import { StackActions } from '@react-navigation/native';
-import MemoModal from '../../../components/verselist/MemoModal';
+import MemoModal from '../../../components/verselist/commandModal/MemoModal';
 import VerseFlatList from '../../../components/verselist/VerseFlatList/VerseFlatList';
 import LoadingSpinner from '../../../components/common/LoadingSpinner';
 
@@ -343,7 +343,7 @@ const VerseListScreen = ({ navigation, route }) => {
         </View>
 
         {optionComponentState === 'bibleList' && (
-          <BibleListOption changeScreenHandler={changeScreenNavigation} bibleType={bibleType} closeHandler={closeAllOptionModal} />
+          <BibleListOption navigation={navigation} bibleType={bibleType} closeHandler={closeAllOptionModal} />
         )}
         {optionComponentState === 'bibleNote' && (
           <BibleNoteOption toastRef={toastRef} closeHandler={closeAllOptionModal} updateVerseItems={updateVerseItems} />
