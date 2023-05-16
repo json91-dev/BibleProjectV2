@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { VERSE_LIST_PAGE } from './BibleListOption';
+import { BOOK_LIST_PAGE, VERSE_LIST_PAGE } from './BibleListOption';
 
 const BibleListOptionHeader = ({ pageStack, setPageStack, setHeaderTitle, headerTitle, closeModal }) => {
   return (
@@ -8,19 +8,20 @@ const BibleListOptionHeader = ({ pageStack, setPageStack, setHeaderTitle, header
       <TouchableOpacity
         style={{ position: 'absolute', left: 5 }}
         onPress={() => {
+          // 마지막 페이지에서 뒤로가기 눌렀을때 처리. (ex: 창세기 10장 3절 => 창세기 10장)
           if (pageStack === VERSE_LIST_PAGE) {
             setHeaderTitle(headerTitle.substring(0, headerTitle.lastIndexOf(' ')));
           }
 
           setPageStack(pageStack - 1);
         }}>
-        {pageStack !== 0 && (
+        {pageStack !== BOOK_LIST_PAGE && (
           <View style={styles.headerLeftImageWrapper}>
             <Image style={styles.headerLeftImage} source={require('../../../assets/ic_left_arrow.png')} />
           </View>
         )}
       </TouchableOpacity>
-      {pageStack === 0 ? <Text style={styles.headerText}>목차</Text> : <Text style={styles.headerText}>{headerTitle}</Text>}
+      {pageStack === BOOK_LIST_PAGE ? <Text style={styles.headerText}>목차</Text> : <Text style={styles.headerText}>{headerTitle}</Text>}
       <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={() => closeModal()}>
         <View style={styles.headerRightImageWrapper}>
           <Image style={styles.headerRightImage} source={require('../../../assets/ic_close.png')} />

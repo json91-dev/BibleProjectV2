@@ -297,3 +297,13 @@ export const makeBlankQuizSentence = (quizSentence: string, quizWord: string) =>
   let blankQuizSentence = quizSentence.split(quizWord).join(blank);
   return blankQuizSentence;
 };
+
+export const getTodayDate = (): string => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+};

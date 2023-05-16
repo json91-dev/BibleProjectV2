@@ -1,9 +1,9 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 
 import QuizBall from '../../../components/common/QuizBall';
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
-import { getItemFromAsync, setItemToAsync } from '../../../utils';
+import { getItemFromAsync } from '../../../utils';
 import AnswerButton from '../../../components/todayquizcheck/AnswerButton';
 
 const TodayQuizCheckScreen = ({ navigation }) => {
