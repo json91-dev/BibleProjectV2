@@ -10,7 +10,7 @@ type TodayQuizItemType = {
 };
 
 const TodayQuizItem = ({ quizData, isOpened }) => {
-  const { quizVerse, quizWord, quizSentence } = quizData;
+  const { quizVersePath, quizWord, quizSentence } = quizData;
   console.log(quizData);
 
   // 퀴즈에 대해 중간 공백을 만들어주는 함수
@@ -22,7 +22,7 @@ const TodayQuizItem = ({ quizData, isOpened }) => {
     <View style={styles.container}>
       <View style={styles.quizHeaderContainer}>
         <Text style={styles.quizIndexText}>빈칸에 들어갈 단어는?</Text>
-        <Text style={styles.quizVerseText}>{quizVerse}</Text>
+        <Text style={styles.quizVersePathText}>{quizVersePath}</Text>
       </View>
       <View style={styles.quizMainContainer}>
         {isOpened ? (
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  quizVerseText: {
+  quizVersePathText: {
     fontSize: 14,
   },
 

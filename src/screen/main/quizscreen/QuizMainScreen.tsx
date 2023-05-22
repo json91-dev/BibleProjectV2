@@ -193,7 +193,7 @@ const QuizScreen = ({ navigation }) => {
                 <ReviewQuizItem
                   key={index + item.quizWord}
                   index={index + 1}
-                  quizVerse={item.quizVerse}
+                  quizVersePath={item.quizVersePath}
                   quizWord={item.quizWord}
                   quizSentence={item.quizSentence}
                 />

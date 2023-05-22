@@ -14,12 +14,14 @@ const TodayQuizCheckScreen = ({ navigation }) => {
   const [quizData, setQuizData] = useState(null);
   const [curPageQuizData, setCurPageQuizData] = useState(null);
 
+  // 다음 퀴즈로 이동
   const onMoveNextQuiz = useCallback(() => {
     setIsOpenAnswer(true);
     setCurPageQuizData(quizData[pageState + 1]);
     setPageState(pageState + 1);
   }, [quizData, pageState]);
 
+  // 이전 퀴즈로 이동
   const onMovePrevQuiz = useCallback(() => {
     setIsOpenAnswer(true);
     setCurPageQuizData(quizData[pageState - 1]);

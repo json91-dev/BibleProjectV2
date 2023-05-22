@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import QuizItemHighlightText from '../common/QuizItemHighlightText';
 import { makeBlankQuizSentence } from '../../utils';
 
-const ReviewQuizItem = ({ index, quizVerse, quizWord, quizSentence }) => {
+const ReviewQuizItem = ({ index, quizVersePath, quizWord, quizSentence }) => {
   const [isOpenAnswer, setIsOpenAnswer] = useState<boolean>(false);
 
   const showBlankQuiz = useCallback(() => {
@@ -14,7 +14,7 @@ const ReviewQuizItem = ({ index, quizVerse, quizWord, quizSentence }) => {
     <View style={styles.container}>
       <View style={styles.quizHeaderContainer}>
         <Text style={styles.quizIndexText}>세례문답 복습 {index}/5</Text>
-        <Text style={styles.quizVerseText}>{quizVerse}</Text>
+        <Text style={styles.quizVersePathText}>{quizVersePath}</Text>
       </View>
       <View style={styles.quizMainContainer}>
         {isOpenAnswer ? (
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  quizVerseText: {
+  quizVersePathText: {
     fontSize: 14,
   },
 
