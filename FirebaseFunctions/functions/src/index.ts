@@ -127,7 +127,7 @@ exports.setRandomVerseByEveryday = functions.pubsub
       const chapter = getRandomChapter(book);
 
       const maxVerseCount = await getMaxVerseCountFromFirestore(book, chapter);
-      const randomVerse = Math.floor(Math.random() * maxVerseCount - 1) + 1;
+      const randomVerse = Math.floor(Math.random() * maxVerseCount) + 1;
       const todayVerse = await getTodayVerseDataFromFirestore(book, chapter, randomVerse);
       const seoulDayString = moment().tz('Asia/Seoul').format('YYYY-MM-DD');
       db.collection('todayVerse')
@@ -200,7 +200,7 @@ exports.setRandomTodayQuizByEveryday = functions.pubsub
         const book = getRandomBook();
         const chapter = getRandomChapter(book);
         const maxVerseCount = await getMaxVerseCountFromFirestore(book, chapter);
-        const randomVerse = Math.floor(Math.random() * maxVerseCount - 1) + 1;
+        const randomVerse = Math.floor(Math.random() * maxVerseCount) + 1;
         const todayQuiz = await getTodayQuizDataFromFirestore(book, chapter, randomVerse);
         todayQuizList.push(todayQuiz);
         sentences.push(todayQuiz.quizSentence);
