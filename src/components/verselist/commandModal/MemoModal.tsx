@@ -1,8 +1,9 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getItemFromAsync, setItemToAsync, uuidv4 } from '../../../utils';
+import { MEMO_LIST } from '../../../constraints';
 
-interface MemoListItemType {
+interface MemoListItem {
   objectId: any;
   bookName: any;
   bookCode: any;
@@ -39,7 +40,7 @@ const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, upda
   );
 
   const onPressSaveButton = useCallback(async () => {
-    let memoListItems = await getItemFromAsync<MemoListItemType[]>('memoList');
+    let memoListItems = await getItemFromAsync<MemoListItem[]>(MEMO_LIST);
     if (memoListItems === null) {
       memoListItems = [];
     }
@@ -56,7 +57,7 @@ const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, upda
       date,
       content,
     });
-    await setItemToAsync('memoList', memoListItems);
+    await setItemToAsync(MEMO_LIST, memoListItems);
 
     setMemoModalVisible(false);
     setMemoModalSaveButtonActive(false);

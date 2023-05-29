@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, TextInput } 
 import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import Toast from 'react-native-easy-toast';
 import { getPassTimeText } from '../../../utils';
+import { MEMO_LIST } from '../../../constraints';
 
 const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
   const [noteItems, setNoteItems] = useState([]);
@@ -17,7 +18,7 @@ const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
   const toastRef = useRef(null);
 
   const getBibleNotes = useCallback(async () => {
-    let memoList = await getItemFromAsync<any[]>('memoList');
+    let memoList = await getItemFromAsync<any[]>(MEMO_LIST);
 
     if (memoList === null) {
       memoList = [];
@@ -66,7 +67,7 @@ const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
    * 이후 메모 목록에서 수정페이지에서 바뀐 텍스트가 있으면 해당 메모를 objectId로 조회후 수정후 반영.
    */
   const backToMemoList = useCallback(async () => {
-    let memoList = await getItemFromAsync<any[]>('memoList');
+    let memoList = await getItemFromAsync<any[]>(MEMO_LIST);
 
     if (memoList === null) memoList = [];
 
@@ -116,14 +117,14 @@ const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
     });
 
     // 아이템 갱신, 페이지 이동
-    await setItemToAsync('memoList', memoList);
+    await setItemToAsync(MEMO_LIST, memoList);
     setIsOpenMemoEdit(false);
     setNoteItems(noteItems);
   }, [isOpenMemoEdit, noteItems, memoEditTextInput]);
 
   const closeMemoComponent = useCallback(async () => {
     if (isOpenMemoEdit) {
-      let memoList = await getItemFromAsync<any[]>('memoList');
+      let memoList = await getItemFromAsync<any[]>(MEMO_LIST);
       if (memoList === null) {
         memoList = [];
       }
@@ -156,7 +157,7 @@ const BibleNoteOption = ({ closeHandler, updateVerseItems }) => {
       }
 
       // 바뀐 정보를 저장한뒤 부모의 closeHandler호출
-      setItemToAsync('memoList', memoList).then(() => {
+      setItemToAsync(MEMO_LIST, memoList).then(() => {
         closeHandler();
       });
     } else {

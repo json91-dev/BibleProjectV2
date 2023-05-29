@@ -1,6 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Keyboard, SafeAreaView, TouchableWithoutFeedback, Image } from 'react-native';
-import { QUIZ_BEFORE, QUIZ_FAIL, QUIZ_SUCCESS } from '../../../constraints';
+import {
+  IS_COMPLETE_TODAY_QUIZ,
+  IS_GIVE_UP_TODAY_QUIZ,
+  QUIZ_BEFORE,
+  QUIZ_DATA,
+  QUIZ_FAIL,
+  QUIZ_SUCCESS,
+  REVIEW_QUIZ_DATA_LIST,
+  TODAY_QUIZ_ANSWER_LIST,
+  TODAY_QUIZ_BALL_STATE,
+} from '../../../constraints';
 
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
 import { setItemToAsync, getDateStringByFormat } from '../../../utils';
@@ -78,12 +88,12 @@ const TodayQuizScreen = ({ navigation }) => {
    * 안풀었을때 화면 :  퀴즈 시작 링크 + 이전문제 복습
    */
   const completeQuizAndSave = useCallback(() => {
-    const setReviewQuizDataList = setItemToAsync('reviewQuizDataList', quizData);
-    const setIsCompleteTodayQuiz = setItemToAsync('isCompleteTodayQuiz', true);
-    const setIsGiveUpTodayQuiz = setItemToAsync('isGiveUpTodayQuiz', false);
-    const setQuizAnswerList = setItemToAsync('todayQuizAnswerList', quizAnswerTextArray);
-    const setQuizBallState = setItemToAsync('todayQuizBallState', currentQuizBallState);
-    const setQuizDate = setItemToAsync('quizDate', parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
+    const setReviewQuizDataList = setItemToAsync(REVIEW_QUIZ_DATA_LIST, quizData);
+    const setIsCompleteTodayQuiz = setItemToAsync(IS_COMPLETE_TODAY_QUIZ, true);
+    const setIsGiveUpTodayQuiz = setItemToAsync(IS_GIVE_UP_TODAY_QUIZ, false);
+    const setQuizAnswerList = setItemToAsync(TODAY_QUIZ_ANSWER_LIST, quizAnswerTextArray);
+    const setQuizBallState = setItemToAsync(TODAY_QUIZ_BALL_STATE, currentQuizBallState);
+    const setQuizDate = setItemToAsync(QUIZ_DATA, parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
 
     Promise.all([
       setReviewQuizDataList,
@@ -120,12 +130,12 @@ const TodayQuizScreen = ({ navigation }) => {
       updateQuizAnswerTextArray = [...updateQuizAnswerTextArray, '없음'];
     }
 
-    const setReviewQuizDataList = setItemToAsync('reviewQuizDataList', quizData);
-    const setIsCompleteTodayQuiz = setItemToAsync('isCompleteTodayQuiz', false);
-    const setIsGiveUpTodayQuiz = setItemToAsync('isGiveUpTodayQuiz', true);
-    const setQuizAnswerList = setItemToAsync('todayQuizAnswerList', updateQuizAnswerTextArray);
-    const setQuizBallState = setItemToAsync('todayQuizBallState', updateQuizBallState);
-    const setQuizDate = setItemToAsync('quizDate', parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
+    const setReviewQuizDataList = setItemToAsync(REVIEW_QUIZ_DATA_LIST, quizData);
+    const setIsCompleteTodayQuiz = setItemToAsync(IS_COMPLETE_TODAY_QUIZ, false);
+    const setIsGiveUpTodayQuiz = setItemToAsync(IS_GIVE_UP_TODAY_QUIZ, true);
+    const setQuizAnswerList = setItemToAsync(TODAY_QUIZ_ANSWER_LIST, updateQuizAnswerTextArray);
+    const setQuizBallState = setItemToAsync(TODAY_QUIZ_BALL_STATE, updateQuizBallState);
+    const setQuizDate = setItemToAsync(QUIZ_DATA, parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
 
     Promise.all([
       setReviewQuizDataList,

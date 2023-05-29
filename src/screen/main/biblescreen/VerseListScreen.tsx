@@ -10,6 +10,7 @@ import { StackActions } from '@react-navigation/native';
 import MemoModal from '../../../components/verselist/commandModal/MemoModal';
 import VerseFlatList from '../../../components/verselist/VerseFlatList/VerseFlatList';
 import LoadingSpinner from '../../../components/common/LoadingSpinner';
+import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, LATELY_READ_LIST, MEMO_LIST } from '../../../constraints';
 
 interface VerseItemType {
   isButton: boolean;
@@ -46,11 +47,11 @@ const VerseListScreen = ({ navigation, route }) => {
       bookCode,
       chapterCode,
     };
-    await setItemToAsync('latelyReadList', readItem);
+    await setItemToAsync(LATELY_READ_LIST, readItem);
   }, []);
 
   const setFontSizeFromStorage = useCallback(async () => {
-    const fontSizeOption = await getItemFromAsync<number>('fontSizeOption');
+    const fontSizeOption = await getItemFromAsync<number>(FONT_SIZE_OPTION);
     switch (fontSizeOption) {
       case null: {
         setVerseItemFontSize(14);
@@ -80,7 +81,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const setFontFamilyFromStorage = useCallback(async () => {
-    const fontFamilyOption = await getItemFromAsync<number>('fontFamilyOption');
+    const fontFamilyOption = await getItemFromAsync<number>(FONT_FAMILY_OPTION);
     switch (fontFamilyOption) {
       case null: {
         setVerseItemFontFamily('system font');
@@ -110,7 +111,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const getUpdatedHighlightVerseItems = useCallback(async items => {
-    let highlightsItems = await getItemFromAsync<any[]>('highlightList');
+    let highlightsItems = await getItemFromAsync<any[]>(HIGHLIGHT_LIST);
     highlightsItems = highlightsItems ? highlightsItems : [];
 
     items.forEach(verse => {
@@ -133,7 +134,7 @@ const VerseListScreen = ({ navigation, route }) => {
 
   const getUpdatedMemoVerseItems = useCallback(
     async items => {
-      let memoListItems = await getItemFromAsync<any[]>('memoList');
+      let memoListItems = await getItemFromAsync<any[]>(MEMO_LIST);
       if (memoListItems === null) memoListItems = [];
       items.forEach(verse => {
         const index = memoListItems.findIndex(memoItem => {
@@ -183,7 +184,7 @@ const VerseListScreen = ({ navigation, route }) => {
     async modalAction => {
       const { bookCode, chapterCode, verseCode, content, isHighlight } = modalBibleItem;
       const removeHighlight = async () => {
-        let highlightItems = await getItemFromAsync<any[]>('highlightList');
+        let highlightItems = await getItemFromAsync<any[]>(HIGHLIGHT_LIST);
         if (highlightItems === null) {
           highlightItems = [];
         }
@@ -192,12 +193,12 @@ const VerseListScreen = ({ navigation, route }) => {
           return item.bookCode === bookCode && item.chapterCode === chapterCode && item.verseCode === verseCode;
         });
         highlightItems.splice(index, 1);
-        await setItemToAsync('highlightList', highlightItems);
+        await setItemToAsync(HIGHLIGHT_LIST, highlightItems);
         toastRef.current.show('형광펜 밑줄 제거 ^^');
       };
 
       const addHighlight = async () => {
-        let highlightItems = await getItemFromAsync<any[]>('highlightList');
+        let highlightItems = await getItemFromAsync<any[]>(HIGHLIGHT_LIST);
 
         if (highlightItems === null) {
           highlightItems = [];
@@ -205,7 +206,7 @@ const VerseListScreen = ({ navigation, route }) => {
         highlightItems.push({ bookCode, chapterCode, verseCode });
         console.log(highlightItems);
 
-        await setItemToAsync('highlightList', highlightItems);
+        await setItemToAsync(HIGHLIGHT_LIST, highlightItems);
         toastRef.current.show('형광펜으로 밑줄 ^^');
       };
 

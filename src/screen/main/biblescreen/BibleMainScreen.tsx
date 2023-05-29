@@ -10,6 +10,7 @@ import { StackActions } from '@react-navigation/native';
 import LatelyReadBibleView from '../../../components/biblemain/LatelyReadBibleView';
 import SearchHeaderView from '../../../components/biblemain/SearchHeaderView';
 import SearchResultView from '../../../components/biblemain/SearchResultView';
+import { LATELY_READ_LIST, SEARCH_WORD_LIST } from '../../../constraints';
 
 const BibleMainScreen = props => {
   const [isOpenSearchMode, setIsOpenSearchMode] = useState(false);
@@ -120,7 +121,7 @@ const BibleMainScreen = props => {
     }
 
     /** pushSearchTextToSearchWordList **/
-    getItemFromAsync<any[]>('searchWordList').then(items => {
+    getItemFromAsync<any[]>(SEARCH_WORD_LIST).then(items => {
       let searchWordItems = items;
       if (searchWordItems === null) searchWordItems = [];
 
@@ -131,7 +132,7 @@ const BibleMainScreen = props => {
       if (searchWordItems.length > 5) {
         searchWordItems.shift();
       }
-      setItemToAsync('searchWordList', searchWordItems).then(() => {
+      setItemToAsync(SEARCH_WORD_LIST, searchWordItems).then(() => {
         setSearchWordItems(searchWordItems);
         setSearchText('');
         setCurrentWordText(currentWordText);
@@ -190,7 +191,7 @@ const BibleMainScreen = props => {
   useEffect(() => {
     (async () => {
       /** 검색했던 단어들에 대한 List를 Local DB에서 불러옴 **/
-      let searchWordList = await getItemFromAsync<any[]>('searchWordList');
+      let searchWordList = await getItemFromAsync<any[]>(SEARCH_WORD_LIST);
       if (searchWordList === null) {
         setSearchWordItems([]);
       } else {
@@ -198,7 +199,7 @@ const BibleMainScreen = props => {
       }
 
       /** 최근 읽은 성경구절 정보를 LocalDB에서 가져옴 **/
-      let latelyReadList = await getItemFromAsync<Record<string, any>>('latelyReadList');
+      let latelyReadList = await getItemFromAsync<Record<string, any>>(LATELY_READ_LIST);
       if (latelyReadList === null) {
         setIsOpenLatelyReadBibleView(false);
       } else {

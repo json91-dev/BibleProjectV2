@@ -4,6 +4,7 @@ import ImagePicker from 'react-native-image-picker/lib/commonjs';
 import { getItemFromAsync, setItemToAsync } from '../../../utils';
 import Toast from 'react-native-easy-toast';
 import { StackActions } from '@react-navigation/native';
+import { PROFILE_NICK, PROFILE_PIC } from '../../../constraints';
 
 const ProfileEditScreen = props => {
   const { navigation } = props;
@@ -13,8 +14,8 @@ const ProfileEditScreen = props => {
   const toastRef = useRef(null);
 
   const getProfileFromLocalStorage = useCallback(async () => {
-    const profilePicSource = await getItemFromAsync<any>('profilePic');
-    const profileNickSource = await getItemFromAsync<any>('profileNick');
+    const profilePicSource = await getItemFromAsync<any>(PROFILE_PIC);
+    const profileNickSource = await getItemFromAsync<any>(PROFILE_NICK);
 
     if (profilePic) {
       setProfilePic(profilePicSource);
@@ -63,10 +64,10 @@ const ProfileEditScreen = props => {
       }
 
       if (profilePic !== null) {
-        await setItemToAsync('profilePic', profilePic);
-        await setItemToAsync('profileNick', profileNickText);
+        await setItemToAsync(PROFILE_PIC, profilePic);
+        await setItemToAsync(PROFILE_NICK, profileNickText);
       } else {
-        await setItemToAsync('profileNick', profileNickText);
+        await setItemToAsync(PROFILE_NICK, profileNickText);
       }
 
       const popAction = StackActions.pop(1);

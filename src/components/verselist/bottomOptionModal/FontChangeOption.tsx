@@ -6,11 +6,13 @@ import {
   FONT_FAMILY_BASIC,
   FONT_FAMILY_KOREAN_GIR,
   FONT_FAMILY_NANUM_BRUSH,
+  FONT_FAMILY_OPTION,
   FONT_FAMILY_TMON_SORI_BLACK,
   FONT_SIZE_12,
   FONT_SIZE_14,
   FONT_SIZE_16,
   FONT_SIZE_18,
+  FONT_SIZE_OPTION,
 } from '../../../constraints';
 
 const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSizeHandler }) => {
@@ -20,14 +22,14 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
   // 로컬스토리지에서 FontSize 및 FontFamily 를 불러온뒤 초기화 진행
   useEffect(() => {
     const initializeFontOption = async () => {
-      let item = await getItemFromAsync<number>('fontSizeOption');
+      let item = await getItemFromAsync<number>(FONT_SIZE_OPTION);
       if (item === null) {
         setFontSizeOption(1);
       } else {
         setFontSizeOption(item);
       }
 
-      item = await getItemFromAsync<number>('fontFamilyOption');
+      item = await getItemFromAsync<number>(FONT_FAMILY_OPTION);
       if (item === null) {
         setFontFamilyOption(0);
       } else {
@@ -54,7 +56,7 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         break;
     }
     setFontFamilyOption(option);
-    setItemToAsync('fontFamilyOption', option).then();
+    setItemToAsync(FONT_FAMILY_OPTION, option).then();
   }, []);
 
   const onChangeFontSize = useCallback(option => {
@@ -73,7 +75,7 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         break;
     }
     setFontSizeOption(option);
-    setItemToAsync('fontSizeOption', option).then();
+    setItemToAsync(FONT_SIZE_OPTION, option).then();
   }, []);
 
   return (
