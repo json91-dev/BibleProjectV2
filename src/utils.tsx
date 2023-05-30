@@ -39,6 +39,7 @@ export const getBibleType = (bookCode: number) => {
   }
 };
 
+// uuid v4를 랜덤으로 반환
 export const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
@@ -47,7 +48,7 @@ export const uuidv4 = () => {
   });
 };
 
-// 아무값도 들어있지 않으면 빈 배열을 반환합니다.
+// 아무값도 들어있지 않으면 빈 배열을 반환
 export const getItemFromAsync = <T,>(key: string) => {
   return new Promise<T>((resolve, reject) => {
     if (key === null || key === undefined) {
@@ -224,15 +225,14 @@ export const getBibleVerseItems = (bookName, bookCode, chapterCode) => {
   });
 };
 
-// 10보다 작으면 0을 붙여줌
-// ex: 9 => 09
 let tf = function (i: number) {
+  // 10보다 작으면 0을 붙여줌
+  // ex: 9 => 09
   return (i < 10 ? '0' : '') + i;
 };
 
-// 특정 format 형식대로 데이터를 출력시켜주는 모듈
-// 정규식을 통해 yyyy, MM, dd 등을 검색하여 해당 날짜로 치환
 export const getDateStringByFormat = (date: Date, format: string) => {
+  // 정규식을 통해 yyyy, MM, dd 등을 검색하여 해당 날짜로 치환
   return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
     switch (a) {
       case 'yyyy':
@@ -298,6 +298,19 @@ export const makeBlankQuizSentence = (quizSentence: string, quizWord: string) =>
   return blankQuizSentence;
 };
 
+export const getIsOneDayPassed = (storedDate: Date) => {
+  const currentDate = new Date();
+
+  // 날짜 차이 계산 (밀리초 단위)
+  const timeDiff = currentDate.getTime() - storedDate.getTime();
+
+  // 24시간(1일)이 지났는지 확인
+  const isOneDayPassed = timeDiff > 24 * 60 * 60 * 1000;
+
+  return isOneDayPassed;
+};
+
+// 오늘 날짜를 yyyy-MM-dd 형식으로 출력
 export const getTodayDate = (): string => {
   const today = new Date();
   const year = today.getFullYear();

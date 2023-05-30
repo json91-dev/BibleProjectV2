@@ -23,7 +23,12 @@ const getRandomChapter = (book: number): number => {
 const getRandomWord = (wordArray: string[]): string => {
   const randomIndex = Math.floor(Math.random() * wordArray.length);
   const randomWord = wordArray[randomIndex];
-  return randomWord;
+
+  if (randomWord === undefined) {
+    return '';
+  } else {
+    return randomWord;
+  }
 };
 
 interface todayVerse {
@@ -216,7 +221,9 @@ exports.setRandomTodayQuizByEveryday = functions.pubsub
             includedKeywords.push(word);
           }
         });
-        todayQuizList[i].quizWord = getRandomWord(includedKeywords);
+        const randomQuizWord = getRandomWord(includedKeywords);
+        console.log(randomQuizWord);
+        todayQuizList[i].quizWord = randomQuizWord;
       }
 
       const seoulDayString = moment().tz('Asia/Seoul').format('YYYY-MM-DD');

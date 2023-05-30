@@ -15,7 +15,6 @@ const LoginScreen = ({ navigation }) => {
   const googleSignIn = useCallback(async () => {
     try {
       /** 로그인 성공시 Storage에 유저 정보 저장 **/
-
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       await setItemToAsync(USER_INFO, { ...userInfo, loggedIn: true });

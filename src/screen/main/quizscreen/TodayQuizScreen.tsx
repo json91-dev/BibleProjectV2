@@ -4,7 +4,7 @@ import {
   IS_COMPLETE_TODAY_QUIZ,
   IS_GIVE_UP_TODAY_QUIZ,
   QUIZ_BEFORE,
-  QUIZ_DATA,
+  QUIZ_SAVE_DATE,
   QUIZ_FAIL,
   QUIZ_SUCCESS,
   REVIEW_QUIZ_DATA_LIST,
@@ -13,7 +13,7 @@ import {
 } from '../../../constraints';
 
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
-import { setItemToAsync, getDateStringByFormat } from '../../../utils';
+import { setItemToAsync, getDateStringByFormat, getTodayDate } from '../../../utils';
 import { StackActions } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import QuizScore from '../../../components/todayquiz/QuizScore';
@@ -93,7 +93,7 @@ const TodayQuizScreen = ({ navigation }) => {
     const setIsGiveUpTodayQuiz = setItemToAsync(IS_GIVE_UP_TODAY_QUIZ, false);
     const setQuizAnswerList = setItemToAsync(TODAY_QUIZ_ANSWER_LIST, quizAnswerTextArray);
     const setQuizBallState = setItemToAsync(TODAY_QUIZ_BALL_STATE, currentQuizBallState);
-    const setQuizDate = setItemToAsync(QUIZ_DATA, parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
+    const setQuizSaveDate = setItemToAsync(QUIZ_SAVE_DATE, getDateStringByFormat(new Date(), 'yyyy-MM-dd'));
 
     Promise.all([
       setReviewQuizDataList,
@@ -101,7 +101,7 @@ const TodayQuizScreen = ({ navigation }) => {
       setIsGiveUpTodayQuiz,
       setQuizAnswerList,
       setQuizBallState,
-      setQuizDate,
+      setQuizSaveDate,
     ]).then(() => {
       backToQuizMainScreen();
     });
@@ -135,7 +135,7 @@ const TodayQuizScreen = ({ navigation }) => {
     const setIsGiveUpTodayQuiz = setItemToAsync(IS_GIVE_UP_TODAY_QUIZ, true);
     const setQuizAnswerList = setItemToAsync(TODAY_QUIZ_ANSWER_LIST, updateQuizAnswerTextArray);
     const setQuizBallState = setItemToAsync(TODAY_QUIZ_BALL_STATE, updateQuizBallState);
-    const setQuizDate = setItemToAsync(QUIZ_DATA, parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd')));
+    const setQuizSaveDate = setItemToAsync(QUIZ_SAVE_DATE, getDateStringByFormat(new Date(), 'yyyy-MM-dd'));
 
     Promise.all([
       setReviewQuizDataList,
@@ -143,7 +143,7 @@ const TodayQuizScreen = ({ navigation }) => {
       setIsGiveUpTodayQuiz,
       setQuizAnswerList,
       setQuizBallState,
-      setQuizDate,
+      setQuizSaveDate,
     ]).then(() => {
       backToQuizMainScreen();
     });
@@ -151,8 +151,9 @@ const TodayQuizScreen = ({ navigation }) => {
 
   useEffect(() => {
     const fetchTodayQuiz = async () => {
-      const doc = await firestore().collection('todayQuiz').doc('2020-05-05').get();
-      const quizDocData = doc.data().quizData;
+      console.log(getTodayDate());
+      const doc = await firestore().collection('todayQuiz').doc(getTodayDate()).get();
+      const quizDocData = doc.data().todayQuiz;
       setQuizData(quizDocData);
       setCurPageQuizData(quizDocData[0]);
     };

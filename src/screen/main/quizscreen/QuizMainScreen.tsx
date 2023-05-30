@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View } from 'react-native';
 import ReviewQuizItem from '../../../components/quizmain/ReviewQuizItem';
-import { getDateStringByFormat, getItemFromAsync, setItemToAsync } from '../../../utils';
+import { getDateStringByFormat, getIsOneDayPassed, getItemFromAsync, setItemToAsync } from '../../../utils';
 import QuizBall from '../../../components/common/QuizBall';
 import QuizTimer from '../../../components/quizmain/QuizTimer';
 import {
   IS_COMPLETE_TODAY_QUIZ,
   IS_GIVE_UP_TODAY_QUIZ,
-  QUIZ_DATA,
+  QUIZ_SAVE_DATE,
   REVIEW_QUIZ_DATA_LIST,
   TODAY_QUIZ_ANSWER_LIST,
   TODAY_QUIZ_BALL_STATE,
@@ -23,22 +23,15 @@ const QuizScreen = ({ navigation }) => {
   const [todayQuizAnswerList, setTodayQuizAnswerList] = useState(null); // 유저가 입력한 퀴즈의 정답 목록.
 
   // 현재 날짜를 확인한뒤 새로운 날짜일때 퀴즈 상태를 초기화한다.
-  // - 오늘의 퀴즈를 풀었는지 : false
-  // - 오늘의 퀴즈의 포기를 눌렀는지 : false
   const initializeQuizState = useCallback(async () => {
     // 현재 날짜가 바뀌었는지(어제날짜와 다른지) 확인한 뒤 새로운 날짜일때 퀴즈화면의 상태를 바꿔준다.
-    // 간단하게 여기서는 날짜의 형식을 yyyyMMdd 의 정수로만 표시한뒤 크기를 비교하는 방법으로 날짜를 비교한다.
-    const quizDate = await getItemFromAsync<number>(QUIZ_DATA);
-    if (quizDate !== null) {
-      const nowDate = parseInt(getDateStringByFormat(new Date(), 'yyyyMMdd'));
-
-      // 퀴즈를 푼 날짜보다 지난 날짜가 되면, 퀴즈 상태를 갱신.
-      // quizData는 complete나 giveup시 갱신된다.
-      // 즉 complete나 giveup을 누르면 nowDate = quizDate와 같기 때문에 무조건 타이머 화면이 나오게 된다
-      // 하지만 다음날이 되면 nowDate는 quizDate보다 1일 증가하므로 복습과 링크화면이 나오게 된다.
-      if (nowDate > quizDate) {
+    const quizSaveDate = await getItemFromAsync<string>(QUIZ_SAVE_DATE);
+    if (quizSaveDate !== null) {
+      // 퀴즈를 푼 날짜보다 지난 날짜가 되면, 퀴즈 상태를 갱신. => 복습화면 및 링크화면 출력
+      // 퀴즈를 푼 날짜와 같으면 타이머 화면 출력.
+      // (quizSaveDate는 완료버튼이나 포기 버튼을 눌렀을때 갱신됨)
+      if (getIsOneDayPassed(new Date(quizSaveDate))) {
         console.log('오늘의 퀴즈로 갱신');
-        // await setItemToAsync('quizDate', nowDate);
         await setItemToAsync(IS_COMPLETE_TODAY_QUIZ, false);
         await setItemToAsync(IS_GIVE_UP_TODAY_QUIZ, false);
       }
