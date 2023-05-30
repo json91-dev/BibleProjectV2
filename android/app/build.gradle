@@ -94,9 +94,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.bibleproject"
+    namespace "com.thebible"
     defaultConfig {
-        applicationId "com.bibleproject"
+        applicationId "com.thebible"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

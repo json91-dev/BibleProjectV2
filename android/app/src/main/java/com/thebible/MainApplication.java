@@ -1,4 +1,4 @@
-package com.bibleproject;
+package com.thebible;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

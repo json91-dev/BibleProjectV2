@@ -1,4 +1,4 @@
-package com.bibleproject;
+package com.thebible;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

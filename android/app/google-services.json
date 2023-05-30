@@ -49,6 +49,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271807854923:android:1af16178ce3df4f6c0d0ce",
+        "android_client_info": {
+          "package_name": "com.thebible"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271807854923-f0si6s5dj9urd45nvdpqpeihnc3q8i57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiezMqtWMJH4HobbALwCZRakbb9-ARPfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271807854923-f0si6s5dj9urd45nvdpqpeihnc3q8i57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "271807854923-p2sp3eb5jvmmnusop709m2aapda61t4l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.BibleProject"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
