@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View } from 'react-native';
 import ReviewQuizItem from '../../../components/quizmain/ReviewQuizItem';
-import { getDateStringByFormat, getIsOneDayPassed, getItemFromAsync, setItemToAsync } from '../../../utils';
+import { getDateStringByFormat, getIsOneDayPassed, getItemFromAsyncStorage, setItemToAsyncStorage } from '../../../utils';
 import QuizBall from '../../../components/common/QuizBall';
 import QuizTimer from '../../../components/quizmain/QuizTimer';
 import {
@@ -25,24 +25,24 @@ const QuizScreen = ({ navigation }) => {
   // 현재 날짜를 확인한뒤 새로운 날짜일때 퀴즈 상태를 초기화한다.
   const initializeQuizState = useCallback(async () => {
     // 현재 날짜가 바뀌었는지(어제날짜와 다른지) 확인한 뒤 새로운 날짜일때 퀴즈화면의 상태를 바꿔준다.
-    const quizSaveDate = await getItemFromAsync<string>(QUIZ_SAVE_DATE);
+    const quizSaveDate = await getItemFromAsyncStorage<string>(QUIZ_SAVE_DATE);
     if (quizSaveDate !== null) {
       // 퀴즈를 푼 날짜보다 지난 날짜가 되면, 퀴즈 상태를 갱신. => 복습화면 및 링크화면 출력
       // 퀴즈를 푼 날짜와 같으면 타이머 화면 출력.
       // (quizSaveDate는 완료버튼이나 포기 버튼을 눌렀을때 갱신됨)
       if (getIsOneDayPassed(new Date(quizSaveDate))) {
         console.log('오늘의 퀴즈로 갱신');
-        await setItemToAsync(IS_COMPLETE_TODAY_QUIZ, false);
-        await setItemToAsync(IS_GIVE_UP_TODAY_QUIZ, false);
+        await setItemToAsyncStorage(IS_COMPLETE_TODAY_QUIZ, false);
+        await setItemToAsyncStorage(IS_GIVE_UP_TODAY_QUIZ, false);
       }
     }
 
     /** TODO: quizState의 상태를 JSON으로 저장하는게 좋음 => 추후 리펙토링 **/
-    const isCompleteTodayQuiz = await getItemFromAsync<boolean>(IS_COMPLETE_TODAY_QUIZ);
-    const isGiveUpTodayQuiz = await getItemFromAsync<boolean>(IS_GIVE_UP_TODAY_QUIZ);
-    const reviewQuizDataList = await getItemFromAsync<any[]>(REVIEW_QUIZ_DATA_LIST);
-    const getTodayQuizAnswerList = await getItemFromAsync<any[]>(TODAY_QUIZ_ANSWER_LIST);
-    const todayQuizBallState = await getItemFromAsync<any[]>(TODAY_QUIZ_BALL_STATE);
+    const isCompleteTodayQuiz = await getItemFromAsyncStorage<boolean>(IS_COMPLETE_TODAY_QUIZ);
+    const isGiveUpTodayQuiz = await getItemFromAsyncStorage<boolean>(IS_GIVE_UP_TODAY_QUIZ);
+    const reviewQuizDataList = await getItemFromAsyncStorage<any[]>(REVIEW_QUIZ_DATA_LIST);
+    const getTodayQuizAnswerList = await getItemFromAsyncStorage<any[]>(TODAY_QUIZ_ANSWER_LIST);
+    const todayQuizBallState = await getItemFromAsyncStorage<any[]>(TODAY_QUIZ_BALL_STATE);
 
     // 문제를 한번도 풀지 않았거나, 다음날이 되었을때
     if (isCompleteTodayQuiz === null && isGiveUpTodayQuiz === null) {

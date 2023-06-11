@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-na
 
 import QuizBall from '../../../components/common/QuizBall';
 import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
-import { getItemFromAsync } from '../../../utils';
+import { getItemFromAsyncStorage } from '../../../utils';
 import AnswerButton from '../../../components/todayquizcheck/AnswerButton';
 import { IS_COMPLETE_TODAY_QUIZ, REVIEW_QUIZ_DATA_LIST, TODAY_QUIZ_ANSWER_LIST, TODAY_QUIZ_BALL_STATE } from '../../../constraints';
 
@@ -33,10 +33,10 @@ const TodayQuizCheckScreen = ({ navigation }) => {
     // 해당 부분을 서버에서 전달받도록 수정..
     // 여기서는 reviewQuizData로 전달받음.
     // 추가적으로 quizBallState 등의 값들을 가져와서 설정
-    const getIsCompleteTodayQuiz = getItemFromAsync<boolean>(IS_COMPLETE_TODAY_QUIZ);
-    const getReviewQuizDataList = getItemFromAsync<any[]>(REVIEW_QUIZ_DATA_LIST);
-    const getTodayQuizAnswerList = getItemFromAsync<any[]>(TODAY_QUIZ_ANSWER_LIST);
-    const getTodayQuizBallState = getItemFromAsync<any[]>(TODAY_QUIZ_BALL_STATE);
+    const getIsCompleteTodayQuiz = getItemFromAsyncStorage<boolean>(IS_COMPLETE_TODAY_QUIZ);
+    const getReviewQuizDataList = getItemFromAsyncStorage<any[]>(REVIEW_QUIZ_DATA_LIST);
+    const getTodayQuizAnswerList = getItemFromAsyncStorage<any[]>(TODAY_QUIZ_ANSWER_LIST);
+    const getTodayQuizBallState = getItemFromAsyncStorage<any[]>(TODAY_QUIZ_BALL_STATE);
 
     Promise.all([getIsCompleteTodayQuiz, getReviewQuizDataList, getTodayQuizAnswerList, getTodayQuizBallState]).then(result => {
       // let isCompleteTodayQuiz = result[0];

@@ -3,7 +3,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-import { getItemFromAsync, setItemToAsync } from '../utils';
+import { getItemFromAsyncStorage, setItemToAsyncStorage } from '../utils';
 import { USER_INFO } from '../constraints';
 const LoginScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation }) => {
       /** 로그인 성공시 Storage에 유저 정보 저장 **/
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      await setItemToAsync(USER_INFO, { ...userInfo, loggedIn: true });
+      await setItemToAsyncStorage(USER_INFO, { ...userInfo, loggedIn: true });
       goToMainBible();
     } catch (error) {
       /** 에러 핸들링 : https://www.npmjs.com/package/@react-native-google-signin/google-signin 참고 */
@@ -36,9 +36,9 @@ const LoginScreen = ({ navigation }) => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      const userInfo = await getItemFromAsync<Record<string, any>>(USER_INFO);
+      const userInfo = await getItemFromAsyncStorage<Record<string, any>>(USER_INFO);
 
-      await setItemToAsync(USER_INFO, {
+      await setItemToAsyncStorage(USER_INFO, {
         ...userInfo,
         loggedIn: false,
       });
@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
     });
 
     /** localStorage에서 로그인 정보를 읽은 뒤, 자동 로그인을 수행함. **/
-    getItemFromAsync<Record<string, any>>(USER_INFO).then(userInfo => {
+    getItemFromAsyncStorage<Record<string, any>>(USER_INFO).then(userInfo => {
       // 유저 정보가 없는경우
       if (userInfo === null) {
         return null;

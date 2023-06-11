@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import { getItemFromAsync } from '../../../utils';
+import { getItemFromAsyncStorage } from '../../../utils';
 import { PROFILE_NICK, PROFILE_PIC } from '../../../constraints';
 
 const OptionMainScreen = ({ navigation }) => {
@@ -8,8 +8,8 @@ const OptionMainScreen = ({ navigation }) => {
   const [profileNick, setProfileNick] = useState(null);
 
   const getProfileFromLocalStorage = useCallback(async () => {
-    const profilePicSource = await getItemFromAsync<any>(PROFILE_PIC);
-    const profileNickSource = await getItemFromAsync<any>(PROFILE_NICK);
+    const profilePicSource = await getItemFromAsyncStorage<any>(PROFILE_PIC);
+    const profileNickSource = await getItemFromAsyncStorage<any>(PROFILE_NICK);
 
     if (profilePic) {
       setProfilePic(profilePicSource);

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
 import Toast from 'react-native-easy-toast';
-import { getBibleVerseItems, getItemFromAsync, getBibleTypeString, setItemToAsync } from '../../../utils';
+import { getBibleVerseItems, getItemFromAsyncStorage, getBibleTypeString, setItemToAsyncStorage } from '../../../utils';
 import CommandModal from '../../../components/verselist/commandModal/CommandModal';
 import BibleListOption from '../../../components/verselist/biblelistOption/BibleListOption';
 import BibleNoteOption from '../../../components/verselist/bottomOptionModal/BibleNoteOption';
@@ -47,11 +47,11 @@ const VerseListScreen = ({ navigation, route }) => {
       bookCode,
       chapterCode,
     };
-    await setItemToAsync(LATELY_READ_LIST, readItem);
+    await setItemToAsyncStorage(LATELY_READ_LIST, readItem);
   }, []);
 
   const setFontSizeFromStorage = useCallback(async () => {
-    const fontSizeOption = await getItemFromAsync<number>(FONT_SIZE_OPTION);
+    const fontSizeOption = await getItemFromAsyncStorage<number>(FONT_SIZE_OPTION);
     switch (fontSizeOption) {
       case null: {
         setVerseItemFontSize(14);
@@ -81,7 +81,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const setFontFamilyFromStorage = useCallback(async () => {
-    const fontFamilyOption = await getItemFromAsync<number>(FONT_FAMILY_OPTION);
+    const fontFamilyOption = await getItemFromAsyncStorage<number>(FONT_FAMILY_OPTION);
     switch (fontFamilyOption) {
       case null: {
         setVerseItemFontFamily('system font');
@@ -111,7 +111,7 @@ const VerseListScreen = ({ navigation, route }) => {
   }, []);
 
   const getUpdatedHighlightVerseItems = useCallback(async items => {
-    let highlightsItems = await getItemFromAsync<any[]>(HIGHLIGHT_LIST);
+    let highlightsItems = await getItemFromAsyncStorage<any[]>(HIGHLIGHT_LIST);
     highlightsItems = highlightsItems ? highlightsItems : [];
 
     items.forEach(verse => {
@@ -134,7 +134,7 @@ const VerseListScreen = ({ navigation, route }) => {
 
   const getUpdatedMemoVerseItems = useCallback(
     async items => {
-      let memoListItems = await getItemFromAsync<any[]>(MEMO_LIST);
+      let memoListItems = await getItemFromAsyncStorage<any[]>(MEMO_LIST);
       if (memoListItems === null) memoListItems = [];
       items.forEach(verse => {
         const index = memoListItems.findIndex(memoItem => {
@@ -184,7 +184,7 @@ const VerseListScreen = ({ navigation, route }) => {
     async modalAction => {
       const { bookCode, chapterCode, verseCode, content, isHighlight } = modalBibleItem;
       const removeHighlight = async () => {
-        let highlightItems = await getItemFromAsync<any[]>(HIGHLIGHT_LIST);
+        let highlightItems = await getItemFromAsyncStorage<any[]>(HIGHLIGHT_LIST);
         if (highlightItems === null) {
           highlightItems = [];
         }
@@ -193,12 +193,12 @@ const VerseListScreen = ({ navigation, route }) => {
           return item.bookCode === bookCode && item.chapterCode === chapterCode && item.verseCode === verseCode;
         });
         highlightItems.splice(index, 1);
-        await setItemToAsync(HIGHLIGHT_LIST, highlightItems);
+        await setItemToAsyncStorage(HIGHLIGHT_LIST, highlightItems);
         toastRef.current.show('형광펜 밑줄 제거 ^^');
       };
 
       const addHighlight = async () => {
-        let highlightItems = await getItemFromAsync<any[]>(HIGHLIGHT_LIST);
+        let highlightItems = await getItemFromAsyncStorage<any[]>(HIGHLIGHT_LIST);
 
         if (highlightItems === null) {
           highlightItems = [];
@@ -206,7 +206,7 @@ const VerseListScreen = ({ navigation, route }) => {
         highlightItems.push({ bookCode, chapterCode, verseCode });
         console.log(highlightItems);
 
-        await setItemToAsync(HIGHLIGHT_LIST, highlightItems);
+        await setItemToAsyncStorage(HIGHLIGHT_LIST, highlightItems);
         toastRef.current.show('형광펜으로 밑줄 ^^');
       };
 

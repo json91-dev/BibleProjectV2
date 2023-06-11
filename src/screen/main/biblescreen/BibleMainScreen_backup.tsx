@@ -111,7 +111,7 @@ const BibleMainScreen = props => {
    *  3. 현재 입력 단어(currentWordView)를 열어서 현재 검색한 단어를 화면에 보여줌.
    *  4. 현재 검색 단어(searchWordList)를 화면에서 없애고, 검색 결과 성경(searchResultView)에 대한 쿼리 진행
    */
-  const searchWordAndShowResult = useCallback(async searchTextValue => {
+  const searchWordAndShowResult = useCallback(searchTextValue => {
     textInputRef.current.blur();
     textInputRef.current.clear();
 
@@ -120,21 +120,24 @@ const BibleMainScreen = props => {
       return;
     }
 
-    let searchWordItems = await getItemFromAsyncStorage<any[] | null>(SEARCH_WORD_LIST);
-    if (searchWordItems === null) {
-      searchWordItems = [];
-    }
-    searchWordItems.push(searchTextValue);
+    getItemFromAsyncStorage<any[]>(SEARCH_WORD_LIST).then(items => {
+      let searchWordItems = items;
+      if (searchWordItems === null) searchWordItems = [];
 
-    if (searchWordItems.length > 5) {
-      searchWordItems.shift();
-    }
+      searchWordItems.push(searchTextValue);
+      const currentWordText = searchTextValue;
 
-    await setItemToAsyncStorage(SEARCH_WORD_LIST, searchWordItems);
-    setSearchWordItems(searchWordItems);
-    setSearchText('');
-    setCurrentWordText(searchTextValue);
-    setSearchTextEditable(false);
+      // 5개가 넘어가면 searchWordItems(검색어 목록)에서 아이템 1개 삭제.
+      if (searchWordItems.length > 5) {
+        searchWordItems.shift();
+      }
+      setItemToAsyncStorage(SEARCH_WORD_LIST, searchWordItems).then(() => {
+        setSearchWordItems(searchWordItems);
+        setSearchText('');
+        setCurrentWordText(currentWordText);
+        setSearchTextEditable(false);
+      });
+    });
 
     /** getSearchResult **/
     getSqliteDatabase().transaction(tx => {

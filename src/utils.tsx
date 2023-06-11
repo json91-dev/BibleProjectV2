@@ -49,7 +49,7 @@ export const uuidv4 = () => {
 };
 
 // 아무값도 들어있지 않으면 빈 배열을 반환
-export const getItemFromAsync = <T,>(key: string) => {
+export const getItemFromAsyncStorage = <T,>(key: string) => {
   return new Promise<T>((resolve, reject) => {
     if (key === null || key === undefined) {
       reject(new Error('key is not exist.'));
@@ -59,6 +59,7 @@ export const getItemFromAsync = <T,>(key: string) => {
       if (err) {
         reject(err);
       }
+
       if (result === null) {
         resolve(null);
       }
@@ -68,7 +69,7 @@ export const getItemFromAsync = <T,>(key: string) => {
   });
 };
 
-export const setItemToAsync = (key: string, value: any) => {
+export const setItemToAsyncStorage = (key: string, value: any) => {
   return new Promise((resolve, reject) => {
     if (key === null || key === undefined) {
       reject(new Error('key is not exist.'));
@@ -170,15 +171,42 @@ let bibleDB = SQLite.openDatabase(
     name: 'BibleDB.db',
     createFromLocation: 1,
   },
-  e => {
-    console.error(e);
-  },
-  result => {
+  () => {
     console.log('SQLite 조회 성공');
+  },
+  e => {
+    console.log(e);
+    console.log('SQLite 연결 실패');
   },
 );
 export const getSqliteDatabase = () => {
   return bibleDB;
+};
+
+export const fetchDataFromSqlite = (query: string) => {
+  return new Promise((resolve, reject) => {
+    bibleDB
+      .transaction(tx => {
+        return new Promise((resolveQuery, rejectQuery) => {
+          tx.executeSql(
+            query,
+            [],
+            (tx, results) => {
+              resolveQuery(results.rows.raw());
+            },
+            err => {
+              rejectQuery(err);
+            },
+          );
+        });
+      })
+      .then(result => {
+        resolve(result);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 };
 
 // sqlite 데이터베이스에서 성경의 정보를 가져와서 verseItems을 만들어서 다음 Promise chain으로 전달하는 메서드

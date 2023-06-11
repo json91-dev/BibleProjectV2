@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-import { getItemFromAsync, setItemToAsync } from '../../../utils';
+import { getItemFromAsyncStorage, setItemToAsyncStorage } from '../../../utils';
 import {
   FONT_FAMILY_BASIC,
   FONT_FAMILY_KOREAN_GIR,
@@ -22,14 +22,14 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
   // 로컬스토리지에서 FontSize 및 FontFamily 를 불러온뒤 초기화 진행
   useEffect(() => {
     const initializeFontOption = async () => {
-      let item = await getItemFromAsync<number>(FONT_SIZE_OPTION);
+      let item = await getItemFromAsyncStorage<number>(FONT_SIZE_OPTION);
       if (item === null) {
         setFontSizeOption(1);
       } else {
         setFontSizeOption(item);
       }
 
-      item = await getItemFromAsync<number>(FONT_FAMILY_OPTION);
+      item = await getItemFromAsyncStorage<number>(FONT_FAMILY_OPTION);
       if (item === null) {
         setFontFamilyOption(0);
       } else {
@@ -56,7 +56,7 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         break;
     }
     setFontFamilyOption(option);
-    setItemToAsync(FONT_FAMILY_OPTION, option).then();
+    setItemToAsyncStorage(FONT_FAMILY_OPTION, option).then();
   }, []);
 
   const onChangeFontSize = useCallback(option => {
@@ -75,7 +75,7 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
         break;
     }
     setFontSizeOption(option);
-    setItemToAsync(FONT_SIZE_OPTION, option).then();
+    setItemToAsyncStorage(FONT_SIZE_OPTION, option).then();
   }, []);
 
   return (
