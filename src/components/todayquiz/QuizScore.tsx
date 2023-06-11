@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import QuizBall from '../common/QuizBall';
 
 const QuizScore = ({ pageState, quizBallState }) => {
-  console.log(quizBallState);
   return (
     <View style={styles.todayQuizTitleView}>
       <Text style={styles.todayQuizTitleText}>오늘의 세례문답 {pageState + 1}/5</Text>

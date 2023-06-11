@@ -1,9 +1,7 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const SearchResultView = props => {
-  const { searchResultItems, moveToBibleChapter } = props;
-
+const SearchResultView = ({ searchResultItems, moveToBibleChapter }) => {
   return (
     <View style={styles.searchResultView}>
       <FlatList

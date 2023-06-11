@@ -204,7 +204,6 @@ const VerseListScreen = ({ navigation, route }) => {
           highlightItems = [];
         }
         highlightItems.push({ bookCode, chapterCode, verseCode });
-        console.log(highlightItems);
 
         await setItemToAsyncStorage(HIGHLIGHT_LIST, highlightItems);
         toastRef.current.show('형광펜으로 밑줄 ^^');

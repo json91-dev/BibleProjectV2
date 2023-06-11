@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 
-import { getSqliteDatabase } from '../../../utils';
+import { fetchDataFromSqlite } from '../../../utils';
 
 const ChapterListScreen = props => {
   const [chapterItems, setChapterItems] = useState([]);
@@ -11,24 +11,22 @@ const ChapterListScreen = props => {
     const { bookName, bookCode } = route.params;
 
     // 성경의 장을 모두 가져오는 쿼리를 수행.
-    getSqliteDatabase().transaction(tx => {
+    const initBibleChapterItem = async () => {
       const query = `SELECT max(chapter) as count FROM bible_korHRV where book = ${bookCode}`;
-      tx.executeSql(query, [], (tx, results) => {
-        let chapterItemsLength = results.rows.item(0).count;
-        const chapterItems = [];
-        /**
-         * Item insert
-         */
-        for (let i = 0; i < chapterItemsLength; i++) {
-          chapterItems.push({
-            bookCode,
-            bookName,
-          });
-        }
+      const result = await fetchDataFromSqlite(query);
+      const count = result.rows.item(0).count;
+      const chapterItems = [];
+      for (let i = 0; i < count; i++) {
+        chapterItems.push({
+          bookCode,
+          bookName,
+        });
+      }
 
-        setChapterItems(chapterItems);
-      });
-    });
+      setChapterItems(chapterItems);
+    };
+
+    initBibleChapterItem().then();
   }, [route.params]);
 
   const goToChapterListScreen = useCallback(

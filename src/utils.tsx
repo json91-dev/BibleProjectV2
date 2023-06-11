@@ -184,28 +184,19 @@ export const getSqliteDatabase = () => {
 };
 
 export const fetchDataFromSqlite = (query: string) => {
-  return new Promise((resolve, reject) => {
-    bibleDB
-      .transaction(tx => {
-        return new Promise((resolveQuery, rejectQuery) => {
-          tx.executeSql(
-            query,
-            [],
-            (tx, results) => {
-              resolveQuery(results.rows.raw());
-            },
-            err => {
-              rejectQuery(err);
-            },
-          );
-        });
-      })
-      .then(result => {
-        resolve(result);
-      })
-      .catch(err => {
-        reject(err);
-      });
+  return new Promise<SQLite.ResultSet>((resolveQuery, rejectQuery) => {
+    bibleDB.transaction(tx => {
+      tx.executeSql(
+        query,
+        [],
+        (tx, result) => {
+          resolveQuery(result);
+        },
+        err => {
+          rejectQuery(err);
+        },
+      );
+    });
   });
 };
 

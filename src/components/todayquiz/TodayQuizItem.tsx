@@ -11,7 +11,6 @@ type TodayQuizItemType = {
 
 const TodayQuizItem = ({ quizData, isOpened }) => {
   const { quizVersePath, quizWord, quizSentence } = quizData;
-  console.log(quizData);
 
   // 퀴즈에 대해 중간 공백을 만들어주는 함수
   const blankQuizSentence = useMemo(() => {
