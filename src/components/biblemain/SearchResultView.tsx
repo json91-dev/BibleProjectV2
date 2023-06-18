@@ -30,10 +30,9 @@ export default SearchResultView;
 
 const styles = StyleSheet.create({
   searchResultView: {
-    height: '90%',
-    marginTop: 10,
+    maxHeight: '100%',
+    marginTop: 50,
     paddingTop: 20,
-    paddingBottom: 15,
   },
 
   searchResultFlat: {

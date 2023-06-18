@@ -1,14 +1,19 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const searchWordItemsReverse = ['테스트', '테스트', '테스트', '테스트', '테스트'];
-const SearchWordListView = ({ searchWord }) => {
-  const onSearchPress = useCallback(item => {}, []);
+const SearchWordListView = ({ searchWordItems, textInputRef }) => {
+  const onSearchPress = useCallback(item => {
+    textInputRef.current.setNativeProps({
+      text: item,
+    });
+    textInputRef.current.value = item;
+  }, []);
 
   return (
     <View style={styles.searchWord}>
       <Text style={styles.searchWordTitle}>최근검색어</Text>
-      {searchWordItemsReverse.map((item, index) => {
+      {searchWordItems.length === 0 && <Text style={styles.searchWordItem}>없음</Text>}
+      {searchWordItems.map((item, index) => {
         return (
           <TouchableOpacity key={item + index} onPress={() => onSearchPress(item)}>
             <Text style={styles.searchWordItem}>{item}</Text>
@@ -25,13 +30,12 @@ const styles = StyleSheet.create({
   searchWord: {
     flex: 1,
     width: '100%',
-    height: '100%',
+    maxHeight: '100%',
+    marginTop: 60,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingBottom: '3%',
-    borderWidth: 3,
-    borderColor: 'red',
+    paddingBottom: '6%',
   },
 
   searchWordTitle: {

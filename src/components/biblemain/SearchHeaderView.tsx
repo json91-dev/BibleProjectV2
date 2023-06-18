@@ -1,34 +1,24 @@
 import React from 'react';
 import { Image, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
-const SearchHeaderView = props => {
-  const {
-    searchHeaderViewTextFocus,
-    searchHeaderViewTextBlur,
-    searchHeaderViewTextOnChange,
-    searchHeaderViewCancelPress,
-    searchHeaderViewSearchPress,
-    searchTextEditable,
-    searchTextPlaceHolder,
-    textInputRef,
-  } = props;
-
+const SearchHeaderView = ({ textInputFocus, searchCancelPress, searchPress, textInputPlaceHolder, textInputRef }) => {
   return (
     <View style={styles.searchView}>
-      <TouchableOpacity style={styles.searchIcon} onPress={searchHeaderViewSearchPress}>
+      <TouchableOpacity style={styles.searchIcon} onPress={searchPress}>
         <Image style={styles.searchIconImage} source={require('../../assets/ic_search.png')} />
       </TouchableOpacity>
       <View style={styles.searchViewInput}>
         <TextInput
-          editable={searchTextEditable}
           style={styles.searchTextInput}
-          placeholder={searchTextPlaceHolder}
-          onFocus={searchHeaderViewTextFocus}
-          onBlur={searchHeaderViewTextBlur}
-          onChangeText={value => searchHeaderViewTextOnChange(value)}
-          ref={textInputRef}></TextInput>
+          placeholder={textInputPlaceHolder}
+          onFocus={textInputFocus}
+          ref={textInputRef}
+          onChangeText={text => {
+            textInputRef.current.value = text;
+          }}
+        />
       </View>
-      <TouchableOpacity style={styles.searchCancel} onPress={searchHeaderViewCancelPress}>
+      <TouchableOpacity style={styles.searchCancel} onPress={searchCancelPress}>
         <Image style={styles.searchCancelImage} source={require('../../assets/ic_close.png')} />
       </TouchableOpacity>
 
@@ -37,16 +27,9 @@ const SearchHeaderView = props => {
   );
 };
 
-export default SearchHeaderView;
+export default React.memo(SearchHeaderView);
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    height: '100%',
-    justifyContent: 'center',
-  },
-
   searchViewInput: {
     width: '70%',
     flexDirection: 'row',
