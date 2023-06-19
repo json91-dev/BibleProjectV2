@@ -15,8 +15,6 @@ import SearchWordListView from '../../../components/biblemain/SearchWordListView
 
 const BibleMainScreen = props => {
   const [isShowMainBibleView, setIsShowMainBibleView] = useState(true);
-  const [isShowSearchWordListView, setIsShowSearchWordListView] = useState(false);
-  const [isShowCurrentWordView, setIsShowCurrentWordView] = useState(false);
   const [isShowSearchResultView, setIsShowSearchResultView] = useState(false);
   const [isShowLatelyReadBibleView, setIsShowLatelyReadBibleView] = useState(false);
 
@@ -66,7 +64,6 @@ const BibleMainScreen = props => {
   }, []);
   const textInputFocus = useCallback(() => {
     setIsShowMainBibleView(false);
-    setIsShowSearchWordListView(true);
     setIsShowLatelyReadBibleView(false);
   }, []);
 
@@ -84,8 +81,6 @@ const BibleMainScreen = props => {
     textInputRef.current.clear();
 
     setIsShowMainBibleView(true);
-    setIsShowSearchWordListView(false);
-    setIsShowCurrentWordView(false);
     setIsShowSearchResultView(false);
     setTextInputPlaceHolder('다시 읽고 싶은 말씀이 있나요?');
     // setSearchText('');
@@ -149,9 +144,7 @@ const BibleMainScreen = props => {
       });
     }
 
-    setIsShowSearchWordListView(false);
     setIsShowSearchResultView(true);
-    setIsShowCurrentWordView(true);
     setIsShowMainBibleView(false);
 
     setSearchResultItems(searchResultItems);
@@ -212,7 +205,7 @@ const BibleMainScreen = props => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
         <SearchHeaderView
           searchCancelPress={searchCancelPress}

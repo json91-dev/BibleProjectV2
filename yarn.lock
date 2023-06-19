@@ -1711,17 +1711,6 @@
     glob "^7.1.3"
     logkitty "^0.7.1"
 
-"@react-native-community/cli-platform-android@^11.3.1":
-  version "11.3.1"
-  resolved "https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-11.3.1.tgz"
-  integrity sha512-uUEyfupGtG6/GP4UZzacTEDusbfraocn9vcEft1KhGFWlLPBeaXHoPR3dU956D4256LbCA2qirZNedAGKf6TEQ==
-  dependencies:
-    "@react-native-community/cli-tools" "11.3.1"
-    chalk "^4.1.2"
-    execa "^5.0.0"
-    glob "^7.1.3"
-    logkitty "^0.7.1"
-
 "@react-native-community/cli-platform-android@10.2.0":
   version "10.2.0"
   resolved "https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-10.2.0.tgz"
@@ -1781,21 +1770,6 @@
   version "10.1.1"
   resolved "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-10.1.1.tgz"
   integrity sha512-+FlwOnZBV+ailEzXjcD8afY2ogFEBeHOw/8+XXzMgPaquU2Zly9B+8W089tnnohO3yfiQiZqkQlElP423MY74g==
-  dependencies:
-    appdirsjs "^1.2.4"
-    chalk "^4.1.2"
-    find-up "^5.0.0"
-    mime "^2.4.1"
-    node-fetch "^2.6.0"
-    open "^6.2.0"
-    ora "^5.4.1"
-    semver "^6.3.0"
-    shell-quote "^1.7.3"
-
-"@react-native-community/cli-tools@11.3.1":
-  version "11.3.1"
-  resolved "https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-11.3.1.tgz"
-  integrity sha512-JuV2RXTemrsl8fwLgw0SYZsMMCcUwxyQWrcuMTds/bBBT0ij6CDVePagyVjbrWzdPbvPoX6Wr1CFKsem2vOfrQ==
   dependencies:
     appdirsjs "^1.2.4"
     chalk "^4.1.2"
@@ -7247,21 +7221,14 @@ react-native-sqlite-storage@^6.0.1:
   resolved "https://registry.npmjs.org/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz"
   integrity sha512-1tDFjrint6X6qSYKf3gDyz+XB+X79jfiL6xTugKHPRtF0WvqMtVgdLuNqZunIXjNEvNtNVEbXaeZ6MsguFu00A==
 
-react-native-super-grid@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/react-native-super-grid/-/react-native-super-grid-5.0.0.tgz"
-  integrity sha512-iivBlleD7ufDtKSd74w1w86bvIzUXHaLjKwRuqMOUQwXxm5hoIGT8YtJiWtS5/bkH38xLw/T0eEn0NHFgzmYiA==
-  dependencies:
-    prop-types "^15.6.0"
-
-react-native-tab-view@^3.5.0, "react-native-tab-view@>= 3.0.0":
+"react-native-tab-view@>= 3.0.0":
   version "3.5.0"
   resolved "https://registry.npmjs.org/react-native-tab-view/-/react-native-tab-view-3.5.0.tgz"
   integrity sha512-Dvvs54zPtI4f8x6GuTGy4VUMeMSnmjQFa0PsJkogWuRnxcYT+CunCDMOvxzSesh2AbL6UaTNPmTQ0Le9ybYsHg==
   dependencies:
     use-latest-callback "^0.1.5"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.14.0, react-native@>=0.20.0, react-native@>=0.57, react-native@>=0.59, react-native@>=0.59.0, react-native@0.71.6:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.14.0, react-native@>=0.20.0, react-native@>=0.57, react-native@>=0.59, react-native@0.71.6:
   version "0.71.6"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.6.tgz"
   integrity sha512-gHrDj7qaAaiE41JwaFCh3AtvOqOLuRgZtHKzNiwxakG/wvPAYmG73ECfWHGxjxIx/QT17Hp37Da3ipCei/CayQ==
@@ -7323,7 +7290,7 @@ react-test-renderer@18.2.0:
     react-shallow-renderer "^16.15.0"
     scheduler "^0.23.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", react@^16.8, "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, react@>=16, react@>=16.8.0, react@>=17.0.0, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", react@^16.8, "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, react@>=16, react@>=17.0.0, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==

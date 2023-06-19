@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
 import Toast from 'react-native-easy-toast';
-import { getBibleVerseItems, getItemFromAsyncStorage, getBibleTypeString, setItemToAsyncStorage } from '../../../utils';
+import { getBibleVerseItems, getItemFromAsyncStorage, getBibleTypeString, setItemToAsyncStorage, getBibleType } from '../../../utils';
 import CommandModal from '../../../components/verselist/commandModal/CommandModal';
 import BibleListOption from '../../../components/verselist/biblelistOption/BibleListOption';
 import BibleNoteOption from '../../../components/verselist/bottomOptionModal/BibleNoteOption';
@@ -166,7 +166,7 @@ const VerseListScreen = ({ navigation, route }) => {
     verseItems = await getUpdatedMemoVerseItems(verseItems);
 
     setVerseItems(verseItems);
-    setBibleType(bibleType);
+    setBibleType(getBibleType(bookCode));
     setIsLoading(false);
   }, [verseItems]);
 
@@ -327,7 +327,7 @@ const VerseListScreen = ({ navigation, route }) => {
         />
 
         {/* 하단 목차, 성경노트, 보기설정에 대한 footer option */}
-        <View keyboardVerticalOffset={10} contentContainerStyle={{ borderColor: 'red' }} style={styles.footerOptionContainer}>
+        <View style={styles.footerOptionContainer}>
           <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleListOptionModal}>
             <Image style={styles.footerOptionIcon} source={bibleListOptionIconUri} />
             <Text>목차</Text>
@@ -573,14 +573,15 @@ const styles = StyleSheet.create({
 
   /* 푸터 옵션 */
   footerOptionContainer: {
-    borderWidth: 1,
+    borderWidth: 1.5,
     position: 'absolute',
     left: '2.5%',
-    bottom: '5%',
+    bottom: 25,
     width: '95%',
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 5,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 15,
+    borderColor: '#DDDDDD',
     backgroundColor: 'white',
     justifyContent: 'space-around',
     flexDirection: 'row',
@@ -596,6 +597,7 @@ const styles = StyleSheet.create({
   footerOptionIcon: {
     width: 40,
     height: 30,
+    marginBottom: 3,
     resizeMode: 'contain',
   },
 

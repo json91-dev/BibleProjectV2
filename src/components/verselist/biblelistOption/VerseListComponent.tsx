@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import SQLite from 'react-native-sqlite-storage';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';

@@ -22,7 +22,7 @@ const SearchHeaderView = ({ textInputFocus, searchCancelPress, searchPress, text
         <Image style={styles.searchCancelImage} source={require('../../assets/ic_close.png')} />
       </TouchableOpacity>
 
-      <Image style={styles.searchViewBottom} source={require('../../assets/ic_search_bottom.png')} />
+      <Image style={styles.searchViewBottomImg} source={require('../../assets/ic_search_bottom.png')} />
     </View>
   );
 };
@@ -76,9 +76,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 
-  searchViewBottom: {
+  searchViewBottomImg: {
     width: '80%',
     height: 10,
+    resizeMode: 'contain',
     position: 'absolute',
     top: 52,
     left: 0,
