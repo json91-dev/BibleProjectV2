@@ -22,9 +22,12 @@ export const QUIZ_SAVE_DATE = 'QUIZ_SAVE_DATE';
 export const MEMO_LIST = 'MEMO_LIST';
 export const FONT_FAMILY_OPTION = 'FONT_FAMILY_OPTION';
 export const FONT_SIZE_OPTION = 'FONT_SIZE_OPTION';
-export const USER_INFO = 'USER_INFO';
 export const SEARCH_WORD_LIST = 'SEARCH_WORD_LIST';
 export const LATELY_READ_LIST = 'LATELY_READ_LIST';
 export const HIGHLIGHT_LIST = 'HIGHLIGHT_LIST';
 export const PROFILE_PIC = 'PROFILE_PIC';
 export const PROFILE_NICK = 'PROFILE_NICK';
+
+export const USER_INFO = 'USER_INFO';
+export const GOOGLE_ID_TOKEN = 'GOOGLE_ID_TOKEN';
+export const APPLE_ID_TOKEN = 'APPLE_ID_TOKEN';

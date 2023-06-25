@@ -83,6 +83,16 @@ export const setItemToAsyncStorage = (key: string, value: any) => {
   });
 };
 
+export const removeItemFromAsyncStorage = key => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 type BibleItem = {
   name: string;
   bookName: string;
