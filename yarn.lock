@@ -1675,6 +1675,11 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
+"@react-native-firebase/auth@^11.5.0":
+  version "11.5.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-11.5.0.tgz"
+  integrity sha512-kdO+dbGqZluX1zkxGXI+DNn1PU83WcY9jdXSGtKjiHkoduB4lBmfGvewDlIiYtJNmXly/Jf3FrLEwa77ZDuArQ==
+
 "@react-native-firebase/firestore@^11.5.0":
   version "11.5.0"
   resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-11.5.0.tgz"

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import QuizBall from '../../../components/common/QuizBall';
-import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
-import { getItemFromAsyncStorage } from '../../../utils';
-import AnswerButton from '../../../components/todayquizcheck/AnswerButton';
-import { IS_COMPLETE_TODAY_QUIZ, REVIEW_QUIZ_DATA_LIST, TODAY_QUIZ_ANSWER_LIST, TODAY_QUIZ_BALL_STATE } from '../../../constraints';
+import QuizBall from '../../components/common/QuizBall';
+import TodayQuizItem from '../../components/todayquiz/TodayQuizItem';
+import { getItemFromAsyncStorage } from '../../utils';
+import AnswerButton from '../../components/todayquizcheck/AnswerButton';
+import { IS_COMPLETE_TODAY_QUIZ, REVIEW_QUIZ_DATA_LIST, TODAY_QUIZ_ANSWER_LIST, TODAY_QUIZ_BALL_STATE } from '../../constraints';
 
 const TodayQuizCheckScreen = ({ navigation }) => {
   const [currentQuizBallState, setCurrentQuizBallState] = useState([-1, -1, -1, -1, -1]);

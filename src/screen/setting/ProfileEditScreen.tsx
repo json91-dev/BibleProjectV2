@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import ImagePicker from 'react-native-image-picker/lib/commonjs';
-import { getItemFromAsyncStorage, setItemToAsyncStorage } from '../../../utils';
+import { getItemFromAsyncStorage, setItemToAsyncStorage } from '../../utils';
 import Toast from 'react-native-easy-toast';
 import { StackActions } from '@react-navigation/native';
-import { PROFILE_NICK, PROFILE_PIC } from '../../../constraints';
+import { PROFILE_NICK, PROFILE_PIC } from '../../constraints';
 
 const ProfileEditScreen = props => {
   const { navigation } = props;
@@ -92,7 +92,7 @@ const ProfileEditScreen = props => {
       {isImageAvailable ? (
         <Image style={styles.nicknameImage} source={profilePic} />
       ) : (
-        <Image style={styles.nicknameImage} source={require('../../../assets/ic_jesus_nickname.png')} />
+        <Image style={styles.nicknameImage} source={require('../../assets/ic_jesus_nickname.png')} />
       )}
       <TouchableOpacity onPress={saveProfileImageByGallery} style={styles.profilePhotoButton}>
         <Text style={styles.profilePhotoButtonText}>프로필 사진 변경</Text>

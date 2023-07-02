@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, TouchableOpacity, View } from 'react-native';
-import ReviewQuizItem from '../../../components/quizmain/ReviewQuizItem';
-import { getDateStringByFormat, getIsOneDayPassed, getItemFromAsyncStorage, setItemToAsyncStorage } from '../../../utils';
-import QuizBall from '../../../components/common/QuizBall';
-import QuizTimer from '../../../components/quizmain/QuizTimer';
+import ReviewQuizItem from '../../components/quizmain/ReviewQuizItem';
+import { getDateStringByFormat, getIsOneDayPassed, getItemFromAsyncStorage, setItemToAsyncStorage } from '../../utils';
+import QuizBall from '../../components/common/QuizBall';
+import QuizTimer from '../../components/quizmain/QuizTimer';
 import {
   IS_COMPLETE_TODAY_QUIZ,
   IS_GIVE_UP_TODAY_QUIZ,
@@ -11,7 +11,7 @@ import {
   REVIEW_QUIZ_DATA_LIST,
   TODAY_QUIZ_ANSWER_LIST,
   TODAY_QUIZ_BALL_STATE,
-} from '../../../constraints';
+} from '../../constraints';
 let timer = null; // 전역 타이머 설정
 
 const QuizScreen = ({ navigation }) => {
@@ -131,9 +131,9 @@ const QuizScreen = ({ navigation }) => {
         <SafeAreaView style={styles.completeQuizContainer} contentContainerStyle={{ justifyContent: 'center' }}>
           <View>
             <TouchableOpacity onPress={() => navigation.navigate('TodayQuizCheckScreen')}>
-              <Image style={styles.quizResultQuestionImage} source={require('../../../assets/ic_question_quiz_result.png')} />
+              <Image style={styles.quizResultQuestionImage} source={require('../../assets/ic_question_quiz_result.png')} />
             </TouchableOpacity>
-            <Image style={styles.quizResultJesusImage} source={require('../../../assets/ic_jesus_weird.png')} />
+            <Image style={styles.quizResultJesusImage} source={require('../../assets/ic_jesus_weird.png')} />
             <Text style={styles.titleText}>오늘의 세례문답 성적은</Text>
             <QuizBall quizBallState={currentQuizBallState} />
             <Text style={[styles.titleText, { marginTop: 80 }]}>내일의 세례문답까지.</Text>
@@ -146,9 +146,9 @@ const QuizScreen = ({ navigation }) => {
         <SafeAreaView style={styles.completeQuizContainer} contentContainerStyle={{ justifyContent: 'center' }}>
           <View>
             <TouchableOpacity onPress={() => navigation.navigate('TodayQuizCheckScreen')}>
-              <Image style={styles.quizResultQuestionImage} source={require('../../../assets/ic_question_quiz_result.png')} />
+              <Image style={styles.quizResultQuestionImage} source={require('../../assets/ic_question_quiz_result.png')} />
             </TouchableOpacity>
-            <Image style={styles.quizResultJesusImage} source={require('../../../assets/ic_jesus_sad.png')} />
+            <Image style={styles.quizResultJesusImage} source={require('../../assets/ic_jesus_sad.png')} />
             <Text style={styles.titleText}>
               오늘의 세례문답{'\n'}퀴즈를 포기하셨네요.{'\n'}내일의 세례문답까지.
             </Text>
@@ -160,7 +160,7 @@ const QuizScreen = ({ navigation }) => {
       {!isCompleteTodayQuiz && !isGiveUpTodayQuiz && reviewQuizData === null && (
         <SafeAreaView style={styles.container}>
           <View style={{ borderWidth: 1 }}>
-            <Image style={styles.titleImage} source={require('../../../assets/ic_jesus.png')} />
+            <Image style={styles.titleImage} source={require('../../assets/ic_jesus.png')} />
             <Text style={styles.titleText}>
               오늘의 세례문답{'\n'}퀴즈를 시작할 준비가{'\n'}되셨나요?
             </Text>
@@ -188,7 +188,7 @@ const QuizScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <Image style={styles.todayQuizReviewImage} source={require('../../../assets/ic_today_quiz_review.png')} />
+            <Image style={styles.todayQuizReviewImage} source={require('../../assets/ic_today_quiz_review.png')} />
             {reviewQuizData?.map((item, index) => {
               return (
                 <ReviewQuizItem
@@ -201,7 +201,7 @@ const QuizScreen = ({ navigation }) => {
               );
             })}
 
-            <Image style={styles.titleImage} source={require('../../../assets/ic_jesus.png')} />
+            <Image style={styles.titleImage} source={require('../../assets/ic_jesus.png')} />
             <Text style={styles.titleText}>
               오늘의 세례문답{'\n'}퀴즈를 시작할 준비가{'\n'}되셨나요?
             </Text>

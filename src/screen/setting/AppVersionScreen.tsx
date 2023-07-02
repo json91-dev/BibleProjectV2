@@ -1,13 +1,10 @@
 import React from 'react';
-import {StyleSheet, Image, View} from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 
 const ContentScreen = () => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.appVersionImage}
-        source={require('../../../assets/ic_bible_version.png')}
-      />
+      <Image style={styles.appVersionImage} source={require('../../assets/ic_bible_version.png')} />
     </View>
   );
 };

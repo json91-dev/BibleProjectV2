@@ -14,7 +14,7 @@ const AppleLoginButton = ({ navigation, setErrorMessage }) => {
 
       const idToken = appleAuthRequestResponse.identityToken;
       await setItemToAsyncStorage(APPLE_ID_TOKEN, idToken);
-      navigation.replace('Main');
+      navigation.replace('MainTabNavigator');
     } catch (error) {
       console.log('애플 로그인 실패', error);
       setErrorMessage(error.message);

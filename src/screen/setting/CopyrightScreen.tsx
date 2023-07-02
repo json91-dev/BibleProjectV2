@@ -1,16 +1,12 @@
 import React from 'react';
-import {StyleSheet, Image, View, Text} from 'react-native';
+import { StyleSheet, Image, View, Text } from 'react-native';
 
 const CopyrightScreen = () => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.Image}
-        source={require('../../../assets/ic_bible_copyright.png')}
-      />
+      <Image style={styles.Image} source={require('../../assets/ic_bible_copyright.png')} />
       <Text style={styles.Text}>
-        더바이블의 성경에 대한 저작권은{'\n'}'대한성서협회'에 있으며,{'\n'}무단
-        복제시 처벌될수 있습니다.
+        더바이블의 성경에 대한 저작권은{'\n'}'대한성서협회'에 있으며,{'\n'}무단 복제시 처벌될수 있습니다.
       </Text>
     </View>
   );

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 
-import { fetchDataFromSqlite } from '../../../utils';
+import { fetchDataFromSqlite } from '../../utils';
 
 const ChapterListScreen = props => {
   const [chapterItems, setChapterItems] = useState([]);

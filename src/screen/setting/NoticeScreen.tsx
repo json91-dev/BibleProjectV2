@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
-import LoadingSpinner from '../../../components/common/LoadingSpinner';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import firestore from '@react-native-firebase/firestore';
 
 const renderHeader = (section, index) => {

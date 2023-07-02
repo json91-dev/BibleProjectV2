@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { fetchDataFromSqlite, getItemFromAsyncStorage, setItemToAsyncStorage } from '../../../utils';
+import { fetchDataFromSqlite, getItemFromAsyncStorage, setItemToAsyncStorage } from '../../utils';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 
 import Toast from 'react-native-easy-toast';
 import firestore from '@react-native-firebase/firestore';
-import MainBibleView from '../../../components/biblemain/MainBibleView';
-import { getBibleTypeString, getOldBibleItems, getNewBibleItems, getBibleType } from '../../../utils';
+import MainBibleView from '../../components/biblemain/MainBibleView';
+import { getBibleTypeString, getOldBibleItems, getNewBibleItems, getBibleType } from '../../utils';
 import { StackActions } from '@react-navigation/native';
-import LatelyReadBibleView from '../../../components/biblemain/LatelyReadBibleView';
-import SearchHeaderView from '../../../components/biblemain/SearchHeaderView';
-import SearchResultView from '../../../components/biblemain/SearchResultView';
-import { LATELY_READ_LIST, SEARCH_WORD_LIST } from '../../../constraints';
-import SearchWordListView from '../../../components/biblemain/SearchWordListView';
+import LatelyReadBibleView from '../../components/biblemain/LatelyReadBibleView';
+import SearchHeaderView from '../../components/biblemain/SearchHeaderView';
+import SearchResultView from '../../components/biblemain/SearchResultView';
+import { LATELY_READ_LIST, SEARCH_WORD_LIST } from '../../constraints';
+import SearchWordListView from '../../components/biblemain/SearchWordListView';
 
 const BibleMainScreen = props => {
   const [isShowMainBibleView, setIsShowMainBibleView] = useState(true);
@@ -32,7 +32,15 @@ const BibleMainScreen = props => {
   // 구약, 신약 성경 '장' 페이지로 이동하는 Link
   const goToBookListScreen = useCallback(
     (type: 0 | 1) => {
-      props.navigation.navigate('BookListScreen', { bibleType: type });
+      console.log(props.navigation);
+      const { navigation } = props;
+      navigation.navigate('BibleScreen', {
+        screen: 'MainTabNavigator',
+        params: {
+          bibleType: type,
+        },
+      });
+      navigation.navigate('BookListScreen', { bibleType: type });
       setIsShowLatelyReadBibleView(false);
     },
     [isShowLatelyReadBibleView],

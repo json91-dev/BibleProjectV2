@@ -8,7 +8,6 @@ const activeItemColor = '#F9DA4F';
 
 /** 목차 선택 컴포넌트 **/
 const BookListComponent = ({ bibleType, changePage }) => {
-  console.log(bibleType);
   const data = bibleType === 0 ? oldBibleItems : newBibleItems;
 
   return (

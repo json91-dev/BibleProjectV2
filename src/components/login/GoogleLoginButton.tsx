@@ -2,31 +2,51 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useCallback, useEffect } from 'react';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { removeItemFromAsyncStorage, setItemToAsyncStorage } from '../../utils';
-import { GOOGLE_ID_TOKEN } from '../../constraints';
+import { FIREBASE_USER_CREDENTIAL, GOOGLE_ID_TOKEN } from '../../constraints';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const GoogleLoginButton = ({ navigation, setErrorMessage }) => {
   const googleSignIn = useCallback(async () => {
-    try {
-      /** 로그인 성공시 Storage에 유저 정보 저장 **/
+    // 구글 계정으로 로그인
+    const signInWithGoogle = async () => {
       await GoogleSignin.hasPlayServices();
       const { idToken } = await GoogleSignin.signIn();
-      await setItemToAsyncStorage(GOOGLE_ID_TOKEN, idToken);
-      navigation.replace('Main');
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      await auth().signInWithCredential(googleCredential);
+      return googleCredential;
+    };
+
+    // 로그인 후 정보 firestore 저장
+    const saveUserDateInfoFirestore = async currentUser => {
+      const { uid, displayName, email, photoURL } = currentUser;
+      firestore()
+        .collection('users')
+        .doc(uid)
+        .set({
+          displayName,
+          email,
+          photoURL,
+        })
+        .then(() => {
+          console.log('User information saved to DB');
+        })
+        .catch(error => {
+          console.log('Error saving user information:', error);
+        });
+    };
+
+    try {
+      const googleCredential = await signInWithGoogle();
+      await setItemToAsyncStorage(FIREBASE_USER_CREDENTIAL, googleCredential);
+      const currentUser = auth().currentUser;
+      await saveUserDateInfoFirestore(currentUser);
+      navigation.replace('MainTabNavigator');
     } catch (error) {
       console.error('구글 로그인 실패', error);
       setErrorMessage(error.message);
     }
   }, []);
-
-  const googleSignOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      await removeItemFromAsyncStorage(GOOGLE_ID_TOKEN);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     /** 구글 로그인 초기 설정 **/
@@ -38,7 +58,7 @@ const GoogleLoginButton = ({ navigation, setErrorMessage }) => {
 
   return (
     <TouchableOpacity style={styles.googleLoginButtonContainer} onPress={googleSignIn}>
-      <Image style={styles.googleLoginButton} source={require('../assets/btn_google_login.png')} />
+      <Image style={styles.googleLoginButton} source={require('../../assets/btn_google_login.png')} />
     </TouchableOpacity>
   );
 };

@@ -10,15 +10,15 @@ import {
   REVIEW_QUIZ_DATA_LIST,
   TODAY_QUIZ_ANSWER_LIST,
   TODAY_QUIZ_BALL_STATE,
-} from '../../../constraints';
+} from '../../constraints';
 
-import TodayQuizItem from '../../../components/todayquiz/TodayQuizItem';
-import { setItemToAsyncStorage, getDateStringByFormat, getTodayDate } from '../../../utils';
+import TodayQuizItem from '../../components/todayquiz/TodayQuizItem';
+import { setItemToAsyncStorage, getDateStringByFormat, getTodayDate } from '../../utils';
 import { StackActions } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
-import QuizScore from '../../../components/todayquiz/QuizScore';
-import useTextInput from '../../../hooks/useTextInput';
-import AnswerButton from '../../../components/todayquiz/AnswerButton';
+import QuizScore from '../../components/todayquiz/QuizScore';
+import useTextInput from '../../hooks/useTextInput';
+import AnswerButton from '../../components/todayquiz/AnswerButton';
 let keyboardDidHideListener = null;
 
 const TodayQuizScreen = ({ navigation }) => {
@@ -172,7 +172,7 @@ const TodayQuizScreen = ({ navigation }) => {
         <View style={styles.contentContainer}>
           <View style={styles.headerView}>
             <TouchableOpacity onPress={backToQuizMainScreen}>
-              <Image style={styles.goBackButton} source={require('../../../assets/ic_left_arrow.png')} />
+              <Image style={styles.goBackButton} source={require('../../assets/ic_left_arrow.png')} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.giveUpButton} onPress={onGiveUpTodayQuiz}>
               <Text style={styles.giveUpButtonText}>포기하기</Text>

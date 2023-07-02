@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import Root from './src/screen/RootNavigator';
-import admob, {MaxAdContentRating} from '@react-native-firebase/admob';
+import React, { useEffect } from 'react';
+import Root from './src/navigators/RootNavigator';
+import admob, { MaxAdContentRating } from '@react-native-firebase/admob';
 
 const App = () => {
   useEffect(() => {
