@@ -38,8 +38,10 @@ const GoogleLoginButton = ({ navigation, setErrorMessage }) => {
 
     try {
       const googleCredential = await signInWithGoogle();
+      console.log(googleCredential);
       await setItemToAsyncStorage(FIREBASE_USER_CREDENTIAL, googleCredential);
       const currentUser = auth().currentUser;
+      console.log(currentUser);
       await saveUserDateInfoFirestore(currentUser);
       navigation.replace('MainTabNavigator');
     } catch (error) {

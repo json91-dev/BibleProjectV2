@@ -45,7 +45,7 @@ const BottomTabNavigator = ({ navigation, route }) => {
       })}>
       <Tab.Screen
         name="BibleScreen"
-        component={() => <BibleMainScreen navigation={navigation} route={route} />}
+        component={BibleMainScreen}
         options={() => {
           return {
             tabBarLabel: '성경',

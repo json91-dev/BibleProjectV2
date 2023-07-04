@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, View, Text, Image } from 'react-native';
 
@@ -9,6 +9,7 @@ import auth from '@react-native-firebase/auth';
 // import AppleLoginButton from '../components/login/AppleLoginButton';
 const LoginScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // // 자동 로그인을 수행함.
   // const checkAutoLogin = useCallback(async () => {
@@ -26,15 +27,29 @@ const LoginScreen = ({ navigation }) => {
   // }, []);
 
   useEffect(() => {
-    const currentUser = auth().currentUser;
-    console.log(currentUser);
-    if (currentUser) {
-      console.log('User is logged in', currentUser.email);
-      navigation.replace('MainTabNavigator');
-    } else {
-      console.log('User is not logged in');
-    }
+    const unsubscribe = auth().onAuthStateChanged(user => {
+      if (user) {
+        // 사용자가 이전에 로그인한 상태인 경우
+        // 자동 로그인 처리 로직 수행
+        console.log('자동 로그인: ', user.uid);
+        setIsAuthenticated(true);
+      } else {
+        // 사용자가 이전에 로그인하지 않은 상태인 경우
+        // 로그인 페이지로 이동 등 필요한 로직 수행
+        setIsAuthenticated(false);
+      }
+    });
+
+    // 구독 취소 (컴포넌트가 언마운트될 때 실행)
+    return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log('페이지 이동');
+      navigation.replace('MainTabNavigator');
+    }
+  }, [isAuthenticated]);
 
   return (
     <LinearGradient colors={['#F9DA4F', '#F7884F']} style={styles.linearGradient}>

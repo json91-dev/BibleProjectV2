@@ -120,8 +120,10 @@ const OptionMainScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={async () => {
               try {
-                await auth().signOut();
-                navigation.navigation('LoginScreen');
+                const result = await auth().signOut();
+                console.log(result);
+                console.log('111');
+                navigation.replace('LoginScreen');
               } catch (error) {
                 console.log(error);
               }
