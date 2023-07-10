@@ -10,7 +10,7 @@ import { StackActions } from '@react-navigation/native';
 import MemoModal from '../../components/verselist/commandModal/MemoModal';
 import VerseFlatList from '../../components/verselist/VerseFlatList/VerseFlatList';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, LATELY_READ_LIST, MEMO_LIST } from '../../constraints';
+import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, RECENTLY_READ_BIBLE_LIST, MEMO_LIST } from '../../constraints';
 
 interface VerseItemType {
   isButton: boolean;
@@ -39,7 +39,8 @@ const VerseListScreen = ({ navigation, route }) => {
   const [verseItemFontFamily, setVerseItemFontFamily] = useState('system font');
   const toastRef = useRef(null);
 
-  const saveLatestBibleVerse = useCallback(async (bookName, bookCode, chapterCode) => {
+  // 최근 읽은 성경을 AsyncStorage에 저장.
+  const saveRecentlyReadBibleList = useCallback(async (bookName, bookCode, chapterCode) => {
     const bibleName = getBibleTypeString(bookCode);
     const readItem = {
       bibleName,
@@ -47,7 +48,7 @@ const VerseListScreen = ({ navigation, route }) => {
       bookCode,
       chapterCode,
     };
-    await setItemToAsyncStorage(LATELY_READ_LIST, readItem);
+    await setItemToAsyncStorage(RECENTLY_READ_BIBLE_LIST, readItem);
   }, []);
 
   const setFontSizeFromStorage = useCallback(async () => {
@@ -160,7 +161,7 @@ const VerseListScreen = ({ navigation, route }) => {
   // 3. VerseItem을 입력받아 memo 처리
   const updateVerseItems = useCallback(async () => {
     const { bookName, bookCode, chapterCode } = route.params;
-    await saveLatestBibleVerse(bookName, bookCode, chapterCode);
+    await saveRecentlyReadBibleList(bookName, bookCode, chapterCode);
     let verseItems = await getBibleVerseItems(bookName, bookCode, chapterCode);
     verseItems = await getUpdatedHighlightVerseItems(verseItems);
     verseItems = await getUpdatedMemoVerseItems(verseItems);

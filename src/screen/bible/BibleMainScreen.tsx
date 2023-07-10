@@ -7,21 +7,21 @@ import firestore from '@react-native-firebase/firestore';
 import MainBibleView from '../../components/biblemain/MainBibleView';
 import { getBibleTypeString, getOldBibleItems, getNewBibleItems, getBibleType } from '../../utils';
 import { StackActions } from '@react-navigation/native';
-import LatelyReadBibleView from '../../components/biblemain/LatelyReadBibleView';
+import RecentlyReadBibleView from '../../components/biblemain/RecentlyReadBibleView';
 import SearchHeaderView from '../../components/biblemain/SearchHeaderView';
 import SearchResultView from '../../components/biblemain/SearchResultView';
-import { LATELY_READ_LIST, SEARCH_WORD_LIST } from '../../constraints';
+import { RECENTLY_READ_BIBLE_LIST, SEARCH_WORD_LIST } from '../../constraints';
 import SearchWordListView from '../../components/biblemain/SearchWordListView';
 
 const BibleMainScreen = props => {
   const [isShowMainBibleView, setIsShowMainBibleView] = useState(true);
   const [isShowSearchResultView, setIsShowSearchResultView] = useState(false);
-  const [isShowLatelyReadBibleView, setIsShowLatelyReadBibleView] = useState(false);
+  const [isShowRecentlyReadBibleView, setIsShowRecentlyReadBibleView] = useState(false);
 
   const [searchWordItems, setSearchWordItems] = useState([]);
   const [textInputPlaceHolder, setTextInputPlaceHolder] = useState('다시 읽고 싶은 말씀이 있나요?');
   const [searchResultItems, setSearchResultItems] = useState([]);
-  const [latelyReadItem, setLatelyReadItem] = useState({});
+  const [recentlyReadBibleItem, setRecentlyReadBibleItem] = useState({});
 
   const [verseSentence, setVerseSentence] = useState('');
   const [verseString, setVerseString] = useState('');
@@ -41,13 +41,13 @@ const BibleMainScreen = props => {
         },
       });
       navigation.navigate('BookListScreen', { bibleType: type });
-      setIsShowLatelyReadBibleView(false);
+      setIsShowRecentlyReadBibleView(false);
     },
-    [isShowLatelyReadBibleView],
+    [isShowRecentlyReadBibleView],
   );
 
   // 최근 읽은 성경 가기 Link
-  const goToLatestReadScreen = useCallback((bookName, bookCode, chapterCode) => {
+  const navigateRecentlyReadPage = useCallback((bookName, bookCode, chapterCode) => {
     const navigation = props.navigation;
     const bibleType = getBibleType(bookCode);
     const pushBookList = StackActions.push('BookListScreen', {
@@ -68,11 +68,12 @@ const BibleMainScreen = props => {
     });
     navigation.dispatch(pushVerseList);
 
-    setIsShowLatelyReadBibleView(false);
+    setIsShowRecentlyReadBibleView(false);
   }, []);
+
   const textInputFocus = useCallback(() => {
     setIsShowMainBibleView(false);
-    setIsShowLatelyReadBibleView(false);
+    setIsShowRecentlyReadBibleView(false);
   }, []);
 
   const searchCancelPress = useCallback(() => {
@@ -181,15 +182,15 @@ const BibleMainScreen = props => {
     };
 
     // 최근 읽은 성경구절 정보를 LocalDB에서 가져옴
-    const initLatestReadListFromStorage = async () => {
-      let latelyReadList = await getItemFromAsyncStorage<Record<string, any>>(LATELY_READ_LIST);
-      if (latelyReadList === null) {
-        setIsShowLatelyReadBibleView(false);
+    const initRecentlyReadBibleListFromStorage = async () => {
+      let recentlyReadBibleList = await getItemFromAsyncStorage<Record<string, any>>(RECENTLY_READ_BIBLE_LIST);
+      if (recentlyReadBibleList === null) {
+        setIsShowRecentlyReadBibleView(false);
       } else {
         /** 만약 최근 읽은 성경구절 정보가 있다면, 이어보기 화면을 출력 **/
-        const { bibleName, bookName, bookCode, chapterCode } = latelyReadList;
-        setLatelyReadItem({ bibleName, bookName, bookCode, chapterCode });
-        setIsShowLatelyReadBibleView(true);
+        const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleList;
+        setRecentlyReadBibleItem({ bibleName, bookName, bookCode, chapterCode });
+        setIsShowRecentlyReadBibleView(true);
       }
     };
 
@@ -207,7 +208,7 @@ const BibleMainScreen = props => {
 
     (async () => {
       await initSearchWordsFromStorage();
-      await initLatestReadListFromStorage();
+      await initRecentlyReadBibleListFromStorage();
       await initTodayVerseFromFirebase();
     })();
   }, []);
@@ -226,8 +227,8 @@ const BibleMainScreen = props => {
         {isShowMainBibleView && (
           <>
             <MainBibleView goToBookListScreen={goToBookListScreen} verseSentence={verseSentence} verseString={verseString} />
-            {isShowLatelyReadBibleView && (
-              <LatelyReadBibleView goToLatestReadScreen={goToLatestReadScreen} latelyReadItem={latelyReadItem} />
+            {isShowRecentlyReadBibleView && (
+              <RecentlyReadBibleView navigateRecentlyReadPage={navigateRecentlyReadPage} recentlyReadBibleItem={recentlyReadBibleItem} />
             )}
           </>
         )}

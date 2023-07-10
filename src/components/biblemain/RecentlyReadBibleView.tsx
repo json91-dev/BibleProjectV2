@@ -1,29 +1,28 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const LatelyReadBibleView = props => {
-  const { goToLatestReadScreen, latelyReadItem } = props;
-  const { bibleName, bookName, bookCode, chapterCode } = latelyReadItem;
+const RecentlyReadBibleView = ({ navigateRecentlyReadPage, recentlyReadBibleItem }) => {
+  const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleItem;
 
   return (
-    <View style={styles.latelyReadBibleView}>
-      <View style={styles.latelyReadBibleViewInfo}>
-        <Text style={styles.latelyReadBibleViewInfoLabel}>최근 읽은 성서</Text>
-        <Text style={styles.latelyReadBibleViewInfoText}>
+    <View style={styles.recentlyReadBibleView}>
+      <View style={styles.recentlyReadBibleViewInfo}>
+        <Text style={styles.recentlyReadBibleViewInfoLabel}>최근 읽은 성서</Text>
+        <Text style={styles.recentlyReadBibleViewInfoText}>
           {bibleName} - {bookName} {chapterCode}장
         </Text>
       </View>
-      <TouchableOpacity onPress={() => goToLatestReadScreen(bookName, bookCode, chapterCode)}>
-        <Text style={styles.latelyReadBibleViewButton}>이어보기</Text>
+      <TouchableOpacity onPress={() => navigateRecentlyReadPage(bookName, bookCode, chapterCode)}>
+        <Text style={styles.recentlyReadBibleViewButton}>이어보기</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default LatelyReadBibleView;
+export default RecentlyReadBibleView;
 
 const styles = StyleSheet.create({
-  latelyReadBibleView: {
+  recentlyReadBibleView: {
     position: 'absolute',
     width: '100%',
     height: '10%',
@@ -37,20 +36,20 @@ const styles = StyleSheet.create({
     paddingRight: '3%',
   },
 
-  latelyReadBibleViewInfo: {
+  recentlyReadBibleViewInfo: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
   },
-  latelyReadBibleViewInfoLabel: {
+  recentlyReadBibleViewInfoLabel: {
     color: 'white',
     fontSize: 12,
   },
 
-  latelyReadBibleViewInfoText: {
+  recentlyReadBibleViewInfoText: {
     color: 'white',
   },
 
-  latelyReadBibleViewButton: {
+  recentlyReadBibleViewButton: {
     color: '#F9DA4F',
     paddingLeft: 10,
     paddingBottom: 10,

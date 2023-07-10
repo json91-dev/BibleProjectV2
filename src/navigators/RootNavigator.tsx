@@ -14,6 +14,7 @@ import AppVersionScreen from '../screen/setting/AppVersionScreen';
 import NoticeScreen from '../screen/setting/NoticeScreen';
 import CopyrightScreen from '../screen/setting/CopyrightScreen';
 import PrivacyScreenNavigator from '../screen/setting/privacyscreen/PrivacyScreenNavigator';
+import RecentlyReadBibleListScreen from '../screen/bible/RecentlyReadBibleListScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,8 @@ const Root = () => {
       <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen name="LoginScreen" options={{ headerShown: false }} component={LoginScreen} />
         <Stack.Screen name="MainTabNavigator" options={{ headerShown: false }} component={BottomTabNavigator} />
+
+        {/* 성경 화면 */}
         <Stack.Screen
           name="BookListScreen"
           options={({ route }) => ({
@@ -51,12 +54,17 @@ const Root = () => {
           })}
           component={VerseListScreen}
         />
+        <Stack.Screen name="RecentlyReadBibleListScreen" component={RecentlyReadBibleListScreen} />
+
+        {/* 퀴즈 화면 */}
         <Stack.Screen name="TodayQuizScreen" options={{ headerShown: false, animationEnabled: false }} component={TodayQuizScreen} />
         <Stack.Screen
           name="TodayQuizCheckScreen"
           options={{ headerShown: false, animationEnabled: false }}
           component={TodayQuizCheckScreen}
         />
+
+        {/* 옵션 화면 */}
         <Stack.Screen name="OptionMainScreen" options={{ headerShown: false }} component={OptionMainScreen} />
         <Stack.Screen
           name="ProfileEditScreen"
