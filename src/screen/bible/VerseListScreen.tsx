@@ -14,7 +14,7 @@ import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, RECENTLY_READ_BIB
 
 interface VerseItemType {
   isButton: boolean;
-  bookName: number;
+  bookName: string;
   bookCode: number;
   chapterCode: number;
   content: string;

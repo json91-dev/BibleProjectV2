@@ -54,7 +54,7 @@ const Root = () => {
           })}
           component={VerseListScreen}
         />
-        <Stack.Screen name="RecentlyReadBibleListScreen" component={RecentlyReadBibleListScreen} />
+        <Stack.Screen name="RecentlyReadBibleListScreen" options={{ headerShown: false }} component={RecentlyReadBibleListScreen} />
 
         {/* 퀴즈 화면 */}
         <Stack.Screen name="TodayQuizScreen" options={{ headerShown: false, animationEnabled: false }} component={TodayQuizScreen} />
