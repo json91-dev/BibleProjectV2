@@ -65,6 +65,7 @@ const BibleMainScreen = props => {
       bookCode,
       bookName,
       chapterCode,
+      isFromRecentlyReadPageButtonClick: true,
     });
     navigation.dispatch(pushVerseList);
 
@@ -188,7 +189,7 @@ const BibleMainScreen = props => {
         setIsShowRecentlyReadBibleView(false);
       } else {
         /** 만약 최근 읽은 성경구절 정보가 있다면, 이어보기 화면을 출력 **/
-        const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleList;
+        const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleList[0];
         setRecentlyReadBibleItem({ bibleName, bookName, bookCode, chapterCode });
         setIsShowRecentlyReadBibleView(true);
       }

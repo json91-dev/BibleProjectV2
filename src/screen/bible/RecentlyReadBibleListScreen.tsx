@@ -3,22 +3,23 @@ import { useEffect, useState } from 'react';
 import { RECENTLY_READ_BIBLE_LIST } from '../../constraints';
 import { getItemFromAsyncStorage } from '../../utils';
 
-interface recentlyReadBibleItem {
-  bibleName: string;
-  bookName: string;
+export interface RecentlyReadBibleItem {
+  bibleName: string; // ex) 구약
+  bookName: string; // ex) 창세기
   bookCode: number;
   chapterCode: number;
+  verseSentence: string;
 }
 
-interface recentlyReadBibleList extends Array<recentlyReadBibleItem> {}
+export interface RecentlyReadBibleList extends Array<RecentlyReadBibleItem> {}
 
 const RecentlyReadBibleListScreen = () => {
-  const [recentlyReadBibleList, setRecentlyReadBibleList] = useState<recentlyReadBibleList>(null);
+  const [recentlyReadBibleList, setRecentlyReadBibleList] = useState<RecentlyReadBibleList>(null);
   const screenHeight = Dimensions.get('window').height;
   const flatListHeight = screenHeight - 50;
 
   const getReadBibleListFromStorage = async () => {
-    const bibleList = await getItemFromAsyncStorage<recentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
+    const bibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
     if (bibleList) {
       setRecentlyReadBibleList(bibleList);
     }

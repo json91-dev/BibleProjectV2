@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
+import { VerseItemList } from './screen/bible/VerseListScreen';
 
 // 문자열이 특정길이 이상일때 ...으로 출력해주는 메서드
 export const textLengthOverCut = (txt, len, lastTxt) => {
@@ -212,7 +213,7 @@ export const fetchDataFromSqlite = (query: string) => {
 
 // sqlite 데이터베이스에서 성경의 정보를 가져와서 verseItems을 만들어서 다음 Promise chain으로 전달하는 메서드
 export const getBibleVerseItems = (bookName, bookCode, chapterCode) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<VerseItemList>((resolve, reject) => {
     bibleDB.transaction(tx => {
       // 성경의 절과 내용을 모두 가져오는 쿼리를 선언
       // subQuery를 통해 현재 아이템의 최대 chapterCode를 가져온다.

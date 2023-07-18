@@ -11,8 +11,9 @@ import MemoModal from '../../components/verselist/commandModal/MemoModal';
 import VerseFlatList from '../../components/verselist/VerseFlatList/VerseFlatList';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, RECENTLY_READ_BIBLE_LIST, MEMO_LIST } from '../../constraints';
+import { RecentlyReadBibleList } from './RecentlyReadBibleListScreen';
 
-interface VerseItemType {
+export interface VerseItem {
   isButton: boolean;
   bookName: string;
   bookCode: number;
@@ -24,9 +25,11 @@ interface VerseItemType {
   isMemo?: boolean;
 }
 
+export interface VerseItemList extends Array<VerseItem> {}
+
 const VerseListScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [verseItems, setVerseItems] = useState<VerseItemType[]>([]);
+  const [verseItems, setVerseItems] = useState<VerseItemList>([]);
   const [commandModalVisible, setCommandModalVisible] = useState(false);
   const [memoModalVisible, setMemoModalVisible] = useState(false);
   const [bibleListOptionIconUri, setBibleListOptionIconUri] = useState(require('../../assets/ic_option_list_off.png'));
@@ -40,15 +43,24 @@ const VerseListScreen = ({ navigation, route }) => {
   const toastRef = useRef(null);
 
   // 최근 읽은 성경을 AsyncStorage에 저장.
-  const saveRecentlyReadBibleList = useCallback(async (bookName, bookCode, chapterCode) => {
-    const bibleName = getBibleTypeString(bookCode);
+  const saveRecentlyReadBibleList = useCallback(async (bibleName, bookName, bookCode, chapterCode, verseSentence) => {
+    let recentlyReadBibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
+
+    console.log(recentlyReadBibleList);
+    if (!recentlyReadBibleList) {
+      recentlyReadBibleList = [];
+    }
+
     const readItem = {
       bibleName,
       bookName,
       bookCode,
       chapterCode,
+      verseSentence,
     };
-    await setItemToAsyncStorage(RECENTLY_READ_BIBLE_LIST, readItem);
+
+    recentlyReadBibleList.push(readItem);
+    await setItemToAsyncStorage(RECENTLY_READ_BIBLE_LIST, recentlyReadBibleList);
   }, []);
 
   const setFontSizeFromStorage = useCallback(async () => {
@@ -111,7 +123,7 @@ const VerseListScreen = ({ navigation, route }) => {
     }
   }, []);
 
-  const getUpdatedHighlightVerseItems = useCallback(async items => {
+  const getUpdatedHighlightVerseItems: (items: VerseItemList) => Promise<VerseItemList> = useCallback(async (items: VerseItemList) => {
     let highlightsItems = await getItemFromAsyncStorage<any[]>(HIGHLIGHT_LIST);
     highlightsItems = highlightsItems ? highlightsItems : [];
 
@@ -123,18 +135,14 @@ const VerseListScreen = ({ navigation, route }) => {
           highlightItem.verseCode === verse.verseCode
         );
       });
-      if (index > -1) {
-        verse.isHighlight = true;
-      } else {
-        verse.isHighlight = false;
-      }
+      verse.isHighlight = index > -1;
     });
 
     return items;
   }, []);
 
-  const getUpdatedMemoVerseItems = useCallback(
-    async items => {
+  const getUpdatedMemoVerseItems: (items: VerseItemList) => Promise<VerseItemList> = useCallback(
+    async (items: VerseItemList) => {
       let memoListItems = await getItemFromAsyncStorage<any[]>(MEMO_LIST);
       if (memoListItems === null) memoListItems = [];
       items.forEach(verse => {
@@ -143,11 +151,7 @@ const VerseListScreen = ({ navigation, route }) => {
             memoItem.bookCode === verse.bookCode && memoItem.chapterCode === verse.chapterCode && memoItem.verseCode === verse.verseCode
           );
         });
-        if (index > -1) {
-          verse.isMemo = true;
-        } else {
-          verse.isMemo = false;
-        }
+        verse.isMemo = index > -1;
       });
 
       return items;
@@ -161,21 +165,46 @@ const VerseListScreen = ({ navigation, route }) => {
   // 3. VerseItem을 입력받아 memo 처리
   const updateVerseItems = useCallback(async () => {
     const { bookName, bookCode, chapterCode } = route.params;
-    await saveRecentlyReadBibleList(bookName, bookCode, chapterCode);
-    let verseItems = await getBibleVerseItems(bookName, bookCode, chapterCode);
+    let verseItems: VerseItemList = await getBibleVerseItems(bookName, bookCode, chapterCode);
     verseItems = await getUpdatedHighlightVerseItems(verseItems);
     verseItems = await getUpdatedMemoVerseItems(verseItems);
 
     setVerseItems(verseItems);
     setBibleType(getBibleType(bookCode));
     setIsLoading(false);
+
+    return verseItems;
   }, [verseItems]);
 
   useEffect(() => {
-    updateVerseItems().then();
-    setFontSizeFromStorage().then();
-    setFontFamilyFromStorage().then();
+    const { isFromRecentlyReadPageButtonClick } = route.params;
+    (async () => {
+      // 해당 절의 첫번째 구절을 최근 읽은 성경에 저장
+      const verseItem = await updateVerseItems();
+
+      // 링크 버튼으로 부터 클릭되었을때는 최근읽은 성경 목록에 저장 안함.
+      if (!isFromRecentlyReadPageButtonClick) {
+        const bibleName = getBibleTypeString(verseItem[0].bookCode);
+        await saveRecentlyReadBibleList(
+          bibleName,
+          verseItem[0].bookName,
+          verseItem[0].bookCode,
+          verseItem[0].chapterCode,
+          verseItem[0].content,
+        );
+      }
+
+      await setFontSizeFromStorage();
+      await setFontFamilyFromStorage();
+    })();
   }, []);
+
+  useEffect(() => {
+    console.log(verseItems);
+    if (verseItems) {
+      console.log('222');
+    }
+  }, [verseItems]);
 
   // commandModal에 대한 동작 수행 => 복사, 하이라이트, 메모에 대한 동작 수행 modal을 commandModal이라고 정의함
   // 1. 복사가 눌리면 클립보드 저장
