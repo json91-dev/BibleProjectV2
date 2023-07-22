@@ -57,6 +57,7 @@ const VerseListScreen = ({ navigation, route }) => {
       bookCode,
       chapterCode,
       verseSentence,
+      createdAt: new Date(),
     };
 
     recentlyReadBibleList.push(readItem);

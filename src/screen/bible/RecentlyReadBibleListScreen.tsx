@@ -1,14 +1,16 @@
 import { Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { RECENTLY_READ_BIBLE_LIST } from '../../constraints';
-import { getItemFromAsyncStorage } from '../../utils';
+import { getBibleType, getItemFromAsyncStorage } from '../../utils';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 export interface RecentlyReadBibleItem {
   bibleName: string; // ex) 구약
   bookName: string; // ex) 창세기
-  bookCode: number;
-  chapterCode: number;
+  bookCode: number; // ex) '1' (장)
+  chapterCode: number; // ex) '1' (절)
   verseSentence: string;
+  createdAt: Date;
 }
 
 export interface RecentlyReadBibleList extends Array<RecentlyReadBibleItem> {}
@@ -17,6 +19,7 @@ const RecentlyReadBibleListScreen = () => {
   const [recentlyReadBibleList, setRecentlyReadBibleList] = useState<RecentlyReadBibleList>(null);
   const screenHeight = Dimensions.get('window').height;
   const flatListHeight = screenHeight - 50;
+  const navigation = useNavigation<any>();
 
   const getReadBibleListFromStorage = async () => {
     const bibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
@@ -25,12 +28,48 @@ const RecentlyReadBibleListScreen = () => {
     }
   };
 
-  const renderItem = ({ item, index }: { item: recentlyReadBibleItem; index: number }) => {
+  const navigateRecentlyReadPage = useCallback(() => {
+    const recentlyReadBibleItem: RecentlyReadBibleItem = recentlyReadBibleList[0];
+    const { bookCode, bookName, chapterCode } = recentlyReadBibleItem;
+    const bibleType = getBibleType(bookCode);
+    const pushBookList = StackActions.push('BookListScreen', {
+      bibleType,
+    });
+    navigation.dispatch(pushBookList);
+
+    const pushChapterList = StackActions.push('ChapterListScreen', {
+      bookCode,
+      bookName,
+    });
+    navigation.dispatch(pushChapterList);
+
+    const pushVerseList = StackActions.push('VerseListScreen', {
+      bookCode,
+      bookName,
+      chapterCode,
+      isFromRecentlyReadPageButtonClick: true,
+    });
+    navigation.dispatch(pushVerseList);
+  }, [recentlyReadBibleList]);
+
+  const renderItem = ({ item }: { item: RecentlyReadBibleItem; index: number }) => {
+    const { bookName, bookCode, verseSentence } = item;
+
     return (
       <View style={styles.bibleView}>
-        <Text style={styles.bibleTitleText}>누가복음 {1}장</Text>
-        <Text style={styles.bibleVerseText}>성범그리스도가 명하느니 세계여 재창 각?</Text>
-        <Text style={styles.bibleDateText}>1일전</Text>
+        <View>
+          <Text style={styles.bibleTitleText}>
+            {bookName} {bookCode}장
+          </Text>
+          <Text style={styles.bibleVerseText}>{verseSentence}</Text>
+          <Text style={styles.bibleDateText}>1일전</Text>
+        </View>
+
+        <TouchableOpacity onPress={navigateRecentlyReadPage}>
+          <View style={styles.rightArrowImageView}>
+            <Image style={styles.rightArrowImage} source={require('../../assets/ic_arrow_white.png')} />
+          </View>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -42,13 +81,13 @@ const RecentlyReadBibleListScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerView}>
-        <View style={{ width: 20 }} />
+        <View style={{ width: 60 }} />
         <Text style={styles.titleText}>최근 읽은 성경</Text>
-        <TouchableOpacity style={{ padding: 3 }}>
+        <TouchableOpacity style={styles.closeImageView} onPress={() => navigation.goBack()}>
           <Image style={styles.closeImage} source={require('../../assets/ic_close_white.png')} />
         </TouchableOpacity>
       </View>
-      <FlatList style={[styles.flatList, { height: flatListHeight }]} data={[1, 2, 3]} renderItem={renderItem} />
+      <FlatList style={[styles.flatList, { height: flatListHeight }]} data={recentlyReadBibleList} renderItem={renderItem} />
     </SafeAreaView>
   );
 };
@@ -68,13 +107,26 @@ const styles = StyleSheet.create({
 
   headerView: {
     width: '100%',
-    height: 50,
+    height: 70,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#AAAAAA88',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#AAAAAA66',
+  },
+
+  closeImageView: {
+    height: 60,
+    width: 60,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+
+  closeImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
 
   titleText: {
@@ -83,31 +135,51 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  closeImage: {
-    width: 20,
-    height: 20,
-    resizeMode: 'cover',
-  },
-
   flatList: {
-    borderWidth: 1,
-    borderColor: 'white',
+    display: 'flex',
   },
 
   bibleView: {
-    height: 100,
     width: '100%',
+    paddingTop: 13,
+    paddingBottom: 13,
+    paddingLeft: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#AAAAAA66',
+    borderColor: 'white',
   },
 
   bibleTitleText: {
     color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 2,
   },
 
   bibleVerseText: {
     color: 'white',
+    marginBottom: 2,
   },
 
   bibleDateText: {
     color: 'white',
+  },
+
+  rightArrowImageView: {
+    width: 35,
+    height: 35,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  rightArrowImage: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
   },
 });

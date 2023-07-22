@@ -32,15 +32,20 @@ const setBottomIconImagePath = (navName, focused) => {
   return imagePath[key];
 };
 
-const BottomTabNavigator = ({ navigation, route }) => {
+const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Main"
       screenOptions={({ route }) => ({
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: 2,
+          marginBottom: 4,
+        },
         tabBarIcon: ({ focused }) => {
           const iconPath = setBottomIconImagePath(route.name, focused);
           // You can return any component that you like here!
-          return <Image style={{ width: 25, height: 25 }} source={iconPath} />;
+          return <Image style={{ width: 27, height: 27 }} source={iconPath} />;
         },
       })}>
       <Tab.Screen
