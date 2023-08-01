@@ -12,7 +12,6 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
 
   return (
     <Modal
-      style={styles.modal}
       transparent={true}
       visible={commandModalVisible}
       onRequestClose={() => {
