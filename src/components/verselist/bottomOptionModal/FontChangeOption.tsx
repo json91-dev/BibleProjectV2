@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
     left: '2.5%',
     height: '45%',
     borderWidth: 1,
+    zIndex: 1000,
   },
 
   header: {

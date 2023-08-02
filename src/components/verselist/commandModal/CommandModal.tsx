@@ -11,80 +11,77 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
   const { isHighlight, isMemo } = modalBibleItem;
 
   return (
-    <Modal
-      transparent={true}
-      visible={commandModalVisible}
-      onRequestClose={() => {
-        setCommandModalVisible(false);
-      }}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalHeader}>
-            {modalBibleItem.bookName} {modalBibleItem.chapterCode}장 {modalBibleItem.verseCode}절
-          </Text>
-          <View style={styles.modalViewItems}>
-            {/*Copy 버튼*/}
+    <>
+      {commandModalVisible && (
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>
+              {modalBibleItem.bookName} {modalBibleItem.chapterCode}장 {modalBibleItem.verseCode}절
+            </Text>
+            <View style={styles.modalViewItems}>
+              {/*Copy 버튼*/}
+              <TouchableOpacity
+                style={styles.copyButton}
+                onPress={() => {
+                  setCommandModalVisible(false);
+                  actionCommandModal('copy');
+                }}>
+                <Image style={[styles.modalItemImage, { marginRight: 2 }]} source={require('../../../assets/ic_copy.png')} />
+                <Text style={styles.modalItemText}>복사</Text>
+              </TouchableOpacity>
+
+              {/*Highlight 버튼*/}
+              {isHighlight ? (
+                <TouchableOpacity
+                  style={styles.highlightButtonChecked}
+                  onPress={() => {
+                    setCommandModalVisible(false);
+                    actionCommandModal('highlight');
+                  }}>
+                  <Image style={styles.modalItemImage} source={require('../../../assets/ic_color_pen.png')} />
+                  <Text style={styles.modalItemText}>형광펜</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.highlightButton}
+                  onPress={() => {
+                    setCommandModalVisible(false);
+                    actionCommandModal('highlight');
+                  }}>
+                  <Image style={styles.modalItemImage} source={require('../../../assets/ic_color_pen.png')} />
+                  <Text style={styles.modalItemText}>형광펜</Text>
+                </TouchableOpacity>
+              )}
+
+              {/*메모 버튼*/}
+              {isMemo ? (
+                <TouchableOpacity style={styles.memoButtonChecked} onPress={openBibleNoteOptionModal}>
+                  <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
+                  <Text style={styles.modalItemText}>메모</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.memoButton}
+                  onPress={() => {
+                    setCommandModalVisible(false);
+                    actionCommandModal('memo');
+                  }}>
+                  <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
+                  <Text style={styles.modalItemText}>메모</Text>
+                </TouchableOpacity>
+              )}
+            </View>
             <TouchableOpacity
-              style={styles.copyButton}
+              style={styles.modalCancel}
               onPress={() => {
                 setCommandModalVisible(false);
-                actionCommandModal('copy');
               }}>
-              <Image style={[styles.modalItemImage, { marginRight: 2 }]} source={require('../../../assets/ic_copy.png')} />
-              <Text style={styles.modalItemText}>복사</Text>
+              <Text style={styles.modalItemText}>취소</Text>
             </TouchableOpacity>
-
-            {/*Highlight 버튼*/}
-            {isHighlight ? (
-              <TouchableOpacity
-                style={styles.highlightButtonChecked}
-                onPress={() => {
-                  setCommandModalVisible(false);
-                  actionCommandModal('highlight');
-                }}>
-                <Image style={styles.modalItemImage} source={require('../../../assets/ic_color_pen.png')} />
-                <Text style={styles.modalItemText}>형광펜</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.highlightButton}
-                onPress={() => {
-                  setCommandModalVisible(false);
-                  actionCommandModal('highlight');
-                }}>
-                <Image style={styles.modalItemImage} source={require('../../../assets/ic_color_pen.png')} />
-                <Text style={styles.modalItemText}>형광펜</Text>
-              </TouchableOpacity>
-            )}
-
-            {/*메모 버튼*/}
-            {isMemo ? (
-              <TouchableOpacity style={styles.memoButtonChecked} onPress={openBibleNoteOptionModal}>
-                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
-                <Text style={styles.modalItemText}>메모</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.memoButton}
-                onPress={() => {
-                  setCommandModalVisible(false);
-                  actionCommandModal('memo');
-                }}>
-                <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
-                <Text style={styles.modalItemText}>메모</Text>
-              </TouchableOpacity>
-            )}
           </View>
-          <TouchableOpacity
-            style={styles.modalCancel}
-            onPress={() => {
-              setCommandModalVisible(false);
-            }}>
-            <Text style={styles.modalItemText}>취소</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-    </Modal>
+      )}
+    </>
   );
 };
 
@@ -115,6 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    zIndex: 1000,
   },
 
   modalView: {

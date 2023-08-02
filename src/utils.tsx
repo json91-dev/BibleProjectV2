@@ -237,17 +237,17 @@ export const getBibleVerseItems = (bookName, bookCode, chapterCode) => {
           });
 
           // 마지막 성경 이동 버튼을 위해 현재 verseItems의 마지막행에 하나의 목록을 더 추가한다.
-          if (i === verseItemsLength - 1) {
-            verseItems.push({
-              isButton: true,
-              bookName,
-              bookCode,
-              chapterCode,
-              maxChapterCode,
-              content,
-              verseCode,
-            });
-          }
+          // if (i === verseItemsLength - 1) {
+          //   verseItems.push({
+          //     isButton: true,
+          //     bookName,
+          //     bookCode,
+          //     chapterCode,
+          //     maxChapterCode,
+          //     content,
+          //     verseCode: verseCode + 1,
+          //   });
+          // }
         }
         resolve(verseItems);
       });

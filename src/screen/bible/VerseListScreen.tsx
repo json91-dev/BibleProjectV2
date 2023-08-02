@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard, SafeAreaView } from 'react-native';
 import Toast from 'react-native-easy-toast';
 import { getBibleVerseItems, getItemFromAsyncStorage, getBibleTypeString, setItemToAsyncStorage, getBibleType } from '../../utils';
 import CommandModal from '../../components/verselist/commandModal/CommandModal';
@@ -332,7 +332,7 @@ const VerseListScreen = ({ navigation, route }) => {
     return <LoadingSpinner />;
   } else {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <CommandModal
           modalBibleItem={modalBibleItem}
           setCommandModalVisible={setCommandModalVisible}
@@ -388,7 +388,7 @@ const VerseListScreen = ({ navigation, route }) => {
         )}
 
         <Toast ref={toastRef} positionValue={130} fadeInDuration={200} fadeOutDuration={1000} />
-      </View>
+      </SafeAreaView>
     );
   }
 };
@@ -399,8 +399,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: 15,
-    paddingBottom: 15,
     backgroundColor: 'white',
   },
 
@@ -408,39 +406,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 15,
-  },
-
-  flatList: {
-    flexDirection: 'column',
-  },
-
-  flatListVerseItem: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    flexDirection: 'row',
-  },
-
-  flatListItemTextLabel: {
-    width: '7%',
-    textAlign: 'center',
-  },
-
-  flatListItemText: {
-    width: '86%',
-    color: 'black',
-    marginRight: '3%',
-    paddingRight: 5,
-    marginLeft: 5,
-  },
-
-  flatListItemTextHighlight: {
-    width: '86%',
-    color: 'black',
-    marginRight: '3%',
-    paddingRight: 5,
-    marginLeft: 5,
-    textShadowColor: 'yellow',
-    textShadowRadius: 15,
   },
 
   memoIndicator: {
@@ -605,6 +570,7 @@ const styles = StyleSheet.create({
   /* 푸터 옵션 */
   footerOptionContainer: {
     borderWidth: 1.5,
+    zIndex: 200,
     position: 'absolute',
     left: '2.5%',
     bottom: 25,

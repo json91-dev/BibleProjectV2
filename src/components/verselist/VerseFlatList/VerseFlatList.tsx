@@ -1,5 +1,5 @@
 import { StackActions } from '@react-navigation/native';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useCallback } from 'react';
 import MemoIndicator from './MemoIndicator';
 import HighlightText from './HighlightText';
@@ -11,7 +11,6 @@ import PrevButton from './PrevButton';
 const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFontFamily, onLongPressButton }) => {
   /** 하단(이전,다음) 버튼에 대한 이벤트 처리 메서드 **/
   const moveChapter = useCallback((item, index) => {
-    console.log(item, index);
     const popAction = StackActions.pop(1);
     navigation.dispatch(popAction);
     const pushChapterList = StackActions.push('VerseListScreen', {
@@ -22,32 +21,38 @@ const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFon
     navigation.dispatch(pushChapterList);
   }, []);
 
-  const VerseItemContainer = ({ item, index }) => {
+  const renderVerseItem = ({ item, index }) => {
     let verseCodeLabel = index + 1;
     const { chapterCode, maxChapterCode } = verseItems[0];
 
     return (
-      <View>
+      <>
         {index < verseItems.length - 1 ? (
-          <TouchableOpacity style={styles.flatList} onLongPress={() => onLongPressButton(item)}>
+          <Pressable
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed ? 'gray' : 'white',
+              },
+            ]}
+            onLongPress={event => onLongPressButton(item, event)}>
             <View style={styles.flatListVerseItem}>
               <MemoIndicator item={item} verseItemFontSize={verseItemFontSize} />
               <Text style={[styles.flatListItemTextLabel, { fontSize: verseItemFontSize }]}>{verseCodeLabel}. </Text>
               <HighlightText item={item} verseItemFontSize={verseItemFontSize} verseItemFontFamily={verseItemFontFamily} />
             </View>
-          </TouchableOpacity>
+          </Pressable>
         ) : (
           <View style={styles.moveChapter}>
-            {index >= verseItems.length - 1 && chapterCode > 1 && (
-              <PrevButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} />
-            )}
+            {/*{index >= verseItems.length - 1 && chapterCode > 1 && (*/}
+            {/*  <PrevButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} />*/}
+            {/*)}*/}
 
-            {index >= verseItems.length - 1 && chapterCode < maxChapterCode && (
-              <NextButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} maxChapterCode={maxChapterCode} />
-            )}
+            {/*{index >= verseItems.length - 1 && chapterCode < maxChapterCode && (*/}
+            {/*  <NextButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} maxChapterCode={maxChapterCode} />*/}
+            {/*)}*/}
           </View>
         )}
-      </View>
+      </>
     );
   };
 
@@ -56,9 +61,12 @@ const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFon
       style={styles.flatList}
       contentContainerStyle={{ alignItems: 'center' }}
       data={verseItems}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item, index) => {
+        console.log(item);
+        return item.bookCode + item.chapterCode + item.verseCode;
+      }}
       // ref={(ref) => {this.flatListRef = ref;}}
-      renderItem={VerseItemContainer}
+      renderItem={renderVerseItem}
     />
   );
 };
@@ -66,14 +74,6 @@ const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFon
 export default VerseFlatList;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: 15,
-    paddingBottom: 15,
-    backgroundColor: 'white',
-  },
-
   titleText: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -82,6 +82,8 @@ const styles = StyleSheet.create({
 
   flatList: {
     flexDirection: 'column',
+    marginBottom: 10,
+    marginTop: 10,
   },
 
   flatListVerseItem: {
