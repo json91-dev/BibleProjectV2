@@ -341,7 +341,7 @@ export const getIsOneDayPassed = (storedDate: Date) => {
 };
 
 // 오늘 날짜를 yyyy-MM-dd 형식으로 출력
-export const getTodayDate = (): string => {
+export const getTodayDate = () => {
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -349,4 +349,28 @@ export const getTodayDate = (): string => {
 
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
+};
+
+export const getTimeAgo = (date: Date) => {
+  console.log(date);
+
+  if (!date) {
+    return '실패';
+  }
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+
+  const minutesAgo = Math.floor(diff / (1000 * 60));
+  const hoursAgo = Math.floor(diff / (1000 * 60 * 60));
+  const daysAgo = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (minutesAgo === 0) {
+    return `방금전`;
+  } else if (minutesAgo < 60) {
+    return `${minutesAgo}분전`;
+  } else if (hoursAgo < 24) {
+    return `${hoursAgo}시간전`;
+  } else {
+    return `${daysAgo}일전`;
+  }
 };

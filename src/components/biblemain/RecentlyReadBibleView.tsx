@@ -36,7 +36,7 @@ const RecentlyReadBibleView = ({
     });
     navigation.dispatch(pushVerseList);
 
-    setIsShowRecentlyReadBibleView(false);
+    // setIsShowRecentlyReadBibleView(false);
   }, [recentlyReadBibleItem]);
 
   const navigateRecentlyReadBookListPage = useCallback(() => {

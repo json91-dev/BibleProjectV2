@@ -11,7 +11,7 @@ import SearchHeaderView from '../../components/biblemain/SearchHeaderView';
 import SearchResultView from '../../components/biblemain/SearchResultView';
 import { RECENTLY_READ_BIBLE_LIST, SEARCH_WORD_LIST } from '../../constraints';
 import SearchWordListView from '../../components/biblemain/SearchWordListView';
-import { RecentlyReadBibleList } from './RecentlyReadBibleListScreen';
+import { RecentlyReadBibleItem, RecentlyReadBibleList } from './RecentlyReadBibleListScreen';
 
 const BibleMainScreen = props => {
   const [isShowMainBibleView, setIsShowMainBibleView] = useState(true);
@@ -20,7 +20,7 @@ const BibleMainScreen = props => {
   const [searchWordItems, setSearchWordItems] = useState([]);
   const [textInputPlaceHolder, setTextInputPlaceHolder] = useState('다시 읽고 싶은 말씀이 있나요?');
   const [searchResultItems, setSearchResultItems] = useState([]);
-  const [recentlyReadBibleItem, setRecentlyReadBibleItem] = useState({});
+  const [recentlyReadBibleItem, setRecentlyReadBibleItem] = useState<RecentlyReadBibleItem>({});
   const [verseSentence, setVerseSentence] = useState('');
   const [verseString, setVerseString] = useState('');
 
@@ -161,8 +161,7 @@ const BibleMainScreen = props => {
         setIsShowRecentlyReadBibleView(false);
       } else {
         /** 만약 최근 읽은 성경구절 정보가 있다면, 이어보기 화면을 출력 **/
-        const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleList[0];
-        setRecentlyReadBibleItem({ bibleName, bookName, bookCode, chapterCode });
+        setRecentlyReadBibleItem(recentlyReadBibleList[0]);
         setIsShowRecentlyReadBibleView(true);
       }
     };
