@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 /**
  * LongClick 시에 중앙에 있는 (복사, 형광펜, 메모)의 전체 모달 화면
@@ -7,8 +7,8 @@ import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-na
  * @returns {JSX.Element}
  * @constructor
  */
-const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOptionModal, actionCommandModal, commandModalVisible }) => {
-  const { isHighlight, isMemo } = modalBibleItem;
+const CommandModal = ({ modalVerseItem, setCommandModalVisible, openBibleNoteOptionModal, actionCommandModal, commandModalVisible }) => {
+  const { isHighlight, isMemo } = modalVerseItem;
 
   return (
     <>
@@ -16,7 +16,7 @@ const CommandModal = ({ modalBibleItem, setCommandModalVisible, openBibleNoteOpt
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
             <Text style={styles.modalHeader}>
-              {modalBibleItem.bookName} {modalBibleItem.chapterCode}장 {modalBibleItem.verseCode}절
+              {modalVerseItem.bookName} {modalVerseItem.chapterCode}장 {modalVerseItem.verseCode}절
             </Text>
             <View style={styles.modalViewItems}>
               {/*Copy 버튼*/}
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   modalHeader: {

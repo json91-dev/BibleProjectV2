@@ -1,8 +1,20 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-const MainBibleView = props => {
-  const { goToBookListScreen, verseSentence, verseString } = props;
+const MainBibleView = ({ verseSentence, verseString }) => {
+  const navigation = useNavigation<any>();
+
+  // 구약, 신약 성경 '장' 페이지로 이동하는 Link
+  const goToBookListScreen = useCallback((type: 0 | 1) => {
+    navigation.navigate('BibleScreen', {
+      screen: 'MainTabNavigator',
+      params: {
+        bibleType: type,
+      },
+    });
+    navigation.navigate('BookListScreen', { bibleType: type });
+  }, []);
 
   return (
     <>

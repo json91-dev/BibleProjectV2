@@ -20,33 +20,15 @@ const BibleMainScreen = props => {
   const [searchWordItems, setSearchWordItems] = useState([]);
   const [textInputPlaceHolder, setTextInputPlaceHolder] = useState('다시 읽고 싶은 말씀이 있나요?');
   const [searchResultItems, setSearchResultItems] = useState([]);
-  const [recentlyReadBibleItem, setRecentlyReadBibleItem] = useState<RecentlyReadBibleItem>({});
+  const [recentlyReadBibleItem, setRecentlyReadBibleItem] = useState<RecentlyReadBibleItem>(null);
   const [verseSentence, setVerseSentence] = useState('');
   const [verseString, setVerseString] = useState('');
 
   const textInputRef = useRef(null);
   const toastRef = useRef(null);
 
-  // 구약, 신약 성경 '장' 페이지로 이동하는 Link
-  const goToBookListScreen = useCallback(
-    (type: 0 | 1) => {
-      console.log(props.navigation);
-      const { navigation } = props;
-      navigation.navigate('BibleScreen', {
-        screen: 'MainTabNavigator',
-        params: {
-          bibleType: type,
-        },
-      });
-      navigation.navigate('BookListScreen', { bibleType: type });
-      setIsShowRecentlyReadBibleView(false);
-    },
-    [isShowRecentlyReadBibleView],
-  );
-
   const textInputFocus = useCallback(() => {
     setIsShowMainBibleView(false);
-    setIsShowRecentlyReadBibleView(false);
   }, []);
 
   const searchCancelPress = useCallback(() => {
@@ -128,7 +110,6 @@ const BibleMainScreen = props => {
 
     setIsShowSearchResultView(true);
     setIsShowMainBibleView(false);
-
     setSearchResultItems(searchResultItems);
     setTextInputPlaceHolder('');
   }, []);
@@ -157,7 +138,8 @@ const BibleMainScreen = props => {
     // 최근 읽은 성경구절 정보를 LocalDB에서 가져옴
     const initRecentlyReadBibleListFromStorage = async () => {
       let recentlyReadBibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
-      if (recentlyReadBibleList === null) {
+      console.log(recentlyReadBibleList);
+      if (recentlyReadBibleList === null || recentlyReadBibleList.length === 0) {
         setIsShowRecentlyReadBibleView(false);
       } else {
         /** 만약 최근 읽은 성경구절 정보가 있다면, 이어보기 화면을 출력 **/
@@ -198,7 +180,7 @@ const BibleMainScreen = props => {
 
         {isShowMainBibleView && (
           <>
-            <MainBibleView goToBookListScreen={goToBookListScreen} verseSentence={verseSentence} verseString={verseString} />
+            <MainBibleView verseSentence={verseSentence} verseString={verseString} />
             {isShowRecentlyReadBibleView && (
               <RecentlyReadBibleView
                 setIsShowRecentlyReadBibleView={setIsShowRecentlyReadBibleView}

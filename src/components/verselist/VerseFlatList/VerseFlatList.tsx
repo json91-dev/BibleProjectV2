@@ -1,14 +1,12 @@
 import { StackActions } from '@react-navigation/native';
-import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useCallback } from 'react';
 import MemoIndicator from './MemoIndicator';
 import HighlightText from './HighlightText';
 import NextButton from './NextButton';
 import PrevButton from './PrevButton';
 
-// interface verseItemType {}
-
-const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFontFamily, onLongPressButton }) => {
+const VerseFlatList = ({ navigation, verseItemList, verseItemFontSize, verseItemFontFamily, onLongPressButton }) => {
   /** 하단(이전,다음) 버튼에 대한 이벤트 처리 메서드 **/
   const moveChapter = useCallback((item, index) => {
     const popAction = StackActions.pop(1);
@@ -23,11 +21,11 @@ const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFon
 
   const renderVerseItem = ({ item, index }) => {
     let verseCodeLabel = index + 1;
-    const { chapterCode, maxChapterCode } = verseItems[0];
+    const { chapterCode, maxChapterCode } = verseItemList[0];
 
     return (
       <>
-        {index < verseItems.length - 1 ? (
+        {index < verseItemList.length - 1 ? (
           <Pressable
             style={({ pressed }) => [
               {
@@ -43,13 +41,13 @@ const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFon
           </Pressable>
         ) : (
           <View style={styles.moveChapter}>
-            {/*{index >= verseItems.length - 1 && chapterCode > 1 && (*/}
-            {/*  <PrevButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} />*/}
-            {/*)}*/}
+            {index >= verseItemList.length - 1 && chapterCode > 1 && (
+              <PrevButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} />
+            )}
 
-            {/*{index >= verseItems.length - 1 && chapterCode < maxChapterCode && (*/}
-            {/*  <NextButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} maxChapterCode={maxChapterCode} />*/}
-            {/*)}*/}
+            {index >= verseItemList.length - 1 && chapterCode < maxChapterCode && (
+              <NextButton moveChapter={moveChapter} chapterCode={chapterCode} item={item} maxChapterCode={maxChapterCode} />
+            )}
           </View>
         )}
       </>
@@ -60,12 +58,10 @@ const VerseFlatList = ({ navigation, verseItems, verseItemFontSize, verseItemFon
     <FlatList
       style={styles.flatList}
       contentContainerStyle={{ alignItems: 'center' }}
-      data={verseItems}
-      keyExtractor={(item, index) => {
-        console.log(item);
+      data={verseItemList}
+      keyExtractor={item => {
         return item.bookCode + item.chapterCode + item.verseCode;
       }}
-      // ref={(ref) => {this.flatListRef = ref;}}
       renderItem={renderVerseItem}
     />
   );

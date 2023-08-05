@@ -20,9 +20,9 @@ interface MemoListItem {
  * @returns {JSX.Element}
  * @constructor
  */
-const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, updateVerseItems, toastRef }) => {
+const MemoModal = ({ memoModalVisible, modalVerseItem, setMemoModalVisible, updateVerseItems, toastRef }) => {
   const [memoModalSaveButtonActive, setMemoModalSaveButtonActive] = useState(false);
-  const { bookName, bookCode, chapterCode, verseCode, content } = modalBibleItem;
+  const { bookName, bookCode, chapterCode, verseCode, content } = modalVerseItem;
   let memo = useRef('');
 
   const onChangeText = useCallback(
@@ -64,7 +64,7 @@ const MemoModal = ({ memoModalVisible, modalBibleItem, setMemoModalVisible, upda
 
     updateVerseItems().then();
     toastRef.current.show('메모가 입력되었습니다.');
-  }, [memoModalVisible, memoModalSaveButtonActive, modalBibleItem]);
+  }, [memoModalVisible, memoModalSaveButtonActive, modalVerseItem]);
 
   return (
     <Modal style={styles.modal} transparent={true} visible={memoModalVisible}>

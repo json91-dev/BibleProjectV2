@@ -1,7 +1,7 @@
-import { Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, FlatList, Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useCallback, useEffect, useState } from 'react';
 import { RECENTLY_READ_BIBLE_LIST } from '../../constraints';
-import { getBibleType, getItemFromAsyncStorage, getTimeAgo } from '../../utils';
+import { getBibleType, getItemFromAsyncStorage, getTimeAgo, setItemToAsyncStorage } from '../../utils';
 import { StackActions, useNavigation } from '@react-navigation/native';
 
 export interface RecentlyReadBibleItem {
@@ -23,6 +23,7 @@ const RecentlyReadBibleListScreen = () => {
 
   const getReadBibleListFromStorage = async () => {
     const bibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
+
     if (bibleList) {
       setRecentlyReadBibleList(bibleList);
     }
@@ -31,22 +32,18 @@ const RecentlyReadBibleListScreen = () => {
   const navigateRecentlyReadPage = useCallback(() => {
     const recentlyReadBibleItem: RecentlyReadBibleItem = recentlyReadBibleList[0];
     const { bookCode, bookName, chapterCode } = recentlyReadBibleItem;
-    console.log('Func: navigateRecentlyReadPage');
-    console.log(bookCode);
-    console.log(bookName);
-    console.log(chapterCode);
 
-    const bibleType = getBibleType(bookCode);
-    const pushBookList = StackActions.push('BookListScreen', {
-      bibleType,
-    });
-    navigation.dispatch(pushBookList);
-
-    const pushChapterList = StackActions.push('ChapterListScreen', {
-      bookCode,
-      bookName,
-    });
-    navigation.dispatch(pushChapterList);
+    // const bibleType = getBibleType(bookCode);
+    // const pushBookList = StackActions.push('BookListScreen', {
+    //   bibleType,
+    // });
+    // navigation.dispatch(pushBookList);
+    //
+    // const pushChapterList = StackActions.push('ChapterListScreen', {
+    //   bookCode,
+    //   bookName,
+    // });
+    // navigation.dispatch(pushChapterList);
 
     const pushVerseList = StackActions.push('VerseListScreen', {
       bookCode,
@@ -57,25 +54,31 @@ const RecentlyReadBibleListScreen = () => {
     navigation.dispatch(pushVerseList);
   }, [recentlyReadBibleList]);
 
+  useEffect(() => {
+    // setItemToAsyncStorage(RECENTLY_READ_BIBLE_LIST, []).then();
+  }, []);
+
   const renderItem = ({ item }: { item: RecentlyReadBibleItem; index: number }) => {
-    const { bookName, bookCode, verseSentence, timestamp } = item;
+    const { bookName, chapterCode, verseSentence, timestamp } = item;
 
     return (
-      <View style={styles.bibleView}>
-        <View>
-          <Text style={styles.bibleTitleText}>
-            {bookName} {bookCode}장
-          </Text>
-          <Text style={styles.bibleVerseText}>{verseSentence}</Text>
-          <Text style={styles.bibleDateText}>{timestamp && getTimeAgo(new Date(timestamp))}</Text>
-        </View>
-
-        <TouchableOpacity onPress={navigateRecentlyReadPage}>
-          <View style={styles.rightArrowImageView}>
-            <Image style={styles.rightArrowImage} source={require('../../assets/ic_arrow_white.png')} />
+      <Pressable onPress={navigateRecentlyReadPage}>
+        <View style={styles.bibleView}>
+          <View style={styles.bibleViewLeft}>
+            <Text style={styles.bibleTitleText}>
+              {bookName} {chapterCode}장
+            </Text>
+            <Text style={styles.bibleVerseText}>{verseSentence}</Text>
+            <Text style={styles.bibleDateText}>{timestamp && getTimeAgo(new Date(timestamp))}</Text>
           </View>
-        </TouchableOpacity>
-      </View>
+
+          <View style={styles.bibleViewRight}>
+            <View style={styles.rightArrowImageView}>
+              <Image style={styles.rightArrowImage} source={require('../../assets/ic_arrow_white.png')} />
+            </View>
+          </View>
+        </View>
+      </Pressable>
     );
   };
 
@@ -186,5 +189,13 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: 'contain',
+  },
+
+  bibleViewLeft: {
+    width: '91%',
+  },
+
+  bibleViewRight: {
+    width: '9%',
   },
 });
