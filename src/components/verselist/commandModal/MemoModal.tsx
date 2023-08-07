@@ -67,39 +67,41 @@ const MemoModal = ({ memoModalVisible, modalVerseItem, setMemoModalVisible, upda
   }, [memoModalVisible, memoModalSaveButtonActive, modalVerseItem]);
 
   return (
-    <Modal style={styles.modal} transparent={true} visible={memoModalVisible}>
-      <View style={styles.memoModalContainer}>
-        <View style={styles.memoModalView}>
-          <View style={styles.memoModalHeader}>
-            <TouchableOpacity style={styles.memoModalHeaderSave}>
-              {memoModalSaveButtonActive ? (
-                <Text style={styles.memoModalHeaderSaveTextActive} onPress={onPressSaveButton}>
-                  저장
-                </Text>
-              ) : (
-                <Text style={styles.memoModalHeaderSaveText}>저장</Text>
-              )}
-            </TouchableOpacity>
-            <Text style={styles.memoModalHeaderText}>메모</Text>
-            <TouchableOpacity style={styles.memoModalHeaderCancel} onPress={() => setMemoModalVisible(false)}>
-              <Image style={styles.memoModalHeaderCancelImage} source={require('../../../assets/ic_close.png')} />
-            </TouchableOpacity>
+    <>
+      {memoModalVisible && (
+        <View style={styles.memoModalContainer}>
+          <View style={styles.memoModalView}>
+            <View style={styles.memoModalHeader}>
+              <TouchableOpacity style={styles.memoModalHeaderSave}>
+                {memoModalSaveButtonActive ? (
+                  <Text style={styles.memoModalHeaderSaveTextActive} onPress={onPressSaveButton}>
+                    저장
+                  </Text>
+                ) : (
+                  <Text style={styles.memoModalHeaderSaveText}>저장</Text>
+                )}
+              </TouchableOpacity>
+              <Text style={styles.memoModalHeaderText}>메모</Text>
+              <TouchableOpacity style={styles.memoModalHeaderCancel} onPress={() => setMemoModalVisible(false)}>
+                <Image style={styles.memoModalHeaderCancelImage} source={require('../../../assets/ic_close.png')} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.memoModalBible}>
+              <Text style={styles.memoModalBibleVerse}>
+                {bookName} {chapterCode}장 {verseCode}절
+              </Text>
+              <Text style={styles.memoModalBibleContent}>{content}</Text>
+            </View>
+            <TextInput
+              onChangeText={onChangeText.bind(this)}
+              multiline={true}
+              placeholder={'메모를 입력해주세요.'}
+              style={styles.memoModalTextInput}
+            />
           </View>
-          <View style={styles.memoModalBible}>
-            <Text style={styles.memoModalBibleVerse}>
-              {bookName} {chapterCode}장 {verseCode}절
-            </Text>
-            <Text style={styles.memoModalBibleContent}>{content}</Text>
-          </View>
-          <TextInput
-            onChangeText={onChangeText.bind(this)}
-            multiline={true}
-            placeholder={'메모를 입력해주세요.'}
-            style={styles.memoModalTextInput}
-          />
         </View>
-      </View>
-    </Modal>
+      )}
+    </>
   );
 };
 
@@ -113,6 +115,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    zIndex: 2000,
+    paddingBottom: '10%',
   },
 
   memoModalView: {

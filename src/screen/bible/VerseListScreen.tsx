@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, Clipboard, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-easy-toast';
 import { getBibleVerseItems, getItemFromAsyncStorage, getBibleTypeString, setItemToAsyncStorage, getBibleType } from '../../utils';
 import CommandModal from '../../components/verselist/commandModal/CommandModal';
