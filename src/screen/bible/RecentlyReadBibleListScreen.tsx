@@ -1,8 +1,8 @@
 import { Dimensions, FlatList, Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useCallback, useEffect, useState } from 'react';
 import { RECENTLY_READ_BIBLE_LIST } from '../../constraints';
-import { getBibleType, getItemFromAsyncStorage, getTimeAgo, setItemToAsyncStorage } from '../../utils';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import { getItemFromAsyncStorage, getTimeAgo } from '../../utils';
+import { StackActions, useIsFocused, useNavigation } from '@react-navigation/native';
 
 export interface RecentlyReadBibleItem {
   bibleName: string; // ex) 구약
@@ -20,6 +20,7 @@ const RecentlyReadBibleListScreen = () => {
   const screenHeight = Dimensions.get('window').height;
   const flatListHeight = screenHeight - 50;
   const navigation = useNavigation<any>();
+  const isFocused = useIsFocused();
 
   const getReadBibleListFromStorage = async () => {
     const bibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
@@ -29,40 +30,43 @@ const RecentlyReadBibleListScreen = () => {
     }
   };
 
-  const navigateRecentlyReadPage = useCallback(() => {
-    const recentlyReadBibleItem: RecentlyReadBibleItem = recentlyReadBibleList[0];
-    const { bookCode, bookName, chapterCode } = recentlyReadBibleItem;
+  const navigateRecentlyReadPage = useCallback(
+    (bookCode, bookName, chapterCode) => {
+      // const recentlyReadBibleItem: RecentlyReadBibleItem = recentlyReadBibleList[0];
+      // const { bookCode, bookName, chapterCode } = recentlyReadBibleItem;
 
-    // const bibleType = getBibleType(bookCode);
-    // const pushBookList = StackActions.push('BookListScreen', {
-    //   bibleType,
-    // });
-    // navigation.dispatch(pushBookList);
-    //
-    // const pushChapterList = StackActions.push('ChapterListScreen', {
-    //   bookCode,
-    //   bookName,
-    // });
-    // navigation.dispatch(pushChapterList);
+      // const bibleType = getBibleType(bookCode);
+      // const pushBookList = StackActions.push('BookListScreen', {
+      //   bibleType,
+      // });
+      // navigation.dispatch(pushBookList);
+      //
+      // const pushChapterList = StackActions.push('ChapterListScreen', {
+      //   bookCode,
+      //   bookName,
+      // });
+      // navigation.dispatch(pushChapterList);
 
-    const pushVerseList = StackActions.push('VerseListScreen', {
-      bookCode,
-      bookName,
-      chapterCode,
-      isFromRecentlyReadPageButtonClick: true,
-    });
-    navigation.dispatch(pushVerseList);
-  }, [recentlyReadBibleList]);
+      const pushVerseList = StackActions.push('VerseListScreen', {
+        bookCode,
+        bookName,
+        chapterCode,
+        isFromRecentlyReadPageButtonClick: true,
+      });
+      navigation.dispatch(pushVerseList);
+    },
+    [recentlyReadBibleList],
+  );
 
   useEffect(() => {
     // setItemToAsyncStorage(RECENTLY_READ_BIBLE_LIST, []).then();
   }, []);
 
   const renderItem = ({ item }: { item: RecentlyReadBibleItem; index: number }) => {
-    const { bookName, chapterCode, verseSentence, timestamp } = item;
+    const { bookCode, bookName, chapterCode, verseSentence, timestamp } = item;
 
     return (
-      <Pressable onPress={navigateRecentlyReadPage}>
+      <Pressable onPress={() => navigateRecentlyReadPage(bookCode, bookName, chapterCode)}>
         <View style={styles.bibleView}>
           <View style={styles.bibleViewLeft}>
             <Text style={styles.bibleTitleText}>
@@ -84,7 +88,7 @@ const RecentlyReadBibleListScreen = () => {
 
   useEffect(() => {
     getReadBibleListFromStorage().then();
-  }, []);
+  }, [isFocused]);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -122,7 +122,6 @@ const OptionMainScreen = ({ navigation }) => {
               try {
                 const result = await auth().signOut();
                 console.log(result);
-                console.log('111');
                 navigation.replace('LoginScreen');
               } catch (error) {
                 console.log(error);

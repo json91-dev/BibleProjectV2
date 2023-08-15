@@ -9,21 +9,17 @@ import { StackActions } from '@react-navigation/native';
 import RecentlyReadBibleView from '../../components/biblemain/RecentlyReadBibleView';
 import SearchHeaderView from '../../components/biblemain/SearchHeaderView';
 import SearchResultView from '../../components/biblemain/SearchResultView';
-import { RECENTLY_READ_BIBLE_LIST, SEARCH_WORD_LIST } from '../../constraints';
+import { SEARCH_WORD_LIST } from '../../constraints';
 import SearchWordListView from '../../components/biblemain/SearchWordListView';
-import { RecentlyReadBibleItem, RecentlyReadBibleList } from './RecentlyReadBibleListScreen';
 
 const BibleMainScreen = props => {
   const [isShowMainBibleView, setIsShowMainBibleView] = useState(true);
   const [isShowSearchResultView, setIsShowSearchResultView] = useState(false);
-  const [isShowRecentlyReadBibleView, setIsShowRecentlyReadBibleView] = useState(false);
   const [searchWordItems, setSearchWordItems] = useState([]);
   const [textInputPlaceHolder, setTextInputPlaceHolder] = useState('다시 읽고 싶은 말씀이 있나요?');
   const [searchResultItems, setSearchResultItems] = useState([]);
-  const [recentlyReadBibleItem, setRecentlyReadBibleItem] = useState<RecentlyReadBibleItem>(null);
   const [verseSentence, setVerseSentence] = useState('');
   const [verseString, setVerseString] = useState('');
-
   const textInputRef = useRef(null);
   const toastRef = useRef(null);
 
@@ -135,19 +131,6 @@ const BibleMainScreen = props => {
       }
     };
 
-    // 최근 읽은 성경구절 정보를 LocalDB에서 가져옴
-    const initRecentlyReadBibleListFromStorage = async () => {
-      let recentlyReadBibleList = await getItemFromAsyncStorage<RecentlyReadBibleList | null>(RECENTLY_READ_BIBLE_LIST);
-      console.log(recentlyReadBibleList);
-      if (recentlyReadBibleList === null || recentlyReadBibleList.length === 0) {
-        setIsShowRecentlyReadBibleView(false);
-      } else {
-        /** 만약 최근 읽은 성경구절 정보가 있다면, 이어보기 화면을 출력 **/
-        setRecentlyReadBibleItem(recentlyReadBibleList[0]);
-        setIsShowRecentlyReadBibleView(true);
-      }
-    };
-
     // 서버에서 오늘의 성경을 가져와 화면에 출력.
     const initTodayVerseFromFirebase = async () => {
       const todayVerseDocument = await firestore().collection('todayVerse').doc('data').get();
@@ -162,7 +145,6 @@ const BibleMainScreen = props => {
 
     (async () => {
       await initSearchWordsFromStorage();
-      await initRecentlyReadBibleListFromStorage();
       await initTodayVerseFromFirebase();
     })();
   }, []);
@@ -181,12 +163,7 @@ const BibleMainScreen = props => {
         {isShowMainBibleView && (
           <>
             <MainBibleView verseSentence={verseSentence} verseString={verseString} />
-            {isShowRecentlyReadBibleView && (
-              <RecentlyReadBibleView
-                setIsShowRecentlyReadBibleView={setIsShowRecentlyReadBibleView}
-                recentlyReadBibleItem={recentlyReadBibleItem}
-              />
-            )}
+            <RecentlyReadBibleView />
           </>
         )}
 

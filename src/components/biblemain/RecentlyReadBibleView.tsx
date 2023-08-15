@@ -2,17 +2,12 @@ import React, { useCallback } from 'react';
 import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { getBibleType } from '../../utils';
-import { RecentlyReadBibleItem } from '../../screen/bible/RecentlyReadBibleListScreen';
+import useRecentlyReadBibleItem from '../../hooks/useRecentlyReadBibleItem';
 
-const RecentlyReadBibleView = ({
-  setIsShowRecentlyReadBibleView,
-  recentlyReadBibleItem,
-}: {
-  setIsShowRecentlyReadBibleView: Function;
-  recentlyReadBibleItem: RecentlyReadBibleItem;
-}) => {
-  const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleItem;
+const RecentlyReadBibleView = () => {
   const navigation = useNavigation<any>();
+  const { recentlyReadBibleItem } = useRecentlyReadBibleItem();
+  const { bibleName, bookName, bookCode, chapterCode } = recentlyReadBibleItem || {};
 
   // 최근 읽은 성경 가기 Link
   const navigateRecentlyReadPage = useCallback(() => {
@@ -44,19 +39,23 @@ const RecentlyReadBibleView = ({
   }, []);
 
   return (
-    <Pressable style={styles.containerTouch} onPress={navigateRecentlyReadBookListPage}>
-      <View style={styles.recentlyReadBibleView}>
-        <View style={styles.recentlyReadBibleViewInfo}>
-          <Text style={styles.recentlyReadBibleViewInfoLabel}>최근 읽은 성서</Text>
-          <Text style={styles.recentlyReadBibleViewInfoText}>
-            {bibleName} - {bookName} {chapterCode}장
-          </Text>
-        </View>
-        <TouchableOpacity onPress={() => navigateRecentlyReadPage()}>
-          <Text style={styles.recentlyReadBibleViewButton}>이어보기</Text>
-        </TouchableOpacity>
-      </View>
-    </Pressable>
+    <>
+      {recentlyReadBibleItem && (
+        <Pressable style={styles.containerTouch} onPress={navigateRecentlyReadBookListPage}>
+          <View style={styles.recentlyReadBibleView}>
+            <View style={styles.recentlyReadBibleViewInfo}>
+              <Text style={styles.recentlyReadBibleViewInfoLabel}>최근 읽은 성서</Text>
+              <Text style={styles.recentlyReadBibleViewInfoText}>
+                {bibleName} - {bookName} {chapterCode}장
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => navigateRecentlyReadPage()}>
+              <Text style={styles.recentlyReadBibleViewButton}>이어보기</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      )}
+    </>
   );
 };
 
