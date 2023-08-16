@@ -367,6 +367,7 @@ const styles = StyleSheet.create({
   },
 
   memoEditMemo: {
+    paddingTop: 15,
     paddingLeft: 15,
     paddingRight: 15,
     width: '100%',
