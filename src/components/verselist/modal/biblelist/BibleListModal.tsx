@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import BibleListOptionHeader from './BibleListOptionHeader';
-import BibleListOptionBody from './BibleListOptionBody';
+import BibleListModalHeader from './BibleListModalHeader';
+import BibleListModalBody from './BibleListModalBody';
 
 export const BOOK_LIST_PAGE = 0;
 export const CHAPTER_LIST_PAGE = 1;
 export const VERSE_LIST_PAGE = 2;
 
-const BibleListOption = ({ closeHandler, navigation, bibleType }) => {
+const BibleListModal = ({ closeHandler, navigation, bibleType }) => {
   const [pageStack, setPageStack] = useState(BOOK_LIST_PAGE);
   const [headerTitle, setHeaderTitle] = useState(null);
 
   return (
     <View style={styles.container}>
-      <BibleListOptionHeader
+      <BibleListModalHeader
         setHeaderTitle={setHeaderTitle}
         setPageStack={setPageStack}
         pageStack={pageStack}
         closeModal={closeHandler}
         headerTitle={headerTitle}
       />
-      <BibleListOptionBody
+      <BibleListModalBody
         setHeaderTitle={setHeaderTitle}
         setPageStack={setPageStack}
         pageStack={pageStack}
@@ -31,7 +31,7 @@ const BibleListOption = ({ closeHandler, navigation, bibleType }) => {
   );
 };
 
-export default BibleListOption;
+export default BibleListModal;
 
 const styles = StyleSheet.create({
   container: {

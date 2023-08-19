@@ -8,7 +8,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
  * @constructor
  */
 const CommandModal = ({ modalVerseItem, setCommandModalVisible, openBibleNoteOptionModal, actionCommandModal, commandModalVisible }) => {
-  const { isHighlight, isMemo } = modalVerseItem;
+  const { isHighlight, isCreatedNote } = modalVerseItem;
 
   return (
     <>
@@ -54,7 +54,7 @@ const CommandModal = ({ modalVerseItem, setCommandModalVisible, openBibleNoteOpt
               )}
 
               {/*메모 버튼*/}
-              {isMemo ? (
+              {isCreatedNote ? (
                 <TouchableOpacity style={styles.memoButtonChecked} onPress={openBibleNoteOptionModal}>
                   <Image style={[styles.modalItemImage, { marginLeft: 3 }]} source={require('../../../assets/ic_memo.png')} />
                   <Text style={styles.modalItemText}>메모</Text>

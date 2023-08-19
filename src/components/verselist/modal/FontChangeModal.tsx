@@ -15,7 +15,7 @@ import {
   FONT_SIZE_OPTION,
 } from '../../../constraints';
 
-const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSizeHandler }) => {
+const FontChangeModal = ({ closeHandler, changeFontFamilyHandler, changeFontSizeHandler }) => {
   const [fontSizeOption, setFontSizeOption] = useState(FONT_SIZE_12);
   const [fontFamilyOption, setFontFamilyOption] = useState(FONT_FAMILY_BASIC);
 
@@ -146,7 +146,7 @@ const FontChangeOption = ({ closeHandler, changeFontFamilyHandler, changeFontSiz
   );
 };
 
-export default FontChangeOption;
+export default FontChangeModal;
 
 const styles = StyleSheet.create({
   container: {

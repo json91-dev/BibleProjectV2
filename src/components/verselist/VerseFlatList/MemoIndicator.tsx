@@ -5,7 +5,7 @@ const memoIndicator = ({ item, verseItemFontSize }) => {
   // indicator 이미지의 위치를 폰트 사이즈에 따라 상대적으로 마진값 조절.
   const indicatorMarginTop = (verseItemFontSize - 14) / 2;
 
-  if (item.isMemo) {
+  if (item.isCreatedNote) {
     return (
       <Image style={[styles.memoIndicator, { marginTop: indicatorMarginTop }]} source={require('../../../assets/ic_memo_indicator.png')} />
     );

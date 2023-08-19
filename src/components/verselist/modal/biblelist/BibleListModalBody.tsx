@@ -3,9 +3,9 @@ import BookListComponent from './BookListComponent';
 import ChapterListComponent from './ChapterListComponent';
 import VerseListComponent from './VerseListComponent';
 import { StackActions } from '@react-navigation/native';
-import { BOOK_LIST_PAGE, CHAPTER_LIST_PAGE, VERSE_LIST_PAGE } from './BibleListOption';
+import { BOOK_LIST_PAGE, CHAPTER_LIST_PAGE, VERSE_LIST_PAGE } from './BibleListModal';
 
-const BibleListOptionBody = ({ pageStack, setPageStack, setHeaderTitle, bibleType, navigation }) => {
+const BibleListModalBody = ({ pageStack, setPageStack, setHeaderTitle, bibleType, navigation }) => {
   const [bookInfo, setBookInfo] = useState<any>({});
 
   const changePage = useCallback(
@@ -67,4 +67,4 @@ const BibleListOptionBody = ({ pageStack, setPageStack, setHeaderTitle, bibleTyp
   }
 };
 
-export default BibleListOptionBody;
+export default BibleListModalBody;

@@ -3,15 +3,15 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView } from 'r
 import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-easy-toast';
 import { getBibleVerseItems, getItemFromAsyncStorage, getBibleTypeString, setItemToAsyncStorage, getBibleType } from '../../utils';
-import CommandModal from '../../components/verselist/commandModal/CommandModal';
-import BibleListOption from '../../components/verselist/biblelistOption/BibleListOption';
-import BibleNoteOption from '../../components/verselist/bottomOptionModal/BibleNoteOption';
-import FontChangeOption from '../../components/verselist/bottomOptionModal/FontChangeOption';
+import CommandModal from '../../components/verselist/modal/CommandModal';
+import BibleListModal from '../../components/verselist/modal/biblelist/BibleListModal';
+import NoteListModal from '../../components/verselist/modal/note/NoteListModal';
+import FontChangeModal from '../../components/verselist/modal/FontChangeModal';
 import { StackActions } from '@react-navigation/native';
-import MemoModal from '../../components/verselist/commandModal/MemoModal';
+import NoteWriteModal from '../../components/verselist/modal/note/NoteWriteModal';
 import VerseFlatList from '../../components/verselist/VerseFlatList/VerseFlatList';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, RECENTLY_READ_BIBLE_LIST, MEMO_LIST } from '../../constraints';
+import { FONT_FAMILY_OPTION, FONT_SIZE_OPTION, HIGHLIGHT_LIST, RECENTLY_READ_BIBLE_LIST, NOTE_LIST } from '../../constraints';
 import { RecentlyReadBibleList } from './RecentlyReadBibleListScreen';
 
 export interface VerseItem {
@@ -23,7 +23,7 @@ export interface VerseItem {
   verseCode: string;
   maxChapterCode: string;
   isHighlight?: boolean;
-  isMemo?: boolean;
+  isCreatedNote?: boolean;
 }
 
 export interface VerseItemList extends Array<VerseItem> {}
@@ -32,7 +32,7 @@ const VerseListScreen = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [verseItemList, setVerseItemList] = useState<VerseItemList>([]);
   const [commandModalVisible, setCommandModalVisible] = useState(false);
-  const [memoModalVisible, setMemoModalVisible] = useState(false);
+  const [noteModalVisible, setNoteModalVisible] = useState(false);
   const [bibleListOptionIconUri, setBibleListOptionIconUri] = useState(require('../../assets/ic_option_list_off.png'));
   const [bibleNoteOptionIconUri, setBibleNoteOptionIconUri] = useState(require('../../assets/ic_option_note_off.png'));
   const [fontChangeOptionIconUri, setFontChangeOptionIconUri] = useState(require('../../assets/ic_option_font_off.png'));
@@ -155,17 +155,17 @@ const VerseListScreen = ({ navigation, route }) => {
     return items;
   }, []);
 
-  const getUpdatedMemoVerseItems: (items: VerseItemList) => Promise<VerseItemList> = useCallback(
+  const getUpdatedNoteVerseItems: (items: VerseItemList) => Promise<VerseItemList> = useCallback(
     async (items: VerseItemList) => {
-      let memoListItems = await getItemFromAsyncStorage<any[]>(MEMO_LIST);
-      if (memoListItems === null) memoListItems = [];
+      let noteList = await getItemFromAsyncStorage<any[]>(NOTE_LIST);
+      if (noteList === null) noteList = [];
       items.forEach(verse => {
-        const index = memoListItems.findIndex(memoItem => {
+        const index = noteList.findIndex(noteItem => {
           return (
-            memoItem.bookCode === verse.bookCode && memoItem.chapterCode === verse.chapterCode && memoItem.verseCode === verse.verseCode
+            noteItem.bookCode === verse.bookCode && noteItem.chapterCode === verse.chapterCode && noteItem.verseCode === verse.verseCode
           );
         });
-        verse.isMemo = index > -1;
+        verse.isCreatedNote = index > -1;
       });
 
       return items;
@@ -181,7 +181,7 @@ const VerseListScreen = ({ navigation, route }) => {
     const { bookName, bookCode, chapterCode } = route.params;
     let verseItemList: VerseItemList = await getBibleVerseItems(bookName, bookCode, chapterCode);
     verseItemList = await getUpdatedHighlightVerseItems(verseItemList);
-    verseItemList = await getUpdatedMemoVerseItems(verseItemList);
+    verseItemList = await getUpdatedNoteVerseItems(verseItemList);
 
     setVerseItemList(verseItemList);
     setBibleType(getBibleType(bookCode));
@@ -233,7 +233,7 @@ const VerseListScreen = ({ navigation, route }) => {
           highlightItems = [];
         }
 
-        const index = highlightItems.findIndex((item, index) => {
+        const index = highlightItems.findIndex(item => {
           return item.bookCode === bookCode && item.chapterCode === chapterCode && item.verseCode === verseCode;
         });
         highlightItems.splice(index, 1);
@@ -269,7 +269,7 @@ const VerseListScreen = ({ navigation, route }) => {
           break;
         }
         case 'memo': {
-          setMemoModalVisible(true);
+          setNoteModalVisible(true);
           break;
         }
       }
@@ -341,69 +341,71 @@ const VerseListScreen = ({ navigation, route }) => {
     [verseItemList],
   );
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  } else {
-    return (
-      <SafeAreaView style={styles.container}>
-        <CommandModal
-          modalVerseItem={modalVerseItem}
-          setCommandModalVisible={setCommandModalVisible}
-          commandModalVisible={commandModalVisible}
-          actionCommandModal={actionCommandModal}
-          openBibleNoteOptionModal={openBibleNoteOptionModal}
-        />
-
-        <MemoModal
-          modalVerseItem={modalVerseItem}
-          memoModalVisible={memoModalVisible}
-          setMemoModalVisible={setMemoModalVisible}
-          updateVerseItems={updateVerseItems}
-          toastRef={toastRef}
-        />
-
-        <VerseFlatList
-          navigation={navigation}
-          verseItemList={verseItemList}
-          verseItemFontSize={verseItemFontSize}
-          verseItemFontFamily={verseItemFontFamily}
-          onLongPressButton={onLongPressButton}
-        />
-
-        {/* 하단 목차, 성경노트, 보기설정에 대한 footer option */}
-        <View style={styles.footerOptionContainer}>
-          <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleListOptionModal}>
-            <Image style={styles.footerOptionIcon} source={bibleListOptionIconUri} />
-            <Text>목차</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleNoteOptionModal}>
-            <Image style={styles.footerOptionIcon} source={bibleNoteOptionIconUri} />
-            <Text>성경노트</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openFontChangeOptionModal}>
-            <Image style={styles.footerOptionIcon} source={fontChangeOptionIconUri} />
-            <Text>보기설정</Text>
-          </TouchableOpacity>
-        </View>
-
-        {optionComponentState === 'bibleList' && (
-          <BibleListOption navigation={navigation} bibleType={bibleType} closeHandler={closeAllOptionModal} />
-        )}
-        {optionComponentState === 'bibleNote' && (
-          <BibleNoteOption toastRef={toastRef} closeHandler={closeAllOptionModal} updateVerseItems={updateVerseItems} />
-        )}
-        {optionComponentState === 'fontChange' && (
-          <FontChangeOption
-            changeFontSizeHandler={setVerseItemFontSize}
-            changeFontFamilyHandler={setVerseItemFontFamily}
-            closeHandler={closeAllOptionModal}
+  return (
+    <>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <CommandModal
+            modalVerseItem={modalVerseItem}
+            setCommandModalVisible={setCommandModalVisible}
+            commandModalVisible={commandModalVisible}
+            actionCommandModal={actionCommandModal}
+            openBibleNoteOptionModal={openBibleNoteOptionModal}
           />
-        )}
 
-        <Toast ref={toastRef} positionValue={130} fadeInDuration={200} fadeOutDuration={1000} />
-      </SafeAreaView>
-    );
-  }
+          <NoteWriteModal
+            modalVerseItem={modalVerseItem}
+            noteModalVisible={noteModalVisible}
+            setNoteModalVisible={setNoteModalVisible}
+            updateVerseItems={updateVerseItems}
+            toastRef={toastRef}
+          />
+
+          <VerseFlatList
+            navigation={navigation}
+            verseItemList={verseItemList}
+            verseItemFontSize={verseItemFontSize}
+            verseItemFontFamily={verseItemFontFamily}
+            onLongPressButton={onLongPressButton}
+          />
+
+          {/* 하단 목차, 성경노트, 보기설정에 대한 footer option */}
+          <View style={styles.footerOptionContainer}>
+            <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleListOptionModal}>
+              <Image style={styles.footerOptionIcon} source={bibleListOptionIconUri} />
+              <Text>목차</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openBibleNoteOptionModal}>
+              <Image style={styles.footerOptionIcon} source={bibleNoteOptionIconUri} />
+              <Text>성경노트</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.footerOptionContainerItem} onPress={openFontChangeOptionModal}>
+              <Image style={styles.footerOptionIcon} source={fontChangeOptionIconUri} />
+              <Text>보기설정</Text>
+            </TouchableOpacity>
+          </View>
+
+          {optionComponentState === 'bibleList' && (
+            <BibleListModal navigation={navigation} bibleType={bibleType} closeHandler={closeAllOptionModal} />
+          )}
+          {optionComponentState === 'bibleNote' && (
+            <NoteListModal toastRef={toastRef} closeHandler={closeAllOptionModal} updateVerseItems={updateVerseItems} />
+          )}
+          {optionComponentState === 'fontChange' && (
+            <FontChangeModal
+              changeFontSizeHandler={setVerseItemFontSize}
+              changeFontFamilyHandler={setVerseItemFontFamily}
+              closeHandler={closeAllOptionModal}
+            />
+          )}
+        </SafeAreaView>
+      )}
+
+      <Toast ref={toastRef} positionValue={130} fadeInDuration={200} fadeOutDuration={1000} />
+    </>
+  );
 };
 
 export default VerseListScreen;
@@ -421,13 +423,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  memoIndicator: {
-    width: '4%',
-    height: 19,
-    resizeMode: 'contain',
-    borderColor: 'red',
-  },
-
   /* 모달 뷰 */
   modal: {
     borderWidth: 1,
@@ -443,28 +438,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  modalView: {
-    width: 250,
-    height: 200,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-
   modalHeader: {
     fontWeight: 'bold',
     fontSize: 15,
     marginTop: 10,
-  },
-
-  modalViewItems: {
-    width: '90%',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: 25,
   },
 
   modalItemText: {
@@ -488,96 +465,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  },
-
-  /* 메모 모달 뷰 */
-
-  memoModalContainer: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    width: '100%',
-    height: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  memoModalView: {
-    width: '80%',
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-
-  memoModalHeader: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    marginTop: 10,
-    marginBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '90%',
-  },
-
-  memoModalHeaderSave: {},
-
-  memoModalHeaderSaveText: {
-    fontSize: 16,
-    color: '#E0E0E0',
-  },
-
-  memoModalHeaderSaveTextActive: {
-    fontSize: 16,
-    color: '#2F80ED',
-  },
-
-  memoModalHeaderText: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    marginRight: 1,
-  },
-
-  memoModalHeaderCancel: {},
-
-  memoModalHeaderCancelText: {
-    fontSize: 20,
-  },
-
-  memoModalHeaderCancelImage: {
-    width: 25,
-    height: 25,
-  },
-
-  memoModalBible: {
-    width: '100%',
-    backgroundColor: '#F3F4F9',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    justifyContent: 'space-evenly',
-    flexDirection: 'column',
-  },
-
-  memoModalBibleVerse: {
-    marginTop: '5%',
-    marginLeft: '5%',
-    marginRight: '5%',
-    fontWeight: 'bold',
-  },
-
-  memoModalBibleContent: {
-    marginTop: '5%',
-    marginLeft: '5%',
-    marginRight: '5%',
-    marginBottom: '5%',
-  },
-
-  memoModalTextInput: {
-    width: '100%',
-    height: 100,
-    textAlignVertical: 'top',
-    padding: '5%',
   },
 
   /* 푸터 옵션 */

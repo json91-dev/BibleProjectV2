@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { BOOK_LIST_PAGE, VERSE_LIST_PAGE } from './BibleListOption';
+import { BOOK_LIST_PAGE, VERSE_LIST_PAGE } from './BibleListModal';
 
-const BibleListOptionHeader = ({ pageStack, setPageStack, setHeaderTitle, headerTitle, closeModal }) => {
+const BibleListModalHeader = ({ pageStack, setPageStack, setHeaderTitle, headerTitle, closeModal }) => {
   return (
     <View style={styles.header}>
       <TouchableOpacity
@@ -17,21 +17,21 @@ const BibleListOptionHeader = ({ pageStack, setPageStack, setHeaderTitle, header
         }}>
         {pageStack !== BOOK_LIST_PAGE && (
           <View style={styles.headerLeftImageWrapper}>
-            <Image style={styles.headerLeftImage} source={require('../../../assets/ic_left_arrow.png')} />
+            <Image style={styles.headerLeftImage} source={require('../../../../assets/ic_left_arrow.png')} />
           </View>
         )}
       </TouchableOpacity>
       {pageStack === BOOK_LIST_PAGE ? <Text style={styles.headerText}>목차</Text> : <Text style={styles.headerText}>{headerTitle}</Text>}
       <TouchableOpacity style={{ position: 'absolute', right: 5 }} onPress={() => closeModal()}>
         <View style={styles.headerRightImageWrapper}>
-          <Image style={styles.headerRightImage} source={require('../../../assets/ic_close.png')} />
+          <Image style={styles.headerRightImage} source={require('../../../../assets/ic_close.png')} />
         </View>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default BibleListOptionHeader;
+export default BibleListModalHeader;
 
 const styles = StyleSheet.create({
   header: {

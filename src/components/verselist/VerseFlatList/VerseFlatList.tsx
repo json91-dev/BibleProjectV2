@@ -29,7 +29,7 @@ const VerseFlatList = ({ navigation, verseItemList, verseItemFontSize, verseItem
           <Pressable
             style={({ pressed }) => [
               {
-                backgroundColor: pressed ? 'gray' : 'white',
+                backgroundColor: pressed ? '#EAEAEA' : 'white',
               },
             ]}
             onLongPress={event => onLongPressButton(item, event)}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
-import { getOldBibleItems, getNewBibleItems } from '../../../utils';
+import { getOldBibleItems, getNewBibleItems } from '../../../../utils';
 const oldBibleItems = getOldBibleItems();
 const newBibleItems = getNewBibleItems();
 const activeItemColor = '#F9DA4F';
