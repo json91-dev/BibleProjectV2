@@ -3,11 +3,13 @@ import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity, SafeAreaVi
 import { getItemFromAsyncStorage } from '../../utils';
 import { PROFILE_NICK, PROFILE_PIC } from '../../constraints';
 import auth from '@react-native-firebase/auth';
+import InAppReview from 'react-native-in-app-review';
 
 const OptionMainScreen = ({ navigation }) => {
   const [profilePic, setProfilePic] = useState(null);
   const [profileNick, setProfileNick] = useState(null);
 
+  /** 프로필 사진 정보 Local Storage 에서 가져오기 **/
   const getProfileFromLocalStorage = useCallback(async () => {
     const profilePicSource = await getItemFromAsyncStorage<any>(PROFILE_PIC);
     const profileNickSource = await getItemFromAsyncStorage<any>(PROFILE_NICK);
@@ -18,6 +20,25 @@ const OptionMainScreen = ({ navigation }) => {
 
     if (profileNickSource) {
       setProfileNick(profileNickSource);
+    }
+  }, []);
+
+  /** 리뷰 남기기 **/
+  const submitAppStoreReview = useCallback(() => {
+    if (InAppReview.isAvailable()) {
+      InAppReview.RequestInAppReview()
+        .then(hasFlowFinishedSuccessfully => {
+          if (hasFlowFinishedSuccessfully) {
+            console.log('인앱 리뷰 성공후 동작 수행');
+          }
+        })
+        .catch(error => {
+          console.log('인앱 리뷰 에러 발생');
+          console.log(error);
+        });
+    } else {
+      /** Todo sentry 로 버그 요청하기 **/
+      console.log('인앱 리뷰 활성화 안됨.');
     }
   }, []);
 
@@ -78,7 +99,7 @@ const OptionMainScreen = ({ navigation }) => {
 
         <View style={styles.optionItemView}>
           <Text style={styles.optionLabel}>FEEDBACK</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={submitAppStoreReview}>
             <View style={styles.optionItem}>
               <Text>앱스토어 리뷰 남기기</Text>
               <Image style={styles.menuRightImage} source={require('../../assets/ic_arrow.png')} />

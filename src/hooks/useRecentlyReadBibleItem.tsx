@@ -9,6 +9,7 @@ const useRecentlyReadBibleItem = () => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    // 다른 화면을 갔다왔을때 확인후 최근읽은 성경 갱신,
     initRecentlyReadBibleListFromStorage();
   }, [isFocused]);
 
