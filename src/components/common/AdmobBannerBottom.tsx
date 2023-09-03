@@ -1,18 +1,21 @@
 import React from 'react';
-import admob, { MaxAdContentRating, InterstitialAd, RewardedAd, BannerAd, TestIds, BannerAdSize } from '@react-native-firebase/admob';
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
+import { Platform } from 'react-native';
 
-const AdmobBannerBottom = () => (
-  <BannerAd
-    requestOptions={{
-      requestNonPersonalizedAdsOnly: true,
-    }}
-    onAdLoaded={function () {
-      console.log('Advert loaded');
-    }}
-    onAdFailToLoad={error => console.log(error)}
-    size={BannerAdSize.FULL_BANNER}
-    unitId={TestIds.BANNER}
-  />
-);
+const AdmobBannerBottom = () => {
+  const bannerId = __DEV__ ? TestIds.BANNER : Platform.OS === 'android' ? '' : '';
+  return (
+    <BannerAd
+      requestOptions={{
+        requestNonPersonalizedAdsOnly: true,
+      }}
+      onAdLoaded={function () {
+        console.log('Advert loaded');
+      }}
+      size={BannerAdSize.FULL_BANNER}
+      unitId={bannerId}
+    />
+  );
+};
 
 export default AdmobBannerBottom;
