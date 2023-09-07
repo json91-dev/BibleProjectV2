@@ -3,7 +3,11 @@ import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import { Platform } from 'react-native';
 
 const AdmobBannerBottom = () => {
-  const bannerId = __DEV__ ? TestIds.BANNER : Platform.OS === 'android' ? '' : '';
+  const bannerId = __DEV__
+    ? TestIds.BANNER
+    : Platform.OS === 'android'
+    ? 'ca-app-pub-1972014404855985~1652527949'
+    : 'ca-app-pub-1972014404855985~5406088046';
   return (
     <BannerAd
       requestOptions={{

@@ -159,7 +159,7 @@ const QuizScreen = ({ navigation }) => {
 
       {!isCompleteTodayQuiz && !isGiveUpTodayQuiz && reviewQuizData === null && (
         <SafeAreaView style={styles.container}>
-          <View style={{ borderWidth: 1 }}>
+          <View>
             <Image style={styles.titleImage} source={require('../../assets/ic_jesus.png')} />
             <Text style={styles.titleText}>
               오늘의 세례문답{'\n'}퀴즈를 시작할 준비가{'\n'}되셨나요?
