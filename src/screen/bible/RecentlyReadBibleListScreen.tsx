@@ -124,8 +124,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#AAAAAA66',
+    borderBottomWidth: 1,
+    borderBottomColor: '#1F1F1F',
   },
 
   closeImageView: {
@@ -160,9 +160,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#AAAAAA66',
-    borderColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#1F1F1F',
   },
 
   bibleTitleText: {

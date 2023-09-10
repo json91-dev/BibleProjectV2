@@ -38,7 +38,7 @@ const VerseListScreen = ({ navigation, route }) => {
   const [fontChangeOptionIconUri, setFontChangeOptionIconUri] = useState(require('../../assets/ic_option_font_off.png'));
   const [optionComponentState, setOptionComponentState] = useState('');
   const [bibleType, setBibleType] = useState(0);
-  const [modalVerseItem, setModalVerseItem] = useState<VerseItem | {}>({});
+  const [modalVerseItem, setModalVerseItem] = useState<VerseItem | Record<any, any>>({});
   const [verseItemFontSize, setVerseItemFontSize] = useState(14);
   const [verseItemFontFamily, setVerseItemFontFamily] = useState('system font');
   const toastRef = useRef(null);
@@ -183,6 +183,7 @@ const VerseListScreen = ({ navigation, route }) => {
     verseItemList = await getUpdatedHighlightVerseItems(verseItemList);
     verseItemList = await getUpdatedNoteVerseItems(verseItemList);
 
+    console.log('11');
     setVerseItemList(verseItemList);
     setBibleType(getBibleType(bookCode));
     setIsLoading(false);
@@ -194,6 +195,9 @@ const VerseListScreen = ({ navigation, route }) => {
     const { isFromRecentlyReadPageButtonClick } = route.params;
     (async () => {
       // 해당 절의 첫번째 구절을 최근 읽은 성경에 저장
+      await setFontSizeFromStorage();
+      await setFontFamilyFromStorage();
+
       const verseItem = await updateVerseItems();
 
       // 링크 버튼으로 부터 클릭되었을때는 최근읽은 성경 목록에 저장 안함.
@@ -207,9 +211,6 @@ const VerseListScreen = ({ navigation, route }) => {
           verseItem[0].content,
         );
       }
-
-      await setFontSizeFromStorage();
-      await setFontFamilyFromStorage();
     })();
   }, []);
 
