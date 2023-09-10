@@ -332,10 +332,10 @@ export const getIsOneDayPassed = (storedDate: Date) => {
   const currentDate = new Date();
 
   // 날짜 차이 계산 (밀리초 단위)
-  const timeDiff = currentDate.getTime() - storedDate.getTime();
+  const timeDiff = currentDate.getDay() - storedDate.getDay();
 
   // 24시간(1일)이 지났는지 확인
-  const isOneDayPassed = timeDiff > 24 * 60 * 60 * 1000;
+  const isOneDayPassed = timeDiff > 0;
 
   return isOneDayPassed;
 };

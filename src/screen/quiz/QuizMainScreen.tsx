@@ -25,11 +25,16 @@ const QuizScreen = ({ navigation }) => {
   // 현재 날짜를 확인한뒤 새로운 날짜일때 퀴즈 상태를 초기화한다.
   const initializeQuizState = useCallback(async () => {
     // 현재 날짜가 바뀌었는지(어제날짜와 다른지) 확인한 뒤 새로운 날짜일때 퀴즈화면의 상태를 바꿔준다.
+
     const quizSaveDate = await getItemFromAsyncStorage<string>(QUIZ_SAVE_DATE);
+
+    console.log(quizSaveDate);
     if (quizSaveDate !== null) {
       // 퀴즈를 푼 날짜보다 지난 날짜가 되면, 퀴즈 상태를 갱신. => 복습화면 및 링크화면 출력
       // 퀴즈를 푼 날짜와 같으면 타이머 화면 출력.
       // (quizSaveDate는 완료버튼이나 포기 버튼을 눌렀을때 갱신됨)
+
+      console.log(getIsOneDayPassed(new Date(quizSaveDate)));
       if (getIsOneDayPassed(new Date(quizSaveDate))) {
         console.log('오늘의 퀴즈로 갱신');
         await setItemToAsyncStorage(IS_COMPLETE_TODAY_QUIZ, false);

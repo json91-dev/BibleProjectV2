@@ -108,34 +108,34 @@ const OptionMainScreen = ({ navigation }) => {
           <View style={styles.divider}></View>
         </View>
 
-        <View style={styles.optionItemView}>
-          <Text style={styles.optionLabel}>SUPPORT</Text>
-          <Text style={styles.optionLabelSupport}>
-            The Bible은 여러분의 후원으로 운영되고 있습니다.{'\n'}더 나은 서비스를 위해 노력하겠습니다.
-          </Text>
+        {/*<View style={styles.optionItemView}>*/}
+        {/*  <Text style={styles.optionLabel}>SUPPORT</Text>*/}
+        {/*  <Text style={styles.optionLabelSupport}>*/}
+        {/*    The Bible은 여러분의 후원으로 운영되고 있습니다.{'\n'}더 나은 서비스를 위해 노력하겠습니다.*/}
+        {/*  </Text>*/}
 
-          <TouchableOpacity>
-            <View style={styles.optionItem}>
-              <Text>시원한 아이스크림</Text>
-              <View style={styles.optionItemRight}>
-                <Text style={styles.optionItemRightText}>1,000</Text>
-                <Image style={styles.menuRightImage} source={require('../../assets/ic_arrow.png')} />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.divider}></View>
+        {/*  <TouchableOpacity>*/}
+        {/*    <View style={styles.optionItem}>*/}
+        {/*      <Text>시원한 아이스크림</Text>*/}
+        {/*      <View style={styles.optionItemRight}>*/}
+        {/*        <Text style={styles.optionItemRightText}>1,000</Text>*/}
+        {/*        <Image style={styles.menuRightImage} source={require('../../assets/ic_arrow.png')} />*/}
+        {/*      </View>*/}
+        {/*    </View>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <View style={styles.divider}></View>*/}
 
-          <TouchableOpacity>
-            <View style={styles.optionItem}>
-              <Text>아이스 아메리카노</Text>
-              <View style={styles.optionItemRight}>
-                <Text style={styles.optionItemRightText}>3,900</Text>
-                <Image style={styles.menuRightImage} source={require('../../assets/ic_arrow.png')} />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.divider}></View>
-        </View>
+        {/*  <TouchableOpacity>*/}
+        {/*    <View style={styles.optionItem}>*/}
+        {/*      <Text>아이스 아메리카노</Text>*/}
+        {/*      <View style={styles.optionItemRight}>*/}
+        {/*        <Text style={styles.optionItemRightText}>3,900</Text>*/}
+        {/*        <Image style={styles.menuRightImage} source={require('../../assets/ic_arrow.png')} />*/}
+        {/*      </View>*/}
+        {/*    </View>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <View style={styles.divider}></View>*/}
+        {/*</View>*/}
 
         <View style={[styles.optionItemView, { marginBottom: 50 }]}>
           <TouchableOpacity
